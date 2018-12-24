@@ -6,7 +6,7 @@ import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport._
 import sbt.Keys._
 import sbt._
 import scommons.sbtplugin.project.CommonModule
-import scoverage.ScoverageKeys._
+//import scoverage.ScoverageKeys._
 
 import scalajsbundler.sbtplugin.ScalaJSBundlerPlugin
 import scalajsbundler.sbtplugin.ScalaJSBundlerPlugin.autoImport._
@@ -21,7 +21,7 @@ trait CommonMobileModule extends CommonModule {
       .enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin)
       .settings(CommonMobileModule.settings: _*)
       .settings(
-        coverageExcludedPackages := ".*Styles",
+        //coverageExcludedPackages := ".*Styles",
 
         scalaJSUseMainModuleInitializer := false,
         webpackBundlingMode := BundlingMode.LibraryOnly()
@@ -51,7 +51,7 @@ object CommonMobileModule {
     
     //Opt-in @ScalaJSDefined by default
     scalacOptions += "-P:scalajs:sjsDefinedByDefault",
-    version in webpack := "1.14.0", //TODO: migrate to default (latest version)
+    //version in webpack := "1.14.0", //TODO: migrate to default (latest version)
     emitSourceMaps := false,
 
     ideaExcludeFolders ++= {

@@ -13,8 +13,21 @@ object ExamplesTodos extends ExamplesModule with CommonMobileModule {
 
   override def definition: Project = super.definition
     .settings(
-      npmDependencies in Test ++= Seq(
-        "react-test-renderer" -> "15.6.1"
+      npmDependencies in Compile ++= Seq(
+        "react" -> "16.6.3",
+        "react-dom" -> "16.6.3"
+        //"react-native" -> "0.57.8"
+      ),
+      npmResolutions in Compile := Map(
+        "react" -> "16.6.3",
+        "react-dom" -> "16.6.3"
+      ),
+      npmResolutions in Test := Map(
+        "react" -> "16.6.3",
+        "react-dom" -> "16.6.3"
+      ),
+      npmDevDependencies in Test ++= Seq(
+        "react-test-renderer" -> "16.6.3"
       )
     )
 

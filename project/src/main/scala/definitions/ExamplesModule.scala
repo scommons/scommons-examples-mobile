@@ -1,6 +1,6 @@
 package definitions
 
-import common.Libs
+import org.sbtidea.SbtIdeaPlugin.ideaExcludeFolders
 import sbt.Keys._
 import sbt._
 import scommons.sbtplugin.project.CommonModule
@@ -12,6 +12,16 @@ trait ExamplesModule extends CommonModule {
   override def definition: Project = {
     super.definition
       .settings(ExamplesModule.settings: _*)
+      .settings(
+        ideaExcludeFolders ++= {
+          val base = baseDirectory.value
+          List(
+            s"$base/android/build",
+            s"$base/ios/build",
+            s"$base/node_modules"
+          )
+        }
+      )
   }
 }
 
