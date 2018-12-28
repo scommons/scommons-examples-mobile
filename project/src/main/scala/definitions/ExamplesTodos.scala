@@ -1,6 +1,7 @@
 package definitions
 
 import common.{Libs, TestLibs}
+import sbt.Keys._
 import sbt._
 
 import scalajsbundler.sbtplugin.ScalaJSBundlerPlugin.autoImport._
@@ -22,12 +23,17 @@ object ExamplesTodos extends ExamplesModule with CommonMobileModule {
         "react" -> "16.6.3",
         "react-dom" -> "16.6.3"
       ),
+      
+      // test settings
       npmResolutions in Test := Map(
         "react" -> "16.6.3",
         "react-dom" -> "16.6.3"
       ),
       npmDevDependencies in Test ++= Seq(
         "react-test-renderer" -> "16.6.3"
+      ),
+      webpackConfigFile in Test := Some(
+        baseDirectory.value / "src" / "test" / "resources" / "test.webpack.config.js"
       )
     )
 

@@ -51,7 +51,12 @@ object CommonMobileModule {
     
     //Opt-in @ScalaJSDefined by default
     scalacOptions += "-P:scalajs:sjsDefinedByDefault",
-    //version in webpack := "1.14.0", //TODO: migrate to default (latest version)
+    
+    // react-native DO NOT require DOM, but we enable it here only to trigger webpack build
+    // since we substitute references to react-native module with our custom react-native-mocks module
+    // inside test.webpack.config.js
+    requiresDOM in Test := true,
+    
     emitSourceMaps := false,
 
     ideaExcludeFolders ++= {
@@ -63,7 +68,8 @@ object CommonMobileModule {
     },
     cleanKeepFiles ++= Seq(
       target.value / "scala-2.12" / "scalajs-bundler" / "main" / "node_modules",
-      target.value / "scala-2.12" / "scalajs-bundler" / "test" / "node_modules"
+      target.value / "scala-2.12" / "scalajs-bundler" / "test" / "node_modules",
+      target.value / "scalajs-bundler-jsdom" / "node_modules"
     )
   )
 }

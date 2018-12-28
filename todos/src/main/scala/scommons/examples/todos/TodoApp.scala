@@ -30,7 +30,7 @@ object TodoApp {
     )
   }
 
-  private lazy val styles: Styles = StyleSheet.create(new Styles {
+  private[todos] lazy val styles: Styles = StyleSheet.create(new Styles {
     val container: Style = new Style {
       override val flex = 1
       override val justifyContent = "center"
@@ -49,7 +49,7 @@ object TodoApp {
     }
   })
   
-  private trait Styles extends js.Object {
+  private[todos] trait Styles extends js.Object {
     val container: Style
     val welcome: Style
     val instructions: Style

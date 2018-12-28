@@ -2,6 +2,8 @@ package scommons.examples.todos
 
 import io.github.shogowada.scalajs.reactjs.VirtualDOM
 import org.scalatest._
+import scommons.mobile.ui.ReactNativeView
+import scommons.react.test.TestRenderer
 
 class TodoAppSpec extends FlatSpec with Matchers {
 
@@ -11,7 +13,14 @@ class TodoAppSpec extends FlatSpec with Matchers {
     //given
     val component = <(TodoApp())()()
     
+    //when
+    val result = TestRenderer.create(component).root
+    
     //then
-    component should not be null
+    result.`type` shouldBe TodoApp()
+    
+    val container = result.children(0)
+    container.`type` shouldBe ReactNativeView
+    container.props.style shouldBe TodoApp.styles.container
   }
 }
