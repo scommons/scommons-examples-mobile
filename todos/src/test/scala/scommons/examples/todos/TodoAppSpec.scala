@@ -1,14 +1,11 @@
 package scommons.examples.todos
 
-import io.github.shogowada.scalajs.reactjs.VirtualDOM
-import org.scalatest._
+import scommons.examples.TestSpec
 import scommons.mobile.ui.ReactNativeView
 import scommons.react.test.TestRenderer
 
-class TodoAppSpec extends FlatSpec with Matchers {
+class TodoAppSpec extends TestSpec {
 
-  lazy val < : VirtualDOM.VirtualDOMElements = VirtualDOM.<
-  
   it should "render component" in {
     //given
     val component = <(TodoApp())()()
