@@ -23,12 +23,16 @@ trait TestRenderer extends js.Object {
   //def toJSON(): js.Object = js.native
   
   val root: TestInstance = js.native
+
+  def update(element: ReactElement): Unit = js.native
+  
+  def unmount(): Unit = js.native
 }
 
 @js.native
 trait TestInstance extends js.Object {
 
   val `type`: js.Any = js.native
-  val props: js.Object with js.Dynamic = js.native
+  val props: js.Dynamic = js.native
   val children: js.Array[TestInstance] = js.native
 }
