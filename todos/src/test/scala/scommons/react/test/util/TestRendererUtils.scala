@@ -1,10 +1,11 @@
-package scommons.react.test
+package scommons.react.test.util
 
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import io.github.shogowada.statictags.{AttributeValueType, Element}
 import org.scalatest.{Assertion, Matchers, Succeeded}
 import scommons.react.UiComponent
+import scommons.react.test.raw.{TestInstance, TestRenderer}
 
 import scala.collection.mutable.ListBuffer
 

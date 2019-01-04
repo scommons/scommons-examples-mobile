@@ -1,12 +1,12 @@
-package scommons.react.test
+package scommons.react.test.util
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.scalatest.{Failed, OutcomeOf}
-import scommons.examples.TestSpec
 import scommons.react.UiComponent
-import scommons.react.test.TestRendererUtilsSpec._
+import scommons.react.test.TestSpec
+import scommons.react.test.util.TestRendererUtilsSpec._
 
 class TestRendererUtilsSpec extends TestSpec
   with TestRendererUtils

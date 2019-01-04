@@ -1,4 +1,4 @@
-package scommons.examples
+package scommons.react.test
 
 import io.github.shogowada.scalajs.reactjs.VirtualDOM
 import org.scalatest.{FlatSpec, Matchers}

@@ -1,8 +1,8 @@
 package scommons.examples.todos
 
-import scommons.examples.TestSpec
 import scommons.mobile.ui.ReactNativeView
-import scommons.react.test.TestRenderer
+import scommons.react.test.TestSpec
+import scommons.react.test.raw.TestRenderer
 
 class TodoAppSpec extends TestSpec {
 

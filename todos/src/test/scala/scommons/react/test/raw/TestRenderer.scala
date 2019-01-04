@@ -1,4 +1,4 @@
-package scommons.react.test
+package scommons.react.test.raw
 
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 
