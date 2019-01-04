@@ -20,8 +20,6 @@ object TestRenderer extends js.Object {
 @js.native
 trait TestRenderer extends js.Object {
 
-  //def toJSON(): js.Object = js.native
-  
   val root: TestInstance = js.native
 
   def update(element: ReactElement): Unit = js.native
