@@ -5,6 +5,9 @@ module.exports = {
       return obj;
     }
   },
-  View: 'View',
-  Text: 'Text'
+  ScrollView: 'ScrollView',
+  Text: 'Text',
+  TextInput: 'TextInput',
+  TouchableHighlight: 'TouchableHighlight',
+  View: 'View'
 }

@@ -5,7 +5,7 @@ import scala.scalajs.js.annotation.JSImport
 
 @js.native
 @JSImport("react-native", "StyleSheet")
-object ReactNativeStyleSheet extends js.Object {
+object NativeStyleSheet extends js.Object {
 
   def create(obj: js.Object): js.Object = js.native
 }
@@ -13,6 +13,6 @@ object ReactNativeStyleSheet extends js.Object {
 object StyleSheet {
 
   def create[S <: js.Object](obj: S): S = {
-    ReactNativeStyleSheet.create(obj).asInstanceOf[S]
+    NativeStyleSheet.create(obj).asInstanceOf[S]
   }
 }

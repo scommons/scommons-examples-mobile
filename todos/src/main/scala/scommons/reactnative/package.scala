@@ -12,19 +12,31 @@ import scala.scalajs.js.annotation.JSImport
 package object reactnative {
 
   @js.native
-  @JSImport("react-native", "View")
-  object NativeView extends ReactClass
+  @JSImport("react-native", "ScrollView")
+  object NativeScrollView extends ReactClass
 
   @js.native
   @JSImport("react-native", "Text")
   object NativeText extends ReactClass
 
-  implicit class ViewVirtualDOMElements(elements: VirtualDOMElements) {
-    lazy val View: ReactClassElementSpec = elements(NativeView)
-  }
+  @js.native
+  @JSImport("react-native", "TextInput")
+  object NativeTextInput extends ReactClass
 
-  implicit class TextVirtualDOMElements(elements: VirtualDOMElements) {
+  @js.native
+  @JSImport("react-native", "TouchableHighlight")
+  object NativeTouchableHighlight extends ReactClass
+
+  @js.native
+  @JSImport("react-native", "View")
+  object NativeView extends ReactClass
+
+  implicit class ReactNativeVirtualDOMElements(elements: VirtualDOMElements) {
+    lazy val ScrollView: ReactClassElementSpec = elements(NativeScrollView)
     lazy val Text: ReactClassElementSpec = elements(NativeText)
+    lazy val TextInput: ReactClassElementSpec = elements(NativeTextInput)
+    lazy val TouchableHighlight: ReactClassElementSpec = elements(NativeTouchableHighlight)
+    lazy val View: ReactClassElementSpec = elements(NativeView)
   }
 
   object ReactNativeVirtualDOMAttributes {
@@ -35,13 +47,32 @@ package object reactnative {
       def :=(style: Style): Attribute[Style] =
         Attribute(name = name, value = style, AS_IS)
     }
+
+    type OnChangeTextEvent = js.Function1[String, Unit]
+    case class OnChangeTextEventAttribute(name: String) extends AttributeSpec {
+      def :=(onEvent: OnChangeTextEvent): Attribute[OnChangeTextEvent] =
+        Attribute(name = name, value = onEvent, AS_IS)
+    }
+    
+    type OnPressEvent = js.Function0[Unit]
+    case class OnPressEventAttribute(name: String) extends AttributeSpec {
+      def :=(onEvent: OnPressEvent): Attribute[OnPressEvent] =
+        Attribute(name = name, value = onEvent, AS_IS)
+    }
   }
 
-  implicit class StyleVirtualDOMAttributes(attributes: VirtualDOMAttributes) {
+  implicit class ReactNativeVirtualDOMAttributes(attributes: VirtualDOMAttributes) {
 
     import ReactNativeVirtualDOMAttributes._
 
     lazy val rnStyle = ReactNativeStyleAttributeSpec("style")
+    lazy val keyboardShouldPersistTaps = StringAttributeSpec("keyboardShouldPersistTaps")
+    lazy val placeholderTextColor = StringAttributeSpec("placeholderTextColor")
+    lazy val selectionColor = StringAttributeSpec("selectionColor")
+    lazy val underlayColor = StringAttributeSpec("underlayColor")
+    
+    lazy val onChangeText = OnChangeTextEventAttribute("onChangeText")
+    lazy val onPress = OnPressEventAttribute("onPress")
   }
 
   lazy val < : VirtualDOM.VirtualDOMElements = VirtualDOM.<
