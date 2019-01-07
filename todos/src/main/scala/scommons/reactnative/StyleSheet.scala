@@ -1,4 +1,4 @@
-package scommons.mobile.ui
+package scommons.reactnative
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport

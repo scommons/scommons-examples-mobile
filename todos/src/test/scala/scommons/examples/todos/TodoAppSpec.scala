@@ -1,8 +1,8 @@
 package scommons.examples.todos
 
-import scommons.mobile.ui.ReactNativeView
 import scommons.react.test.TestSpec
 import scommons.react.test.raw.TestRenderer
+import scommons.reactnative._
 
 class TodoAppSpec extends TestSpec {
 
@@ -17,7 +17,7 @@ class TodoAppSpec extends TestSpec {
     result.`type` shouldBe TodoApp()
     
     val container = result.children(0)
-    container.`type` shouldBe ReactNativeView
+    container.`type` shouldBe NativeView
     container.props.style shouldBe TodoApp.styles.container
   }
 }
