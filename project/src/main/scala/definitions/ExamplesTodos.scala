@@ -3,6 +3,7 @@ package definitions
 import common.{Libs, TestLibs}
 import sbt.Keys._
 import sbt._
+import scoverage.ScoverageKeys.coverageExcludedPackages
 
 import scalajsbundler.sbtplugin.ScalaJSBundlerPlugin.autoImport._
 
@@ -14,6 +15,8 @@ object ExamplesTodos extends ExamplesModule with CommonMobileModule {
 
   override def definition: Project = super.definition
     .settings(
+      coverageExcludedPackages := "scommons.reactnative",
+
       npmDependencies in Compile ++= Seq(
         "react" -> "16.6.3",
         "react-dom" -> "16.6.3"

@@ -86,7 +86,11 @@ trait TestRendererUtils extends Matchers {
         case _ if resultValue.isInstanceOf[String] =>
           resultValue shouldBe attr.valueToString
         case _ =>
-          resultValue shouldBe attr.value
+          if (resultValue != attr.value) {
+            fail(s"Attribute value doesn't match for ${expectedElement.name}.${attr.name}" +
+              s"\n\texpected: ${attr.value}" +
+              s"\n\tactual:   $resultValue")
+          }
       }
     }
 
