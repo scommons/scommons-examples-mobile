@@ -93,20 +93,15 @@ class TestRendererUtilsSpec extends TestSpec
     results.map(getComponentProps[Comp1Props]) shouldBe List(Comp1Props(1), Comp1Props(2))
   }
 
-  it should "fail if non-empty when assertComponent" in {
+  it should "not fail if non-empty when assertComponent" in {
     //given
     val comp = render(<(comp2Class)(^.wrapped := Comp2Props(true))())
 
     //when
     assertNativeComponent(comp, <.div(^.className := "test2")(), { case List(comp1, _) =>
-      val Failed(e) = outcomeOf {
-        assertComponent(comp1, TestComp) { props: Comp1Props =>
-          props shouldBe Comp1Props(1)
-        }
+      assertComponent(comp1, TestComp) { props: Comp1Props =>
+        props shouldBe Comp1Props(1)
       }
-
-      //then
-      e.getMessage should include ("""List("p") was not equal to List()""")
     })
   }
 

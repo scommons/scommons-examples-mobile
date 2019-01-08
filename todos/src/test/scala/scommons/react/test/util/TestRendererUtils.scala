@@ -60,7 +60,7 @@ trait TestRendererUtils extends Matchers {
 
   def assertComponent[T](result: TestInstance, expectedComp: UiComponent[T])
                         (assertProps: T => Assertion,
-                         assertChildren: List[TestInstance] => Assertion = expectNoChildren): Assertion = {
+                         assertChildren: List[TestInstance] => Assertion = _ => Succeeded): Assertion = {
 
     result.`type` shouldBe expectedComp.reactClass
 
@@ -104,7 +104,12 @@ trait TestRendererUtils extends Matchers {
           val child = children(i)
           expectedChildren(i) match {
             case expected: Element => assertNativeComponent(child, expected)
-            case expected => child shouldBe expected
+            case expected =>
+              if (child != expected) {
+                fail(s"Child Element at index $i doesn't match for ${expectedElement.name}" +
+                  s"\n\texpected: $expected" +
+                  s"\n\tactual:   $child")
+              }
           }
         }
 

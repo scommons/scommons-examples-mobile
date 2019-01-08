@@ -11,11 +11,9 @@ import scala.scalajs.js.annotation.{JSExport, JSExportTopLevel}
 @JSExportTopLevel(name = "TodoApp")
 object TodoApp extends UiComponent[Unit] {
 
-  private case class Todo(title: String,
-                          complete: Boolean)
-  
-  private case class TodoAppState(inputValue: String = "",
-                                  todos: List[Todo] = Nil,
+  private case class TodoAppState(nextTodoId: Int = 1,
+                                  inputValue: String = "",
+                                  todos: List[TodoData] = Nil,
                                   `type`: String = "All")
 
   @JSExport("apply")
@@ -31,8 +29,9 @@ object TodoApp extends UiComponent[Unit] {
       def submitTodo(): Unit = {
         val inputValue = self.state.inputValue.trim
         if (inputValue.nonEmpty) {
-          val todo = Todo(inputValue, complete = false)
+          val todo = TodoData(self.state.nextTodoId, inputValue, complete = false)
           self.setState(s => s.copy(
+            nextTodoId = s.nextTodoId + 1,
             inputValue = "",
             todos = s.todos :+ todo
           ))
@@ -48,6 +47,7 @@ object TodoApp extends UiComponent[Unit] {
               self.setState(s => s.copy(inputValue = text))
             }
           ))(),
+          <(TodoList())(^.wrapped := TodoListProps(self.state.todos))(),
           <(Button())(^.wrapped := ButtonProps(submitTodo _))()
         )
       )
