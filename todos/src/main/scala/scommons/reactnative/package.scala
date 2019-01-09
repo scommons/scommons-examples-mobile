@@ -44,8 +44,8 @@ package object reactnative {
     import VirtualDOMAttributes.Type._
 
     case class ReactNativeStyleAttributeSpec(name: String) extends AttributeSpec {
-      def :=(style: Style): Attribute[Style] =
-        Attribute(name = name, value = style, AS_IS)
+      def :=(style: Style): Attribute[Style] = Attribute(name = name, value = style, AS_IS)
+      def :=(style: js.Array[Style]): Attribute[js.Array[Style]] = Attribute(name = name, value = style, AS_IS)
     }
 
     type OnChangeTextEvent = js.Function1[String, Unit]

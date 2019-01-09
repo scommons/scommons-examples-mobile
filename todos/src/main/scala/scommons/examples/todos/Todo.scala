@@ -7,7 +7,9 @@ import scommons.reactnative._
 
 import scala.scalajs.js
 
-case class TodoProps(todo: TodoData)
+case class TodoProps(deleteTodo: Int => Unit,
+                     toggleComplete: Int => Unit,
+                     todo: TodoData)
 
 object Todo extends UiComponent[TodoProps] {
   
@@ -20,6 +22,28 @@ object Todo extends UiComponent[TodoProps] {
     <.View(^.rnStyle := styles.todoContainer)(
       <.Text(^.rnStyle := styles.todoText)(
         props.todo.title
+      ),
+      <.View(^.rnStyle := styles.buttons)(
+        <(TodoButton())(
+          ^.key := "done",
+          ^.wrapped := TodoButtonProps(
+            onPress = { () =>
+              props.toggleComplete(props.todo.todoId)
+            },
+            complete = props.todo.complete,
+            name = "Done"
+          )
+        )(),
+        <(TodoButton())(
+          ^.key := "delete",
+          ^.wrapped := TodoButtonProps(
+            onPress = { () =>
+              props.deleteTodo(props.todo.todoId)
+            },
+            complete = false,
+            name = "Delete"
+          )
+        )()
       )
     )
   }
@@ -50,6 +74,12 @@ object Todo extends UiComponent[TodoProps] {
     }
     val todoText: Style = new Style {
       override val fontSize = 17
+    }
+    val buttons: Style = new Style {
+      override val flex = 1
+      override val flexDirection = "row"
+      override val justifyContent = "flex-end"
+      override val alignItems = "center"
     }
   }
 }

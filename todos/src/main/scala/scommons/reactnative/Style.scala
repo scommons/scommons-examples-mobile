@@ -7,9 +7,11 @@ import scala.scalajs.js
 trait Style extends js.Object {
   
   val alignItems: js.UndefOr[String] = js.undefined
+  val alignSelf: js.UndefOr[String] = js.undefined
   val backgroundColor: js.UndefOr[String] = js.undefined
   val borderColor: js.UndefOr[String] = js.undefined
   val borderLeftWidth: js.UndefOr[Int] = js.undefined
+  val borderRadius: js.UndefOr[Int] = js.undefined
   val borderRightWidth: js.UndefOr[Int] = js.undefined
   val borderTopWidth: js.UndefOr[Int] = js.undefined
   val borderWidth: js.UndefOr[Int] = js.undefined
@@ -25,6 +27,7 @@ trait Style extends js.Object {
   val marginLeft: js.UndefOr[Int] = js.undefined
   val marginRight: js.UndefOr[Int] = js.undefined
   val marginTop: js.UndefOr[Int] = js.undefined
+  val padding: js.UndefOr[Int] = js.undefined
   val paddingBottom: js.UndefOr[Int] = js.undefined
   val paddingLeft: js.UndefOr[Int] = js.undefined
   val paddingRight: js.UndefOr[Int] = js.undefined

@@ -5,7 +5,9 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import scommons.react.UiComponent
 import scommons.reactnative._
 
-case class TodoListProps(todos: List[TodoData])
+case class TodoListProps(deleteTodo: Int => Unit,
+                         toggleComplete: Int => Unit,
+                         todos: List[TodoData])
 
 object TodoList extends UiComponent[TodoListProps] {
   
@@ -19,7 +21,11 @@ object TodoList extends UiComponent[TodoListProps] {
       props.todos.map { todo =>
         <(Todo())(
           ^.key := s"${todo.todoId}",
-          ^.wrapped := TodoProps(todo)
+          ^.wrapped := TodoProps(
+            deleteTodo = props.deleteTodo,
+            toggleComplete = props.toggleComplete,
+            todo = todo
+          )
         )()
       }
     )

@@ -38,6 +38,21 @@ object TodoApp extends UiComponent[Unit] {
         }
       }
       
+      def deleteTodo(todoId: Int): Unit = {
+        self.setState(s => s.copy(
+          todos = s.todos.filter(_.todoId != todoId)
+        ))
+      }
+
+      def toggleComplete(todoId: Int): Unit = {
+        self.setState(s => s.copy(
+          todos = s.todos.map {
+            case t if t.todoId == todoId => t.copy(complete = !t.complete)
+            case t => t
+          }
+        ))
+      }
+      
       <.View(^.rnStyle := styles.container)(
         <.ScrollView(^.rnStyle := styles.content, ^.keyboardShouldPersistTaps := "always")(
           <(Heading())()(),
@@ -47,7 +62,11 @@ object TodoApp extends UiComponent[Unit] {
               self.setState(s => s.copy(inputValue = text))
             }
           ))(),
-          <(TodoList())(^.wrapped := TodoListProps(self.state.todos))(),
+          <(TodoList())(^.wrapped := TodoListProps(
+            deleteTodo = deleteTodo,
+            toggleComplete = toggleComplete,
+            todos = self.state.todos
+          ))(),
           <(Button())(^.wrapped := ButtonProps(submitTodo _))()
         )
       )
