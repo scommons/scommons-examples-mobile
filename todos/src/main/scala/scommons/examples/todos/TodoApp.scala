@@ -14,7 +14,7 @@ object TodoApp extends UiComponent[Unit] {
   private case class TodoAppState(nextTodoId: Int = 1,
                                   inputValue: String = "",
                                   todos: List[TodoData] = Nil,
-                                  `type`: String = "All")
+                                  `type`: TodoType = TodoType.All)
 
   @JSExport("apply")
   def apply(): ReactClass = reactClass
@@ -53,8 +53,23 @@ object TodoApp extends UiComponent[Unit] {
         ))
       }
       
+      def setType(`type`: TodoType): Unit = {
+        self.setState(s => s.copy(`type` = `type`))
+      }
+      
+      def getVisibleTodos(`type`: TodoType,
+                          todos: List[TodoData]): List[TodoData] = `type` match {
+        
+        case TodoType.All => todos
+        case TodoType.Active => todos.filterNot(_.complete)
+        case TodoType.Complete => todos.filter(_.complete)
+      }
+      
       <.View(^.rnStyle := styles.container)(
-        <.ScrollView(^.rnStyle := styles.content, ^.keyboardShouldPersistTaps := "always")(
+        <.ScrollView(
+          ^.rnStyle := styles.content,
+          ^.keyboardShouldPersistTaps := "always"
+        )(
           <(Heading())()(),
           <(Input())(^.wrapped := InputProps(
             inputValue = self.state.inputValue,
@@ -65,10 +80,14 @@ object TodoApp extends UiComponent[Unit] {
           <(TodoList())(^.wrapped := TodoListProps(
             deleteTodo = deleteTodo,
             toggleComplete = toggleComplete,
-            todos = self.state.todos
+            todos = getVisibleTodos(self.state.`type`, self.state.todos)
           ))(),
           <(Button())(^.wrapped := ButtonProps(submitTodo _))()
-        )
+        ),
+        <(TabBar())(^.wrapped := TabBarProps(
+          setType = setType,
+          `type` = self.state.`type`
+        ))()
       )
     }
   )

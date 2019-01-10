@@ -8,6 +8,7 @@ import scommons.react.UiComponent
 import scommons.react.test.raw.{TestInstance, TestRenderer}
 
 import scala.collection.mutable.ListBuffer
+import scala.scalajs.js
 
 trait TestRendererUtils extends Matchers {
 
@@ -72,10 +73,18 @@ trait TestRendererUtils extends Matchers {
                             expectedElement: Element,
                             assertChildren: List[TestInstance] => Assertion = expectNoChildren): Assertion = {
 
-    def normalize(classes: String) = classes.split(' ').map(_.trim).filter(_.nonEmpty)
-
     result.`type` shouldBe expectedElement.name
 
+    def normalize(classes: String) = classes.split(' ').map(_.trim).filter(_.nonEmpty)
+    
+    def assertAttribute(attrName: String, resultValue: Any, expectedValue: Any): Unit = {
+      if (resultValue != expectedValue) {
+        fail(s"Attribute value doesn't match for ${expectedElement.name}.$attrName" +
+          s"\n\texpected: $expectedValue" +
+          s"\n\tactual:   $resultValue")
+      }
+    }
+    
     for (attr <- expectedElement.flattenedAttributes) {
       val resultValue = result.props.selectDynamic(attr.name).asInstanceOf[Any]
       attr.value match {
@@ -85,12 +94,12 @@ trait TestRendererUtils extends Matchers {
           normalize(resultValue.toString).toSet shouldBe normalize(attr.valueToString).toSet
         case _ if resultValue.isInstanceOf[String] =>
           resultValue shouldBe attr.valueToString
+        case _ if resultValue.isInstanceOf[js.Array[_]] && attr.value.isInstanceOf[js.Array[_]] =>
+          val resultArr = resultValue.asInstanceOf[js.Array[_]].toList
+          val expectedArr = attr.value.asInstanceOf[js.Array[_]].toList
+          assertAttribute(attr.name, resultArr, expectedArr)
         case _ =>
-          if (resultValue != attr.value) {
-            fail(s"Attribute value doesn't match for ${expectedElement.name}.${attr.name}" +
-              s"\n\texpected: ${attr.value}" +
-              s"\n\tactual:   $resultValue")
-          }
+          assertAttribute(attr.name, resultValue, attr.value)
       }
     }
 

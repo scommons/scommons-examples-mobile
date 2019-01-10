@@ -75,12 +75,11 @@ class TodoButtonSpec extends TestSpec with TestRendererUtils {
       <("TouchableHighlight")(
         ^.rnStyle := TodoButton.styles.button,
         ^.underlayColor := "#efefef"
-      )(), {
-        case List(textElem) =>
-          textElem.`type` shouldBe "Text"
-          textElem.props.style.asInstanceOf[js.Array[Style]].toList shouldBe style
-          textElem.children.toList shouldBe List(props.name)
-      }
+      )(
+        <("Text")(^.rnStyle := js.Array(style: _*))(
+          props.name
+        )
+      )
     )
   }
 }
