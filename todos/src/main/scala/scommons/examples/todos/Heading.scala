@@ -8,11 +8,8 @@ import scommons.reactnative._
 import scala.scalajs.js
 
 object Heading extends UiComponent[Unit] {
-  
-  def apply(): ReactClass = reactClass
-  lazy val reactClass: ReactClass = createComp
 
-  private def createComp: ReactClass = React.createClass[PropsType, Unit] { _ =>
+  protected def create(): ReactClass = React.createClass[PropsType, Unit] { _ =>
     <.View(^.rnStyle := styles.header)(
       <.Text(^.rnStyle := styles.headerText)(
         "todos"

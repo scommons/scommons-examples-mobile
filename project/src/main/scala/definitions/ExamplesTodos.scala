@@ -40,10 +40,14 @@ object ExamplesTodos extends ExamplesModule with CommonMobileModule {
       )
     )
 
+  override val superRepoProjectsDependencies: Seq[(String, String, Option[String])] = Seq(
+    ("scommons-react", "scommons-react-core", None)
+  )
+
   override def runtimeDependencies: Def.Initialize[Seq[ModuleID]] = Def.setting {
     super.runtimeDependencies.value ++ Seq(
       // specify your custom runtime dependencies here
-      Libs.sjsReactJs.value
+      Libs.scommonsReactCore.value
     )
   }
   

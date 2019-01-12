@@ -13,11 +13,8 @@ case class TabBarItemProps(border: Boolean,
                            onPress: () => Unit)
 
 object TabBarItem extends UiComponent[TabBarItemProps] {
-  
-  def apply(): ReactClass = reactClass
-  lazy val reactClass: ReactClass = createComp
 
-  private def createComp: ReactClass = React.createClass[PropsType, Unit] { self =>
+  protected def create(): ReactClass = React.createClass[PropsType, Unit] { self =>
     val props = self.props.wrapped
     
     <.TouchableHighlight(

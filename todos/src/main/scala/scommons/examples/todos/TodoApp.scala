@@ -17,10 +17,9 @@ object TodoApp extends UiComponent[Unit] {
                                   `type`: TodoType = TodoType.All)
 
   @JSExport("apply")
-  def apply(): ReactClass = reactClass
-  lazy val reactClass: ReactClass = createComp
+  override def apply(): ReactClass = super.apply()
 
-  private def createComp: ReactClass = React.createClass[PropsType, TodoAppState](
+  protected def create(): ReactClass = React.createClass[PropsType, TodoAppState](
     getInitialState = { _ =>
       TodoAppState()
     },

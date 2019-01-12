@@ -12,11 +12,8 @@ case class TodoProps(deleteTodo: Int => Unit,
                      todo: TodoData)
 
 object Todo extends UiComponent[TodoProps] {
-  
-  def apply(): ReactClass = reactClass
-  lazy val reactClass: ReactClass = createComp
 
-  private def createComp: ReactClass = React.createClass[PropsType, Unit] { self =>
+  protected def create(): ReactClass = React.createClass[PropsType, Unit] { self =>
     val props = self.props.wrapped
     
     <.View(^.rnStyle := styles.todoContainer)(

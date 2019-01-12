@@ -176,9 +176,7 @@ object TestRendererUtilsSpec {
 
   object TestComp extends UiComponent[Comp1Props] {
 
-    def apply(): ReactClass = reactClass
-
-    lazy val reactClass: ReactClass = React.createClass[Comp1Props, Unit] { self =>
+    protected def create(): ReactClass = React.createClass[Comp1Props, Unit] { self =>
       <.p(^.className := "test1")(self.props.children)
     }
   }

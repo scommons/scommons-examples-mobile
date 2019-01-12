@@ -11,10 +11,7 @@ case class ButtonProps(submitTodo: () => Unit)
 
 object Button extends UiComponent[ButtonProps] {
   
-  def apply(): ReactClass = reactClass
-  lazy val reactClass: ReactClass = createComp
-
-  private def createComp: ReactClass = React.createClass[PropsType, Unit] { self =>
+  protected def create(): ReactClass = React.createClass[PropsType, Unit] { self =>
     val props = self.props.wrapped
     
     <.View(^.rnStyle := styles.buttonContainer)(

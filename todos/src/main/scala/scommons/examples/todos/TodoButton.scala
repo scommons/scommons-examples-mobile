@@ -12,11 +12,8 @@ case class TodoButtonProps(onPress: () => Unit,
                            name: String)
 
 object TodoButton extends UiComponent[TodoButtonProps] {
-  
-  def apply(): ReactClass = reactClass
-  lazy val reactClass: ReactClass = createComp
 
-  private def createComp: ReactClass = React.createClass[PropsType, Unit] { self =>
+  protected def create(): ReactClass = React.createClass[PropsType, Unit] { self =>
     val props = self.props.wrapped
     
     <.TouchableHighlight(

@@ -34,7 +34,7 @@ trait TestRendererUtils extends Matchers {
   }
 
   def findProps[T](renderedComp: TestInstance, searchComp: UiComponent[T]): List[T] = {
-    findComponents(renderedComp, searchComp.reactClass).map(getComponentProps[T])
+    findComponents(renderedComp, searchComp.apply()).map(getComponentProps[T])
   }
 
   def getComponentProps[T](component: TestInstance): T = component.props.wrapped.asInstanceOf[T]
@@ -63,7 +63,7 @@ trait TestRendererUtils extends Matchers {
                         (assertProps: T => Assertion,
                          assertChildren: List[TestInstance] => Assertion = _ => Succeeded): Assertion = {
 
-    result.`type` shouldBe expectedComp.reactClass
+    result.`type` shouldBe expectedComp.apply()
 
     assertProps(result.props.wrapped.asInstanceOf[T])
     assertChildren(getComponentChildren(result))
