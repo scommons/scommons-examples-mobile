@@ -1,9 +1,4 @@
 
-module.exports = {
-  
-  resolve: {
-    alias: {
-      'react-native$': './react-native-mocks.js'
-    }
-  }
-}
+const commonConfig = require("./sc-react-native-mocks.webpack.config.js")
+
+module.exports = commonConfig

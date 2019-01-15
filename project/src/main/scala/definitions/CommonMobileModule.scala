@@ -52,9 +52,9 @@ object CommonMobileModule {
     //Opt-in @ScalaJSDefined by default
     scalacOptions += "-P:scalajs:sjsDefinedByDefault",
     
-    // react-native DO NOT require DOM, but we enable it here only to trigger webpack build
+    // react-native DO NOT require DOM, but we enable it here only to trigger the webpack build
     // since we substitute references to react-native module with our custom react-native-mocks module
-    // inside test.webpack.config.js
+    // inside the sc-react-native-mocks.webpack.config.js
     requiresDOM in Test := true,
     
     emitSourceMaps := false,

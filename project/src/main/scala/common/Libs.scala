@@ -6,7 +6,7 @@ import scommons.sbtplugin.project.CommonLibs
 
 object Libs extends CommonLibs {
   
-  private val scommonsReactVersion = "0.1.0-SNAPSHOT"
+  val scommonsReactNativeVersion = "0.1.0-SNAPSHOT"
 
-  lazy val scommonsReactCore = Def.setting("org.scommons.react" %%% "scommons-react-core" % scommonsReactVersion)
+  lazy val scommonsReactNativeCore = Def.setting("org.scommons.react-native" %%% "scommons-react-native-core" % scommonsReactNativeVersion)
 }

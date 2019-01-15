@@ -22,5 +22,6 @@ sbt "project scommons-examples-mobile-todos" fastOptJS
 
 To run the application locally, use the following command:
 ```bash
+cd todos
 react-native run-ios
 ```

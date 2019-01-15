@@ -2,7 +2,7 @@ package scommons.examples.todos
 
 import org.scalatest.Succeeded
 import scommons.react.test.TestSpec
-import scommons.react.test.util.TestRendererUtils
+import scommons.reactnative.test.util.TestRendererUtils
 
 class TodoListSpec extends TestSpec with TestRendererUtils {
 
