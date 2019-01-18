@@ -1,9 +1,9 @@
 package scommons.examples.todos
 
 import scommons.react.test.TestSpec
+import scommons.react.test.raw.TestInstance
+import scommons.react.test.util.TestRendererUtils
 import scommons.reactnative._
-import scommons.reactnative.test.raw.TestInstance
-import scommons.reactnative.test.util.TestRendererUtils
 
 import scala.scalajs.js
 

@@ -1,8 +1,8 @@
 package scommons.examples.todos
 
 import scommons.react.test.TestSpec
+import scommons.react.test.util.TestRendererUtils
 import scommons.reactnative._
-import scommons.reactnative.test.util.TestRendererUtils
 
 class ButtonSpec extends TestSpec with TestRendererUtils {
 
