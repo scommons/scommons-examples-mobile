@@ -1,5 +1,6 @@
 package definitions
 
+import common.Libs
 import org.sbtidea.SbtIdeaPlugin.ideaExcludeFolders
 import sbt.Keys._
 import sbt._
@@ -8,6 +9,8 @@ import scommons.sbtplugin.project.CommonModule
 trait ExamplesModule extends CommonModule {
 
   override val repoName = "scommons-examples-mobile"
+
+  val scommonsReactNativeVersion: String = Libs.scommonsReactNativeVersion
 
   override def definition: Project = {
     super.definition
