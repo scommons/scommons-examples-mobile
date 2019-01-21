@@ -2,15 +2,15 @@ package scommons.examples.todos
 
 import org.scalatest.Succeeded
 import scommons.react.test.TestSpec
-import scommons.react.test.util.TestRendererUtils
+import scommons.react.test.util.ShallowRendererUtils
 import scommons.reactnative._
 
-class TodoAppSpec extends TestSpec with TestRendererUtils {
+class TodoAppSpec extends TestSpec with ShallowRendererUtils {
 
   it should "update input text in state when inputChange" in {
     //given
-    val renderer = createRenderer(<(TodoApp()).empty)
-    val comp = renderer.root
+    val renderer = createRenderer()
+    var comp = shallowRender(renderer, <(TodoApp()).empty)
     val inputProps = findComponentProps(comp, Input)
     inputProps.inputValue shouldBe ""
     val text = "updated text"
@@ -19,21 +19,21 @@ class TodoAppSpec extends TestSpec with TestRendererUtils {
     inputProps.inputChange(text)
     
     //then
-    renderer.update(<(TodoApp()).empty)
+    comp = shallowRender(renderer, <(TodoApp()).empty)
     findComponentProps(comp, Input).inputValue shouldBe text
   }
   
   it should "add todo, clear input and increment todoId when submitTodo" in {
     //given
-    val renderer = createRenderer(<(TodoApp()).empty)
-    val comp = renderer.root
+    val renderer = createRenderer()
+    var comp = shallowRender(renderer, <(TodoApp()).empty)
     findComponentProps(comp, TodoList).todos shouldBe Nil
 
     //when & then
     val todo1 = "todo1"
     findComponentProps(comp, Input).inputChange(todo1)
     findComponentProps(comp, Button).submitTodo()
-    renderer.update(<(TodoApp()).empty)
+    comp = shallowRender(renderer, <(TodoApp()).empty)
     findComponentProps(comp, Input).inputValue shouldBe ""
     findComponentProps(comp, TodoList).todos shouldBe List(
       TodoData(1, todo1, complete = false)
@@ -43,7 +43,7 @@ class TodoAppSpec extends TestSpec with TestRendererUtils {
     val todo2 = "todo2"
     findComponentProps(comp, Input).inputChange(todo2)
     findComponentProps(comp, Button).submitTodo()
-    renderer.update(<(TodoApp()).empty)
+    comp = shallowRender(renderer, <(TodoApp()).empty)
     findComponentProps(comp, Input).inputValue shouldBe ""
     findComponentProps(comp, TodoList).todos shouldBe List(
       TodoData(1, todo1, complete = false),
@@ -53,13 +53,13 @@ class TodoAppSpec extends TestSpec with TestRendererUtils {
   
   it should "delete todo from state when deleteTodo" in {
     //given
-    val renderer = createRenderer(<(TodoApp()).empty)
-    val comp = renderer.root
+    val renderer = createRenderer()
+    var comp = shallowRender(renderer, <(TodoApp()).empty)
 
     val todo1 = "todo1"
     findComponentProps(comp, Input).inputChange(todo1)
     findComponentProps(comp, Button).submitTodo()
-    renderer.update(<(TodoApp()).empty)
+    comp = shallowRender(renderer, <(TodoApp()).empty)
     findComponentProps(comp, Input).inputValue shouldBe ""
     findComponentProps(comp, TodoList).todos shouldBe List(
       TodoData(1, todo1, complete = false)
@@ -68,7 +68,7 @@ class TodoAppSpec extends TestSpec with TestRendererUtils {
     val todo2 = "todo2"
     findComponentProps(comp, Input).inputChange(todo2)
     findComponentProps(comp, Button).submitTodo()
-    renderer.update(<(TodoApp()).empty)
+    comp = shallowRender(renderer, <(TodoApp()).empty)
     findComponentProps(comp, Input).inputValue shouldBe ""
     findComponentProps(comp, TodoList).todos shouldBe List(
       TodoData(1, todo1, complete = false),
@@ -77,26 +77,26 @@ class TodoAppSpec extends TestSpec with TestRendererUtils {
 
     //when & then
     findComponentProps(comp, TodoList).deleteTodo(1)
-    renderer.update(<(TodoApp()).empty)
+    comp = shallowRender(renderer, <(TodoApp()).empty)
     findComponentProps(comp, TodoList).todos shouldBe List(
       TodoData(2, todo2, complete = false)
     )
     
     //when & then
     findComponentProps(comp, TodoList).deleteTodo(2)
-    renderer.update(<(TodoApp()).empty)
+    comp = shallowRender(renderer, <(TodoApp()).empty)
     findComponentProps(comp, TodoList).todos shouldBe Nil
   }
   
   it should "toggle todo complete state when toggleComplete" in {
     //given
-    val renderer = createRenderer(<(TodoApp()).empty)
-    val comp = renderer.root
+    val renderer = createRenderer()
+    var comp = shallowRender(renderer, <(TodoApp()).empty)
 
     val todo1 = "todo1"
     findComponentProps(comp, Input).inputChange(todo1)
     findComponentProps(comp, Button).submitTodo()
-    renderer.update(<(TodoApp()).empty)
+    comp = shallowRender(renderer, <(TodoApp()).empty)
     findComponentProps(comp, Input).inputValue shouldBe ""
     findComponentProps(comp, TodoList).todos shouldBe List(
       TodoData(1, todo1, complete = false)
@@ -105,7 +105,7 @@ class TodoAppSpec extends TestSpec with TestRendererUtils {
     val todo2 = "todo2"
     findComponentProps(comp, Input).inputChange(todo2)
     findComponentProps(comp, Button).submitTodo()
-    renderer.update(<(TodoApp()).empty)
+    comp = shallowRender(renderer, <(TodoApp()).empty)
     findComponentProps(comp, Input).inputValue shouldBe ""
     findComponentProps(comp, TodoList).todos shouldBe List(
       TodoData(1, todo1, complete = false),
@@ -114,7 +114,7 @@ class TodoAppSpec extends TestSpec with TestRendererUtils {
 
     //when & then
     findComponentProps(comp, TodoList).toggleComplete(1)
-    renderer.update(<(TodoApp()).empty)
+    comp = shallowRender(renderer, <(TodoApp()).empty)
     findComponentProps(comp, TodoList).todos shouldBe List(
       TodoData(1, todo1, complete = true),
       TodoData(2, todo2, complete = false)
@@ -122,7 +122,7 @@ class TodoAppSpec extends TestSpec with TestRendererUtils {
     
     //when & then
     findComponentProps(comp, TodoList).toggleComplete(1)
-    renderer.update(<(TodoApp()).empty)
+    comp = shallowRender(renderer, <(TodoApp()).empty)
     findComponentProps(comp, TodoList).todos shouldBe List(
       TodoData(1, todo1, complete = false),
       TodoData(2, todo2, complete = false)
@@ -130,7 +130,7 @@ class TodoAppSpec extends TestSpec with TestRendererUtils {
     
     //when & then
     findComponentProps(comp, TodoList).toggleComplete(2)
-    renderer.update(<(TodoApp()).empty)
+    comp = shallowRender(renderer, <(TodoApp()).empty)
     findComponentProps(comp, TodoList).todos shouldBe List(
       TodoData(1, todo1, complete = false),
       TodoData(2, todo2, complete = true)
@@ -139,14 +139,14 @@ class TodoAppSpec extends TestSpec with TestRendererUtils {
   
   it should "change visible todos when setType" in {
     //given
-    val renderer = createRenderer(<(TodoApp()).empty)
-    val comp = renderer.root
+    val renderer = createRenderer()
+    var comp = shallowRender(renderer, <(TodoApp()).empty)
 
     val todo1 = "todo1"
     findComponentProps(comp, Input).inputChange(todo1)
     findComponentProps(comp, Button).submitTodo()
     findComponentProps(comp, TodoList).toggleComplete(1)
-    renderer.update(<(TodoApp()).empty)
+    comp = shallowRender(renderer, <(TodoApp()).empty)
     findComponentProps(comp, Input).inputValue shouldBe ""
     findComponentProps(comp, TodoList).todos shouldBe List(
       TodoData(1, todo1, complete = true)
@@ -155,7 +155,7 @@ class TodoAppSpec extends TestSpec with TestRendererUtils {
     val todo2 = "todo2"
     findComponentProps(comp, Input).inputChange(todo2)
     findComponentProps(comp, Button).submitTodo()
-    renderer.update(<(TodoApp()).empty)
+    comp = shallowRender(renderer, <(TodoApp()).empty)
     findComponentProps(comp, Input).inputValue shouldBe ""
     findComponentProps(comp, TodoList).todos shouldBe List(
       TodoData(1, todo1, complete = true),
@@ -164,21 +164,21 @@ class TodoAppSpec extends TestSpec with TestRendererUtils {
 
     //when & then
     findComponentProps(comp, TabBar).setType(TodoType.Active)
-    renderer.update(<(TodoApp()).empty)
+    comp = shallowRender(renderer, <(TodoApp()).empty)
     findComponentProps(comp, TodoList).todos shouldBe List(
       TodoData(2, todo2, complete = false)
     )
     
     //when & then
     findComponentProps(comp, TabBar).setType(TodoType.Complete)
-    renderer.update(<(TodoApp()).empty)
+    comp = shallowRender(renderer, <(TodoApp()).empty)
     findComponentProps(comp, TodoList).todos shouldBe List(
       TodoData(1, todo1, complete = true)
     )
     
     //when & then
     findComponentProps(comp, TabBar).setType(TodoType.All)
-    renderer.update(<(TodoApp()).empty)
+    comp = shallowRender(renderer, <(TodoApp()).empty)
     findComponentProps(comp, TodoList).todos shouldBe List(
       TodoData(1, todo1, complete = true),
       TodoData(2, todo2, complete = false)
@@ -190,7 +190,7 @@ class TodoAppSpec extends TestSpec with TestRendererUtils {
     val component = <(TodoApp())()()
     
     //when
-    val result = render(component)
+    val result = shallowRender(component)
     
     //then
     assertNativeComponent(result, <("View")(^.rnStyle := TodoApp.styles.container)(), {

@@ -1,10 +1,10 @@
 package scommons.examples.todos
 
 import scommons.react.test.TestSpec
-import scommons.react.test.util.TestRendererUtils
+import scommons.react.test.util.ShallowRendererUtils
 import scommons.reactnative._
 
-class TodoSpec extends TestSpec with TestRendererUtils {
+class TodoSpec extends TestSpec with ShallowRendererUtils {
 
   it should "call toggleComplete when onPress Done button" in {
     //given
@@ -15,7 +15,7 @@ class TodoSpec extends TestSpec with TestRendererUtils {
       toggleComplete = toggleComplete,
       todo = TodoData(1, "test todo", complete = true)
     )
-    val comp = render(<(Todo())(^.wrapped := props)())
+    val comp = shallowRender(<(Todo())(^.wrapped := props)())
     val btnProps = findProps(comp, TodoButton).head
 
     //then
@@ -34,7 +34,7 @@ class TodoSpec extends TestSpec with TestRendererUtils {
       toggleComplete = toggleComplete,
       todo = TodoData(1, "test todo", complete = true)
     )
-    val comp = render(<(Todo())(^.wrapped := props)())
+    val comp = shallowRender(<(Todo())(^.wrapped := props)())
     val btnProps = findProps(comp, TodoButton)(1)
 
     //then
@@ -56,7 +56,7 @@ class TodoSpec extends TestSpec with TestRendererUtils {
     val component = <(Todo())(^.wrapped := props)()
     
     //when
-    val result = render(component)
+    val result = shallowRender(component)
     
     //then
     assertNativeComponent(result, <("View")(^.rnStyle := Todo.styles.todoContainer)(), {
@@ -68,10 +68,13 @@ class TodoSpec extends TestSpec with TestRendererUtils {
         )
         assertNativeComponent(buttons, <("View")(^.rnStyle := Todo.styles.buttons)(), {
           case List(doneBtn, deleteBtn) =>
+            doneBtn.key shouldBe "done"
             assertComponent(doneBtn, TodoButton) { case TodoButtonProps(_, complete, name) =>
               complete shouldBe props.todo.complete
               name shouldBe "Done"
             }
+
+            deleteBtn.key shouldBe "delete"
             assertComponent(deleteBtn, TodoButton) { case TodoButtonProps(_, complete, name) =>
               complete shouldBe false
               name shouldBe "Delete"

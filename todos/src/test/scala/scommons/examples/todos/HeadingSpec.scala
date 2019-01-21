@@ -1,17 +1,17 @@
 package scommons.examples.todos
 
 import scommons.react.test.TestSpec
-import scommons.react.test.util.TestRendererUtils
+import scommons.react.test.util.ShallowRendererUtils
 import scommons.reactnative._
 
-class HeadingSpec extends TestSpec with TestRendererUtils {
+class HeadingSpec extends TestSpec with ShallowRendererUtils {
 
   it should "render component" in {
     //given
     val component = <(Heading())()()
     
     //when
-    val result = render(component)
+    val result = shallowRender(component)
     
     //then
     assertNativeComponent(result,

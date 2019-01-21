@@ -1,16 +1,16 @@
 package scommons.examples.todos
 
 import scommons.react.test.TestSpec
-import scommons.react.test.util.TestRendererUtils
+import scommons.react.test.util.ShallowRendererUtils
 import scommons.reactnative._
 
-class InputSpec extends TestSpec with TestRendererUtils {
+class InputSpec extends TestSpec with ShallowRendererUtils {
 
   it should "call inputChange when onChangeText" in {
     //given
     val inputChange = mockFunction[String, Unit]
     val props = InputProps(inputValue = "test value", inputChange = inputChange)
-    val comp = render(<(Input())(^.wrapped := props)())
+    val comp = shallowRender(<(Input())(^.wrapped := props)())
     val input = findComponents(comp, NativeTextInput).head
     val text = "undated text"
     
@@ -28,7 +28,7 @@ class InputSpec extends TestSpec with TestRendererUtils {
     val component = <(Input())(^.wrapped := props)()
     
     //when
-    val result = render(component)
+    val result = shallowRender(component)
     
     //then
     assertNativeComponent(result,

@@ -1,19 +1,19 @@
 package scommons.examples.todos
 
 import scommons.react.test.TestSpec
-import scommons.react.test.raw.TestInstance
-import scommons.react.test.util.TestRendererUtils
+import scommons.react.test.raw.ShallowInstance
+import scommons.react.test.util.ShallowRendererUtils
 import scommons.reactnative._
 
 import scala.scalajs.js
 
-class TodoButtonSpec extends TestSpec with TestRendererUtils {
+class TodoButtonSpec extends TestSpec with ShallowRendererUtils {
 
   it should "call onPress when onPress" in {
     //given
     val onPress = mockFunction[Unit]
     val props = TodoButtonProps(onPress, complete = false, name = "Complete")
-    val comp = render(<(TodoButton())(^.wrapped := props)())
+    val comp = shallowRender(<(TodoButton())(^.wrapped := props)())
     val button = findComponents(comp, NativeTouchableHighlight).head
     
     //then
@@ -30,7 +30,7 @@ class TodoButtonSpec extends TestSpec with TestRendererUtils {
     val component = <(TodoButton())(^.wrapped := props)()
     
     //when
-    val result = render(component)
+    val result = shallowRender(component)
     
     //then
     assertTodoButton(result, props, List(
@@ -45,7 +45,7 @@ class TodoButtonSpec extends TestSpec with TestRendererUtils {
     val component = <(TodoButton())(^.wrapped := props)()
     
     //when
-    val result = render(component)
+    val result = shallowRender(component)
     
     //then
     assertTodoButton(result, props, List(
@@ -61,7 +61,7 @@ class TodoButtonSpec extends TestSpec with TestRendererUtils {
     val component = <(TodoButton())(^.wrapped := props)()
     
     //when
-    val result = render(component)
+    val result = shallowRender(component)
     
     //then
     assertTodoButton(result, props, List(
@@ -70,7 +70,7 @@ class TodoButtonSpec extends TestSpec with TestRendererUtils {
     ))
   }
   
-  private def assertTodoButton(result: TestInstance, props: TodoButtonProps, style: List[Style]): Unit = {
+  private def assertTodoButton(result: ShallowInstance, props: TodoButtonProps, style: List[Style]): Unit = {
     assertNativeComponent(result,
       <("TouchableHighlight")(
         ^.rnStyle := TodoButton.styles.button,

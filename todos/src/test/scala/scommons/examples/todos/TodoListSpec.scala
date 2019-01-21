@@ -2,9 +2,9 @@ package scommons.examples.todos
 
 import org.scalatest.Succeeded
 import scommons.react.test.TestSpec
-import scommons.react.test.util.TestRendererUtils
+import scommons.react.test.util.ShallowRendererUtils
 
-class TodoListSpec extends TestSpec with TestRendererUtils {
+class TodoListSpec extends TestSpec with ShallowRendererUtils {
 
   it should "render component" in {
     //given
@@ -21,12 +21,13 @@ class TodoListSpec extends TestSpec with TestRendererUtils {
     val component = <(TodoList())(^.wrapped := props)()
     
     //when
-    val result = render(component)
+    val result = shallowRender(component)
     
     //then
     assertNativeComponent(result, <("View")()(), { todos =>
       todos.size shouldBe props.todos.size
       todos.zip(props.todos).foreach { case (todoElem, expectedTodo) =>
+        todoElem.key shouldBe s"${expectedTodo.todoId}"
         assertComponent(todoElem, Todo) { case TodoProps(resDeleteTodo, resToggleComplete, todo) =>
           resDeleteTodo shouldBe deleteTodo
           resToggleComplete shouldBe toggleComplete
