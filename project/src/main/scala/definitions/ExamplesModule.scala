@@ -1,10 +1,10 @@
 package definitions
 
 import common.Libs
-import org.sbtidea.SbtIdeaPlugin.ideaExcludeFolders
 import sbt.Keys._
 import sbt._
 import scommons.sbtplugin.project.CommonModule
+import scommons.sbtplugin.project.CommonModule.ideExcludedDirectories
 
 trait ExamplesModule extends CommonModule {
 
@@ -16,12 +16,12 @@ trait ExamplesModule extends CommonModule {
     super.definition
       .settings(ExamplesModule.settings: _*)
       .settings(
-        ideaExcludeFolders ++= {
+        ideExcludedDirectories ++= {
           val base = baseDirectory.value
           List(
-            s"$base/android/build",
-            s"$base/ios/build",
-            s"$base/node_modules"
+            base / "android" / "build",
+            base / "ios" / "build",
+            base / "node_modules"
           )
         }
       )
