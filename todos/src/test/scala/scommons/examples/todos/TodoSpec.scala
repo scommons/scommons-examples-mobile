@@ -59,14 +59,14 @@ class TodoSpec extends TestSpec with ShallowRendererUtils {
     val result = shallowRender(component)
     
     //then
-    assertNativeComponent(result, <("View")(^.rnStyle := Todo.styles.todoContainer)(), {
+    assertNativeComponent(result, <.View(^.rnStyle := Todo.styles.todoContainer)(), {
       case List(text, buttons) =>
         assertNativeComponent(text,
-          <("Text")(^.rnStyle := Todo.styles.todoText)(
+          <.Text(^.rnStyle := Todo.styles.todoText)(
             props.todo.title
           )
         )
-        assertNativeComponent(buttons, <("View")(^.rnStyle := Todo.styles.buttons)(), {
+        assertNativeComponent(buttons, <.View(^.rnStyle := Todo.styles.buttons)(), {
           case List(doneBtn, deleteBtn) =>
             doneBtn.key shouldBe "done"
             assertComponent(doneBtn, TodoButton) { case TodoButtonProps(_, complete, name) =>

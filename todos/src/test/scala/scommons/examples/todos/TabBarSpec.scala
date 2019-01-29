@@ -89,7 +89,7 @@ class TabBarSpec extends TestSpec with ShallowRendererUtils {
   }
   
   private def assertTabBar(result: ShallowInstance, props: TabBarProps): Unit = {
-    assertNativeComponent(result, <("View")(^.rnStyle := TabBar.styles.container)(), {
+    assertNativeComponent(result, <.View(^.rnStyle := TabBar.styles.container)(), {
       case List(allElem, activeElem, completeElem) =>
         allElem.key shouldBe "all"
         assertComponent(allElem, TabBarItem) { case TabBarItemProps(border, title, selected, _) =>

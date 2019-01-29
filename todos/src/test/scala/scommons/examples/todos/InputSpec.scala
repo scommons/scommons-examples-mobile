@@ -32,8 +32,8 @@ class InputSpec extends TestSpec with ShallowRendererUtils {
     
     //then
     assertNativeComponent(result,
-      <("View")(^.rnStyle := Input.styles.inputContainer)(
-        <("TextInput")(
+      <.View(^.rnStyle := Input.styles.inputContainer)(
+        <.TextInput(
           ^.rnStyle := Input.styles.input,
           ^.value := props.inputValue,
           ^.placeholder := "What needs to be done?",

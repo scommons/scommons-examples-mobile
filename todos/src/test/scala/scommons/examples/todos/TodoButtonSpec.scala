@@ -72,11 +72,11 @@ class TodoButtonSpec extends TestSpec with ShallowRendererUtils {
   
   private def assertTodoButton(result: ShallowInstance, props: TodoButtonProps, style: List[Style]): Unit = {
     assertNativeComponent(result,
-      <("TouchableHighlight")(
+      <.TouchableHighlight(
         ^.rnStyle := TodoButton.styles.button,
         ^.underlayColor := "#efefef"
       )(
-        <("Text")(^.rnStyle := js.Array(style: _*))(
+        <.Text(^.rnStyle := js.Array(style: _*))(
           props.name
         )
       )

@@ -193,10 +193,10 @@ class TodoAppSpec extends TestSpec with ShallowRendererUtils {
     val result = shallowRender(component)
     
     //then
-    assertNativeComponent(result, <("View")(^.rnStyle := TodoApp.styles.container)(), {
+    assertNativeComponent(result, <.View(^.rnStyle := TodoApp.styles.container)(), {
       case List(scrollViewElem, tabBarElem) =>
         assertNativeComponent(scrollViewElem,
-          <("ScrollView")(
+          <.ScrollView(
             ^.rnStyle := TodoApp.styles.content,
             ^.keyboardShouldPersistTaps := "always"
           )(), {

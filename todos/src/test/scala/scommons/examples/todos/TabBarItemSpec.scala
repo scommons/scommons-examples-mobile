@@ -93,11 +93,11 @@ class TabBarItemSpec extends TestSpec with ShallowRendererUtils {
                                textStyle: List[Style]): Unit = {
     
     assertNativeComponent(result,
-      <("TouchableHighlight")(
+      <.TouchableHighlight(
         ^.rnStyle := js.Array(itemStyle: _*),
         ^.underlayColor := "#efefef"
       )(
-        <("Text")(^.rnStyle := js.Array(textStyle: _*))(
+        <.Text(^.rnStyle := js.Array(textStyle: _*))(
           props.title
         )
       )

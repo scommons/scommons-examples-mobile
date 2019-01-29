@@ -29,12 +29,12 @@ class ButtonSpec extends TestSpec with ShallowRendererUtils {
     
     //then
     assertNativeComponent(result,
-      <("View")(^.rnStyle := Button.styles.buttonContainer)(
-        <("TouchableHighlight")(
+      <.View(^.rnStyle := Button.styles.buttonContainer)(
+        <.TouchableHighlight(
           ^.rnStyle := Button.styles.button,
           ^.underlayColor := "#efefef"
         )(
-          <("Text")(^.rnStyle := Button.styles.submit)(
+          <.Text(^.rnStyle := Button.styles.submit)(
             "Submit"
           )
         )

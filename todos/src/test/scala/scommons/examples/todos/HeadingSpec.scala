@@ -15,8 +15,8 @@ class HeadingSpec extends TestSpec with ShallowRendererUtils {
     
     //then
     assertNativeComponent(result,
-      <("View")(^.rnStyle := Heading.styles.header)(
-        <("Text")(^.rnStyle := Heading.styles.headerText)(
+      <.View(^.rnStyle := Heading.styles.header)(
+        <.Text(^.rnStyle := Heading.styles.headerText)(
           "todos"
         )
       )
