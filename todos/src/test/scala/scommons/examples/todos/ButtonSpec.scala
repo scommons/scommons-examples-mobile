@@ -10,7 +10,7 @@ class ButtonSpec extends TestSpec with ShallowRendererUtils {
     //given
     val submitTodo = mockFunction[Unit]
     val comp = shallowRender(<(Button())(^.wrapped := ButtonProps(submitTodo))())
-    val button = findComponents(comp, NativeTouchableHighlight).head
+    val button = findComponents(comp, raw.TouchableHighlight).head
     
     //then
     submitTodo.expects()

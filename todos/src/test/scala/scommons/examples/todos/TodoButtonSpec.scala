@@ -14,7 +14,7 @@ class TodoButtonSpec extends TestSpec with ShallowRendererUtils {
     val onPress = mockFunction[Unit]
     val props = TodoButtonProps(onPress, complete = false, name = "Complete")
     val comp = shallowRender(<(TodoButton())(^.wrapped := props)())
-    val button = findComponents(comp, NativeTouchableHighlight).head
+    val button = findComponents(comp, raw.TouchableHighlight).head
     
     //then
     onPress.expects()

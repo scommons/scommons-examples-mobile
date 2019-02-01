@@ -14,7 +14,7 @@ class TabBarItemSpec extends TestSpec with ShallowRendererUtils {
     val onPress = mockFunction[Unit]
     val props = TabBarItemProps(border = false, title = "Item", selected = false, onPress)
     val comp = shallowRender(<(TabBarItem())(^.wrapped := props)())
-    val button = findComponents(comp, NativeTouchableHighlight).head
+    val button = findComponents(comp, raw.TouchableHighlight).head
     
     //then
     onPress.expects()

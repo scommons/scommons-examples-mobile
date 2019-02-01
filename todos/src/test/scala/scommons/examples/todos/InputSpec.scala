@@ -11,7 +11,7 @@ class InputSpec extends TestSpec with ShallowRendererUtils {
     val inputChange = mockFunction[String, Unit]
     val props = InputProps(inputValue = "test value", inputChange = inputChange)
     val comp = shallowRender(<(Input())(^.wrapped := props)())
-    val input = findComponents(comp, NativeTextInput).head
+    val input = findComponents(comp, raw.TextInput).head
     val text = "undated text"
     
     //then
