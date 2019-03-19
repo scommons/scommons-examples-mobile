@@ -4,7 +4,6 @@ import common.Libs
 import sbt.Keys._
 import sbt._
 import scommons.sbtplugin.project.CommonModule
-import scommons.sbtplugin.project.CommonModule.ideExcludedDirectories
 
 trait ExamplesModule extends CommonModule {
 
@@ -15,16 +14,6 @@ trait ExamplesModule extends CommonModule {
   override def definition: Project = {
     super.definition
       .settings(ExamplesModule.settings: _*)
-      .settings(
-        ideExcludedDirectories ++= {
-          val base = baseDirectory.value
-          List(
-            base / "android" / "build",
-            base / "ios" / "build",
-            base / "node_modules"
-          )
-        }
-      )
   }
 }
 
