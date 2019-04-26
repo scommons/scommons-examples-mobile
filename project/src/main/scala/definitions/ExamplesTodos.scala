@@ -12,7 +12,7 @@ object ExamplesTodos extends ExamplesModule with CommonMobileModule {
 
   override def definition: Project = super.definition
     .settings(
-      description := "Example TodoApp from the React Native in Action book written in Scala.js"
+      description := "Example TodoApp from the React Native in Action book, written in Scala.js"
     )
 
   override def runtimeDependencies: Def.Initialize[Seq[ModuleID]] = Def.setting {
