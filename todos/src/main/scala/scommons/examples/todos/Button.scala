@@ -1,18 +1,16 @@
 package scommons.examples.todos
 
-import io.github.shogowada.scalajs.reactjs.React
-import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import scommons.react.UiComponent
+import scommons.react._
 import scommons.reactnative._
 
 import scala.scalajs.js
 
 case class ButtonProps(submitTodo: () => Unit)
 
-object Button extends UiComponent[ButtonProps] {
-  
-  protected def create(): ReactClass = React.createClass[PropsType, Unit] { self =>
-    val props = self.props.wrapped
+object Button extends FunctionComponent[ButtonProps] {
+
+  protected def render(compProps: Props): ReactElement = {
+    val props = compProps.wrapped
     
     <.View(^.rnStyle := styles.buttonContainer)(
       <.TouchableHighlight(

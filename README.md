@@ -4,24 +4,15 @@
 [![Scala.js](https://www.scala-js.org/assets/badges/scalajs-0.6.17.svg)](https://www.scala-js.org)
 
 ## scommons-examples-mobile
-Example applications that uses Scala Commons react-native components/modules
+Example applications that uses Scala Commons `react-native` components/modules
 
 #### How to Build
 
 To build and run tests use the following command:
 ```bash
-sbt clean test
+sbt test
 ```
 
-#### How to Build/Run example App on Emulator
+## Examples
 
-First, build the application with the following command:
-```bash
-sbt "project scommons-examples-mobile-todos" fastOptJS
-```
-
-To run the application locally, use the following command:
-```bash
-cd todos
-react-native run-ios
-```
+* [TodoApp](todos/README.md)

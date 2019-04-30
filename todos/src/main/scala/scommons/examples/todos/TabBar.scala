@@ -1,8 +1,6 @@
 package scommons.examples.todos
 
-import io.github.shogowada.scalajs.reactjs.React
-import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import scommons.react.UiComponent
+import scommons.react._
 import scommons.reactnative._
 
 import scala.scalajs.js
@@ -10,10 +8,10 @@ import scala.scalajs.js
 case class TabBarProps(setType: TodoType => Unit,
                        `type`: TodoType)
 
-object TabBar extends UiComponent[TabBarProps] {
+object TabBar extends FunctionComponent[TabBarProps] {
 
-  protected def create(): ReactClass = React.createClass[PropsType, Unit] { self =>
-    val props = self.props.wrapped
+  protected def render(compProps: Props): ReactElement = {
+    val props = compProps.wrapped
     
     <.View(^.rnStyle := styles.container)(
       <(TabBarItem())(^.key := "all", ^.wrapped := TabBarItemProps(

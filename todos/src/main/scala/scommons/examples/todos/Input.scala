@@ -1,8 +1,6 @@
 package scommons.examples.todos
 
-import io.github.shogowada.scalajs.reactjs.React
-import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import scommons.react.UiComponent
+import scommons.react._
 import scommons.reactnative._
 
 import scala.scalajs.js
@@ -10,10 +8,10 @@ import scala.scalajs.js
 case class InputProps(inputValue: String,
                       inputChange: String => Unit)
 
-object Input extends UiComponent[InputProps] {
+object Input extends FunctionComponent[InputProps] {
 
-  protected def create(): ReactClass = React.createClass[PropsType, Unit] { self =>
-    val props = self.props.wrapped
+  protected def render(compProps: Props): ReactElement = {
+    val props = compProps.wrapped
     
     <.View(^.rnStyle := styles.inputContainer)(
       <.TextInput(

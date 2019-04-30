@@ -1,8 +1,6 @@
 package scommons.examples.todos
 
-import io.github.shogowada.scalajs.reactjs.React
-import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import scommons.react.UiComponent
+import scommons.react._
 import scommons.reactnative._
 
 import scala.scalajs.js
@@ -11,10 +9,10 @@ case class TodoButtonProps(onPress: () => Unit,
                            complete: Boolean,
                            name: String)
 
-object TodoButton extends UiComponent[TodoButtonProps] {
+object TodoButton extends FunctionComponent[TodoButtonProps] {
 
-  protected def create(): ReactClass = React.createClass[PropsType, Unit] { self =>
-    val props = self.props.wrapped
+  protected def render(compProps: Props): ReactElement = {
+    val props = compProps.wrapped
     
     <.TouchableHighlight(
       ^.rnStyle := styles.button,

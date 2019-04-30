@@ -1,15 +1,13 @@
 package scommons.examples.todos
 
-import io.github.shogowada.scalajs.reactjs.React
-import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import scommons.react.UiComponent
+import scommons.react._
 import scommons.reactnative._
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.{JSExport, JSExportTopLevel}
 
 @JSExportTopLevel(name = "TodoApp")
-object TodoApp extends UiComponent[Unit] {
+object TodoApp extends ClassComponent[Unit] {
 
   private case class TodoAppState(nextTodoId: Int = 1,
                                   inputValue: String = "",
@@ -19,7 +17,7 @@ object TodoApp extends UiComponent[Unit] {
   @JSExport("apply")
   override def apply(): ReactClass = super.apply()
 
-  protected def create(): ReactClass = React.createClass[PropsType, TodoAppState](
+  protected def create(): ReactClass = createClass[TodoAppState](
     getInitialState = { _ =>
       TodoAppState()
     },

@@ -1,15 +1,13 @@
 package scommons.examples.todos
 
-import io.github.shogowada.scalajs.reactjs.React
-import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import scommons.react.UiComponent
+import scommons.react._
 import scommons.reactnative._
 
 import scala.scalajs.js
 
-object Heading extends UiComponent[Unit] {
+object Heading extends FunctionComponent[Unit] {
 
-  protected def create(): ReactClass = React.createClass[PropsType, Unit] { _ =>
+  protected def render(compProps: Props): ReactElement = {
     <.View(^.rnStyle := styles.header)(
       <.Text(^.rnStyle := styles.headerText)(
         "todos"
