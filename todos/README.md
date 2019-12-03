@@ -19,5 +19,5 @@ sbt "project scommons-examples-mobile-todos" fastOptJS
 Use the following command:
 ```bash
 cd todos
-react-native run-ios
+npx react-native run-ios
 ```
