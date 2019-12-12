@@ -40,14 +40,14 @@ object TodoButton extends FunctionComponent[TodoButtonProps] {
       override val borderRadius = 4
       override val marginRight = 5
     }
-    val text: Style = new Style {
+    val text: Style = new TextStyle {
       override val color = "#666666"
     }
-    val complete: Style = new Style {
+    val complete: Style = new TextStyle {
       override val color = "green"
       override val fontWeight = "bold"
     }
-    val deleteButton: Style = new Style {
+    val deleteButton: Style = new TextStyle {
       override val color = "rgba(175, 47, 47, 1)"
     }
   }

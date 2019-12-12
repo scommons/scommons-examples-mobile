@@ -44,7 +44,7 @@ object TabBar extends FunctionComponent[TabBarProps] {
   private[todos] lazy val styles = StyleSheet.create(Styles)
   
   private[todos] object Styles extends js.Object {
-    val container: Style = new Style {
+    val container: Style = new ViewStyle {
       override val height = 70
       override val flexDirection = "row"
       override val borderTopWidth = 1

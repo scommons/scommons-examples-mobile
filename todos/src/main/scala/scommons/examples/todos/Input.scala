@@ -28,7 +28,7 @@ object Input extends FunctionComponent[InputProps] {
   private[todos] lazy val styles = StyleSheet.create(Styles)
 
   private[todos] object Styles extends js.Object {
-    val inputContainer: Style = new Style {
+    val inputContainer: Style = new ViewStyle {
       override val marginLeft = 20
       override val marginRight = 20
       override val shadowOpacity = 0.2
@@ -39,7 +39,7 @@ object Input extends FunctionComponent[InputProps] {
         override val height = 2
       }
     }
-    val input: Style = new Style {
+    val input: Style = new TextStyle {
       override val height = 60
       override val backgroundColor = "#ffffff"
       override val paddingLeft = 10

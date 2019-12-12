@@ -28,7 +28,7 @@ object Button extends FunctionComponent[ButtonProps] {
   private[todos] lazy val styles = StyleSheet.create(Styles)
   
   private[todos] object Styles extends js.Object {
-    val buttonContainer: Style = new Style {
+    val buttonContainer: Style = new ViewStyle {
       override val alignItems = "flex-end"
     }
     val button: Style = new Style {
@@ -44,7 +44,7 @@ object Button extends FunctionComponent[ButtonProps] {
       override val justifyContent = "center"
       override val alignItems = "center"
     }
-    val submit: Style = new Style {
+    val submit: Style = new TextStyle {
       override val color = "#666666"
       override val fontWeight = "600"
     }
