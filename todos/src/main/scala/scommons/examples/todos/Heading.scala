@@ -15,17 +15,18 @@ object Heading extends FunctionComponent[Unit] {
     )
   }
 
-  private[todos] lazy val styles = StyleSheet.create(Styles)
-
-  private[todos] object Styles extends js.Object {
+  private[todos] lazy val styles = StyleSheet.create(new Styles)
+  private[todos] class Styles extends js.Object {
+    import TextStyle._
+    
     val header: Style = new ViewStyle {
       override val marginTop = 80
     }
     val headerText: Style = new TextStyle {
-      override val textAlign = "center"
+      override val textAlign = TextAlign.center
       override val fontSize = 72
       override val color = "rgba(175, 47, 47, 0.25)"
-      override val fontWeight = "100"
+      override val fontWeight = FontWeight.`100`
     }
   }
 }

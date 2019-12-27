@@ -33,13 +33,15 @@ object TabBarItem extends FunctionComponent[TabBarItemProps] {
     )
   }
 
-  private[todos] lazy val styles = StyleSheet.create(Styles)
-  
-  private[todos] object Styles extends js.Object {
+  private[todos] lazy val styles = StyleSheet.create(new Styles)
+  private[todos] class Styles extends js.Object {
+    import TextStyle._
+    import ViewStyle._
+    
     val item: Style = new ViewStyle {
       override val flex = 1
-      override val justifyContent = "center"
-      override val alignItems = "center"
+      override val justifyContent = JustifyContent.center
+      override val alignItems = AlignItems.center
     }
     val border: Style = new Style {
       override val borderLeftWidth = 1
@@ -53,7 +55,7 @@ object TabBarItem extends FunctionComponent[TabBarItemProps] {
       override val backgroundColor = "#ffffff"
     }
     val bold: Style = new TextStyle {
-      override val fontWeight = "bold"
+      override val fontWeight = FontWeight.bold
     }
   }
 }

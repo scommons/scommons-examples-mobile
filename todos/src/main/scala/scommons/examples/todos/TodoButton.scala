@@ -29,11 +29,14 @@ object TodoButton extends FunctionComponent[TodoButtonProps] {
     )
   }
 
-  private[todos] lazy val styles = StyleSheet.create(Styles)
-  
-  private[todos] object Styles extends js.Object {
-    val button: Style = new Style {
-      override val alignSelf = "flex-end"
+  private[todos] lazy val styles = StyleSheet.create(new Styles)
+  private[todos] class Styles extends js.Object {
+    import Style._
+    import TextStyle._
+    import ViewStyle._
+    
+    val button: Style = new ViewStyle {
+      override val alignSelf = AlignSelf.`flex-end`
       override val padding = 7
       override val borderColor = "#ededed"
       override val borderWidth = 1
@@ -44,8 +47,8 @@ object TodoButton extends FunctionComponent[TodoButtonProps] {
       override val color = "#666666"
     }
     val complete: Style = new TextStyle {
-      override val color = "green"
-      override val fontWeight = "bold"
+      override val color = Color.green
+      override val fontWeight = FontWeight.bold
     }
     val deleteButton: Style = new TextStyle {
       override val color = "rgba(175, 47, 47, 1)"

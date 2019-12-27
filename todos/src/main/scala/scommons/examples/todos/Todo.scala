@@ -43,9 +43,11 @@ object Todo extends FunctionComponent[TodoProps] {
     )
   }
 
-  private[todos] lazy val styles = StyleSheet.create(Styles)
-
-  private[todos] object Styles extends js.Object {
+  private[todos] lazy val styles = StyleSheet.create(new Styles)
+  private[todos] class Styles extends js.Object {
+    import Style._
+    import ViewStyle._
+    
     val todoContainer: Style = new ViewStyle {
       override val marginLeft = 20
       override val marginRight = 20
@@ -60,21 +62,21 @@ object Todo extends FunctionComponent[TodoProps] {
       override val shadowOpacity = 0.2
       override val shadowRadius = 3
       override val shadowColor = "#000000"
-      override val shadowOffset = new Style.ShadowOffset {
+      override val shadowOffset = new ShadowOffset {
         override val width = 2
         override val height = 2
       }
-      override val flexDirection = "row"
-      override val alignItems = "center"
+      override val flexDirection = FlexDirection.row
+      override val alignItems = AlignItems.center
     }
     val todoText: Style = new TextStyle {
       override val fontSize = 17
     }
     val buttons: Style = new ViewStyle {
       override val flex = 1
-      override val flexDirection = "row"
-      override val justifyContent = "flex-end"
-      override val alignItems = "center"
+      override val flexDirection = FlexDirection.row
+      override val justifyContent = JustifyContent.`flex-end`
+      override val alignItems = AlignItems.center
     }
   }
 }

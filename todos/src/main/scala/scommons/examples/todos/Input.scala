@@ -25,16 +25,17 @@ object Input extends FunctionComponent[InputProps] {
     )
   }
 
-  private[todos] lazy val styles = StyleSheet.create(Styles)
-
-  private[todos] object Styles extends js.Object {
+  private[todos] lazy val styles = StyleSheet.create(new Styles)
+  private[todos] class Styles extends js.Object {
+    import Style._
+    
     val inputContainer: Style = new ViewStyle {
       override val marginLeft = 20
       override val marginRight = 20
       override val shadowOpacity = 0.2
       override val shadowRadius = 3
       override val shadowColor = "#000000"
-      override val shadowOffset = new Style.ShadowOffset {
+      override val shadowOffset = new ShadowOffset {
         override val width = 2
         override val height = 2
       }

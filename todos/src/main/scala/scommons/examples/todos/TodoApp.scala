@@ -89,9 +89,8 @@ object TodoApp extends ClassComponent[Unit] {
     }
   )
 
-  private[todos] lazy val styles = StyleSheet.create(Styles)
-  
-  private[todos] object Styles extends js.Object {
+  private[todos] lazy val styles = StyleSheet.create(new Styles)
+  private[todos] class Styles extends js.Object {
     val container: Style = new ViewStyle {
       override val flex = 1
       override val backgroundColor = "#f5f5f5"
