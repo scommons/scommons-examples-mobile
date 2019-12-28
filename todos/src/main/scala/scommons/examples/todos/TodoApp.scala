@@ -1,6 +1,7 @@
 package scommons.examples.todos
 
 import scommons.react._
+import scommons.reactnative.ScrollView._
 import scommons.reactnative._
 
 import scala.scalajs.js
@@ -65,7 +66,7 @@ object TodoApp extends ClassComponent[Unit] {
       <.View(^.rnStyle := styles.container)(
         <.ScrollView(
           ^.rnStyle := styles.content,
-          ^.keyboardShouldPersistTaps := "always"
+          ^.keyboardShouldPersistTaps := KeyboardShouldPersistTaps.always
         )(
           <(Heading())()(),
           <(Input())(^.wrapped := InputProps(

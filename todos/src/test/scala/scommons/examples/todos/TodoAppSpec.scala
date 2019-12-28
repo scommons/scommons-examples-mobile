@@ -4,6 +4,7 @@ import org.scalatest.Succeeded
 import scommons.react.test.TestSpec
 import scommons.react.test.util.ShallowRendererUtils
 import scommons.reactnative._
+import scommons.reactnative.ScrollView._
 
 class TodoAppSpec extends TestSpec with ShallowRendererUtils {
 
@@ -198,7 +199,7 @@ class TodoAppSpec extends TestSpec with ShallowRendererUtils {
         assertNativeComponent(scrollViewElem,
           <.ScrollView(
             ^.rnStyle := TodoApp.styles.content,
-            ^.keyboardShouldPersistTaps := "always"
+            ^.keyboardShouldPersistTaps := KeyboardShouldPersistTaps.always
           )(), {
             case List(headingElem, inputElem, todoListElem, buttonElem) =>
               assertComponent(headingElem, Heading) { _: Unit =>
