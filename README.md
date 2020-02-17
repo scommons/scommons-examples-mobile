@@ -16,3 +16,7 @@ sbt test
 ## Examples
 
 * [TodoApp](todos/README.md)
+
+* [StarWarsApp](starwars/app/README.md)
+  
+  ![StarWarsApp](docs/images/StarWarsApp.png)
