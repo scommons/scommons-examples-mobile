@@ -68,6 +68,26 @@ class StarWarsScreenSpec extends TestSpec with ShallowRendererUtils {
     )
   }
 
+  it should "render header component" in {
+    //given
+    val headerTitleComp = options.headerTitle.get.apply(null)
+    val wrapper = new FunctionComponent[Unit] {
+      protected def render(props: Props): ReactElement = {
+        headerTitleComp
+      }
+    }
+
+    //when
+    val result = shallowRender(<(wrapper()).empty)
+
+    //then
+    assertNativeComponent(result,
+      <.Text(^.rnStyle := styles.headerTitle)(
+        "Star Wars"
+      )
+    )
+  }
+
   it should "render main component" in {
     //given
     val component = <(StarWarsScreen())()()
