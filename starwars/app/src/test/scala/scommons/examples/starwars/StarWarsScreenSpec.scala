@@ -15,9 +15,29 @@ import scala.scalajs.js.annotation.JSExportAll
 
 class StarWarsScreenSpec extends TestSpec with ShallowRendererUtils {
 
+  it should "call navigate when item onPress" in {
+    //given
+    val navigate = mockFunction[String, Unit]
+    val props = StarWarsScreenProps(navigate)
+    val comp = shallowRender(<(StarWarsScreen())(^.wrapped := props)())
+    val List(flatList) = findComponents(comp, FlatList)
+    val itemMock = mock[FlatListDataMock]
+    val data = dataList.head
+    (itemMock.item _).expects().returning(data)
+    (itemMock.index _).expects().returning(0)
+    val item = renderItem(flatList, itemMock)
+    
+    //then
+    navigate.expects(data.title)
+    
+    //when
+    item.props.onPress()
+  }
+
   it should "return data.title from keyExtractor" in {
     //given
-    val comp = shallowRender(<(StarWarsScreen())()())
+    val props = StarWarsScreenProps(_ => ())
+    val comp = shallowRender(<(StarWarsScreen())(^.wrapped := props)())
     val List(flatList) = findComponents(comp, FlatList)
     val data = dataList.head
     
@@ -30,7 +50,8 @@ class StarWarsScreenSpec extends TestSpec with ShallowRendererUtils {
 
   it should "render top item" in {
     //given
-    val comp = shallowRender(<(StarWarsScreen())()())
+    val props = StarWarsScreenProps(_ => ())
+    val comp = shallowRender(<(StarWarsScreen())(^.wrapped := props)())
     val List(flatList) = findComponents(comp, FlatList)
     val itemMock = mock[FlatListDataMock]
     val data = dataList.head
@@ -50,7 +71,8 @@ class StarWarsScreenSpec extends TestSpec with ShallowRendererUtils {
 
   it should "render non-top item" in {
     //given
-    val comp = shallowRender(<(StarWarsScreen())()())
+    val props = StarWarsScreenProps(_ => ())
+    val comp = shallowRender(<(StarWarsScreen())(^.wrapped := props)())
     val List(flatList) = findComponents(comp, FlatList)
     val itemMock = mock[FlatListDataMock]
     val data = dataList.head
@@ -90,7 +112,8 @@ class StarWarsScreenSpec extends TestSpec with ShallowRendererUtils {
 
   it should "render main component" in {
     //given
-    val component = <(StarWarsScreen())()()
+    val props = StarWarsScreenProps(_ => ())
+    val component = <(StarWarsScreen())(^.wrapped := props)()
 
     //when
     val result = shallowRender(component)

@@ -18,8 +18,18 @@ class StarWarsAppSpec extends TestSpec with ShallowRendererUtils {
     //then
     assertNativeComponent(result,
       <.NavigationContainer()(
-        <(Stack.Navigator)(^.initialRouteName := "StarWars")(
-          <(Stack.Screen)(^.name := "StarWars", ^.component := StarWarsScreen(), ^.options := StarWarsScreen.options)()
+        <(Stack.Navigator)(^.initialRouteName := "StarWars", ^.screenOptions := screenOptions)(
+          <(Stack.Screen)(
+            ^.name := "StarWars",
+            ^.component := StarWarsController(),
+            ^.options := StarWarsScreen.options
+          )(),
+          <(Stack.Screen)(^.name := "People", ^.component := emptyComp)(),
+          <(Stack.Screen)(^.name := "Films", ^.component := emptyComp)(),
+          <(Stack.Screen)(^.name := "StarShips", ^.component := emptyComp)(),
+          <(Stack.Screen)(^.name := "Vehicles", ^.component := emptyComp)(),
+          <(Stack.Screen)(^.name := "Species", ^.component := emptyComp)(),
+          <(Stack.Screen)(^.name := "Planets", ^.component := emptyComp)()
         )
       )
     )

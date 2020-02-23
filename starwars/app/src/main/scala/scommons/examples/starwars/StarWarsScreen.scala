@@ -7,7 +7,9 @@ import scommons.reactnative._
 
 import scala.scalajs.js
 
-object StarWarsScreen extends FunctionComponent[Unit] {
+case class StarWarsScreenProps(navigate: String => Unit)
+
+object StarWarsScreen extends FunctionComponent[StarWarsScreenProps] {
 
   case class DataItem(title: String)
   
@@ -20,7 +22,8 @@ object StarWarsScreen extends FunctionComponent[Unit] {
     DataItem("Planets")
   )
 
-  protected def render(props: Props): ReactElement = {
+  protected def render(compProps: Props): ReactElement = {
+    val props = compProps.wrapped
 
     def renderItem(item: DataItem, index: Int): ReactElement = {
       val styleAttr =
@@ -28,6 +31,7 @@ object StarWarsScreen extends FunctionComponent[Unit] {
         else ^.rnStyle := styles.item
   
       <.TouchableHighlight(styleAttr, ^.onPress := { () =>
+        props.navigate(item.title)
       })(
         <.Text(^.rnStyle := styles.text)(item.title)
       )

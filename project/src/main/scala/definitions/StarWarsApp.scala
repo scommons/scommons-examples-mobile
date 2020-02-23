@@ -4,6 +4,7 @@ import common.Libs
 import sbt.Keys._
 import sbt._
 import scommons.sbtplugin.project.CommonMobileModule
+import scoverage.ScoverageKeys.coverageExcludedPackages
 
 object StarWarsApp extends ExamplesModule with CommonMobileModule {
 
@@ -13,7 +14,9 @@ object StarWarsApp extends ExamplesModule with CommonMobileModule {
 
   override def definition: Project = super.definition
     .settings(
-      description := "Example StarWarsApp from the React Native in Action book, written in Scala.js"
+      description := "Example StarWarsApp from the React Native in Action book, written in Scala.js",
+
+      coverageExcludedPackages := "scommons.examples.starwars.BaseRouteController"
     )
 
   override def internalDependencies: Seq[ClasspathDep[ProjectReference]] = Seq(
