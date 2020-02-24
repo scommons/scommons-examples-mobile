@@ -24,7 +24,7 @@ object StarWarsApp extends FunctionComponent[Unit] {
           ^.component := StarWarsController(),
           ^.options := StarWarsScreen.options
         )(),
-        <(Stack.Screen)(^.name := "People", ^.component := emptyComp)(),
+        <(Stack.Screen)(^.name := "People", ^.component := PeopleScreen())(),
         <(Stack.Screen)(^.name := "Films", ^.component := emptyComp)(),
         <(Stack.Screen)(^.name := "StarShips", ^.component := emptyComp)(),
         <(Stack.Screen)(^.name := "Vehicles", ^.component := emptyComp)(),
