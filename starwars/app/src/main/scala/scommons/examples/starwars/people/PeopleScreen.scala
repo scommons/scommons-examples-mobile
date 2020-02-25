@@ -1,5 +1,7 @@
-package scommons.examples.starwars
+package scommons.examples.starwars.people
 
+import scommons.examples.starwars.Container
+import scommons.examples.starwars.api.people.PeopleData
 import scommons.react._
 import scommons.reactnative.FlatList._
 import scommons.reactnative._
@@ -8,18 +10,13 @@ import scala.scalajs.js
 
 object PeopleScreen extends FunctionComponent[Unit] {
 
-  case class DataItem(name: String,
-                      height: String,
-                      birth_year: String,
-                      gender: String)
-
   lazy val dataList = List(
-    DataItem("Viktor", "180", "1981", "male")
+    PeopleData("Viktor", "180", "1981", "male")
   )
 
   protected def render(props: Props): ReactElement = {
     
-    def renderItem(item: DataItem): ReactElement = {
+    def renderItem(item: PeopleData): ReactElement = {
       <.View(^.rnStyle := styles.itemContainer)(
         <.Text(^.rnStyle := styles.name)(item.name),
         <.Text(^.rnStyle := styles.info)(s"Height: ${item.height}"),
@@ -34,18 +31,18 @@ object PeopleScreen extends FunctionComponent[Unit] {
     <(Container())()(
       <.FlatList(
         ^.flatListData := js.Array(dataList: _*),
-        ^.keyExtractor := { item: DataItem =>
+        ^.keyExtractor := { item: PeopleData =>
           item.name
         },
-        ^.renderItem := { data: FlatListData[DataItem] =>
+        ^.renderItem := { data: FlatListData[PeopleData] =>
           renderItem(data.item)
         }
       )()
     )
   }
 
-  private[starwars] lazy val styles = StyleSheet.create(new Styles)
-  private[starwars] class Styles extends js.Object {
+  private[people] lazy val styles = StyleSheet.create(new Styles)
+  private[people] class Styles extends js.Object {
 
     val itemContainer: Style = new ViewStyle {
       override val padding = 15

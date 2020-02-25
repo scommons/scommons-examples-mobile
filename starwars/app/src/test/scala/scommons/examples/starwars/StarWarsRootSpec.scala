@@ -1,16 +1,17 @@
 package scommons.examples.starwars
 
-import scommons.examples.starwars.StarWarsApp._
+import scommons.examples.starwars.StarWarsRoot._
+import scommons.examples.starwars.people.PeopleScreen
 import scommons.react.navigation._
 import scommons.react.navigation.stack._
 import scommons.react.test.TestSpec
 import scommons.react.test.util.ShallowRendererUtils
 
-class StarWarsAppSpec extends TestSpec with ShallowRendererUtils {
+class StarWarsRootSpec extends TestSpec with ShallowRendererUtils {
 
   it should "render app component" in {
     //given
-    val component = <(StarWarsApp())()()
+    val component = <(StarWarsRoot())()()
     
     //when
     val result = shallowRender(component)

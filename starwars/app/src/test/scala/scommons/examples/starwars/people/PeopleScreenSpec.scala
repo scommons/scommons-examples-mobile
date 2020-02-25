@@ -1,7 +1,9 @@
-package scommons.examples.starwars
+package scommons.examples.starwars.people
 
-import scommons.examples.starwars.PeopleScreen._
-import scommons.examples.starwars.PeopleScreenSpec.FlatListDataMock
+import scommons.examples.starwars.Container
+import scommons.examples.starwars.api.people.PeopleData
+import scommons.examples.starwars.people.PeopleScreen._
+import scommons.examples.starwars.people.PeopleScreenSpec.FlatListDataMock
 import scommons.react._
 import scommons.react.test.TestSpec
 import scommons.react.test.raw.ShallowInstance
@@ -73,7 +75,7 @@ class PeopleScreenSpec extends TestSpec with ShallowRendererUtils {
   private def renderItem(flatList: ShallowInstance, itemMock: FlatListDataMock): ShallowInstance = {
     val wrapper = new FunctionComponent[Unit] {
       protected def render(compProps: Props): ReactElement = {
-        val result = flatList.props.renderItem(itemMock.asInstanceOf[FlatListData[DataItem]])
+        val result = flatList.props.renderItem(itemMock.asInstanceOf[FlatListData[PeopleData]])
         result.asInstanceOf[ReactElement]
       }
     }
@@ -86,6 +88,6 @@ object PeopleScreenSpec {
 
   @JSExportAll
   trait FlatListDataMock {
-    def item: DataItem
+    def item: PeopleData
   }
 }

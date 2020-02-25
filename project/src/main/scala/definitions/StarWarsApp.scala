@@ -1,6 +1,6 @@
 package definitions
 
-import common.Libs
+import common.{Libs, TestLibs}
 import sbt.Keys._
 import sbt._
 import scommons.sbtplugin.project.CommonMobileModule
@@ -16,7 +16,9 @@ object StarWarsApp extends ExamplesModule with CommonMobileModule {
     .settings(
       description := "Example StarWarsApp from the React Native in Action book, written in Scala.js",
 
-      coverageExcludedPackages := "scommons.examples.starwars.BaseRouteController"
+      coverageExcludedPackages :=
+        "scommons.examples.starwars.BaseStateAndRouteController" +
+          ";scommons.examples.starwars.StarWarsApp"
     )
 
   override def internalDependencies: Seq[ClasspathDep[ProjectReference]] = Seq(
@@ -26,20 +28,24 @@ object StarWarsApp extends ExamplesModule with CommonMobileModule {
   override def superRepoProjectsDependencies: Seq[(String, String, Option[String])] = {
     super.superRepoProjectsDependencies ++ Seq(
       ("scommons-api", "scommons-api-dom", None),
-      ("scommons-react-native", "scommons-react-navigation", None)
+      ("scommons-react-native", "scommons-react-navigation", None),
+      ("scommons-react", "scommons-react-redux", None),
+
+      ("scommons-react", "scommons-react-test-dom", Some("test"))
     )
   }
   
   override def runtimeDependencies: Def.Initialize[Seq[ModuleID]] = Def.setting {
     super.runtimeDependencies.value ++ Seq(
       Libs.scommonsApiDom.value,
-      Libs.scommonsReactNavigation.value
+      Libs.scommonsReactNavigation.value,
+      Libs.scommonsReactRedux.value
     )
   }
   
   override def testDependencies: Def.Initialize[Seq[ModuleID]] = Def.setting {
     super.testDependencies.value ++ Seq[ModuleID](
-      // specify your custom test dependencies here
+      TestLibs.scommonsReactTestDom.value
     ).map(_ % "test")
   }
 }
