@@ -1,6 +1,6 @@
 package scommons.examples.starwars
 
-import scommons.examples.starwars.api.people.PeopleData
+import scommons.examples.starwars.api.people._
 import scommons.examples.starwars.people.PeopleActions.PeopleListFetchAction
 import scommons.examples.starwars.people.PeopleState
 import scommons.react.redux.task.FutureTask
@@ -28,7 +28,7 @@ class StarWarsStateReducerSpec extends TestSpec {
   it should "set currentTask when TaskAction" in {
     //given
     val initialState = StarWarsStateReducer.reduce(None, "")
-    val task = FutureTask("test task", Future.successful(List.empty[PeopleData]))
+    val task = FutureTask("test task", Future.successful(PeopleResp(List.empty[PeopleData])))
     initialState.currentTask shouldBe None
 
     //when

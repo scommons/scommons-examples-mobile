@@ -18,7 +18,8 @@ object StarWarsApp extends ExamplesModule with CommonMobileModule {
 
       coverageExcludedPackages :=
         "scommons.examples.starwars.BaseStateAndRouteController" +
-          ";scommons.examples.starwars.StarWarsApp"
+          ";scommons.examples.starwars.StarWarsApp" +
+          ";scommons.examples.starwars.StarWarsActions"
     )
 
   override def internalDependencies: Seq[ClasspathDep[ProjectReference]] = Seq(

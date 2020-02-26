@@ -1,20 +1,30 @@
 package scommons.examples.starwars.people
 
+import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import scommons.examples.starwars.Container
 import scommons.examples.starwars.api.people.PeopleData
 import scommons.react._
+import scommons.react.hooks._
 import scommons.reactnative.FlatList._
 import scommons.reactnative._
 
 import scala.scalajs.js
 
-object PeopleScreen extends FunctionComponent[Unit] {
+case class PeopleScreenProps(dispatch: Dispatch,
+                             actions: PeopleActions,
+                             state: PeopleState)
 
-  lazy val dataList = List(
-    PeopleData("Viktor", "180", "1981", "male")
-  )
+object PeopleScreen extends FunctionComponent[PeopleScreenProps] {
 
-  protected def render(props: Props): ReactElement = {
+  protected def render(compProps: Props): ReactElement = {
+    val props = compProps.wrapped
+    
+    useEffect({ () =>
+      if (props.state.dataList.isEmpty) {
+        props.dispatch(props.actions.peopleListFetch(props.dispatch))
+      }
+      ()
+    }, Nil)
     
     def renderItem(item: PeopleData): ReactElement = {
       <.View(^.rnStyle := styles.itemContainer)(
@@ -30,7 +40,7 @@ object PeopleScreen extends FunctionComponent[Unit] {
 
     <(Container())()(
       <.FlatList(
-        ^.flatListData := js.Array(dataList: _*),
+        ^.flatListData := js.Array(props.state.dataList: _*),
         ^.keyExtractor := { item: PeopleData =>
           item.name
         },

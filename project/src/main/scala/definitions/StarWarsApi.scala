@@ -6,6 +6,7 @@ import sbt._
 import sbtcrossproject.CrossPlugin.autoImport._
 import sbtcrossproject.{CrossProject, JVMPlatform}
 import scommons.sbtplugin.project.CommonModule
+import scoverage.ScoverageKeys.coverageExcludedPackages
 
 import scalajscrossproject.ScalaJSCrossPlugin.autoImport._
 
@@ -20,6 +21,8 @@ object StarWarsApi {
     .settings(CommonModule.settings: _*)
     .settings(ExamplesModule.settings: _*)
     .settings(
+      coverageExcludedPackages := "scommons.examples.starwars.api.StarWarsApiClient",
+      
       libraryDependencies ++= Seq(
         Libs.scommonsApiCore.value,
         Libs.scommonsApiJodaTime.value

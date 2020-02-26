@@ -4,5 +4,5 @@ import scala.concurrent.Future
 
 trait PeopleApi {
 
-  def getPeople: Future[List[PeopleData]]
+  def getPeople: Future[PeopleResp]
 }

@@ -14,10 +14,13 @@ object StarWarsApp extends FunctionComponent[Unit] {
 
   private val store = Redux.createStore(StarWarsStateReducer.reduce)
   
+  private lazy val actions = StarWarsActions
+  private lazy val rootComp = new StarWarsRoot(actions).apply()
+  
   protected def render(props: Props): ReactElement = {
     <.Provider(^.store := store)(
       <.>()(
-        <(StarWarsRoot()).empty,
+        <(rootComp).empty,
         <(StarWarsTaskController()).empty
       )
     )

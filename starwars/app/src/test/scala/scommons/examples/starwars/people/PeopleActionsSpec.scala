@@ -16,7 +16,7 @@ class PeopleActionsSpec extends AsyncTestSpec {
     val actions = new PeopleActionsTest(api)
     val dispatch = mockFunction[Any, Any]
     val dataList = List(mock[PeopleData])
-    val expectedResp = dataList
+    val expectedResp = PeopleResp(dataList)
 
     (api.getPeople _).expects()
       .returning(Future.successful(expectedResp))

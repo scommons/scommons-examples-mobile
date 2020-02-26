@@ -15,7 +15,7 @@ trait PeopleActions {
 
   def peopleListFetch(dispatch: Dispatch): PeopleListFetchAction = {
     val future = client.getPeople.andThen {
-      case Success(dataList) =>
+      case Success(PeopleResp(dataList)) =>
         dispatch(PeopleListFetchedAction(dataList))
     }
 
@@ -25,6 +25,6 @@ trait PeopleActions {
 
 object PeopleActions {
 
-  case class PeopleListFetchAction(task: FutureTask[List[PeopleData]]) extends TaskAction
+  case class PeopleListFetchAction(task: FutureTask[PeopleResp]) extends TaskAction
   case class PeopleListFetchedAction(dataList: List[PeopleData]) extends Action
 }

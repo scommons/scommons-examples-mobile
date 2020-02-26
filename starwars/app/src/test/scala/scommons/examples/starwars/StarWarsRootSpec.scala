@@ -1,7 +1,6 @@
 package scommons.examples.starwars
 
 import scommons.examples.starwars.StarWarsRoot._
-import scommons.examples.starwars.people.PeopleScreen
 import scommons.react.navigation._
 import scommons.react.navigation.stack._
 import scommons.react.test.TestSpec
@@ -11,12 +10,16 @@ class StarWarsRootSpec extends TestSpec with ShallowRendererUtils {
 
   it should "render app component" in {
     //given
-    val component = <(StarWarsRoot())()()
+    val actions = mock[StarWarsActions]
+    val rootComp = new StarWarsRoot(actions)
+    val component = <(rootComp())()()
     
     //when
     val result = shallowRender(component)
     
     //then
+    import rootComp._
+    
     assertNativeComponent(result,
       <.NavigationContainer()(
         <(Stack.Navigator)(^.initialRouteName := "StarWars", ^.screenOptions := screenOptions)(
@@ -25,7 +28,7 @@ class StarWarsRootSpec extends TestSpec with ShallowRendererUtils {
             ^.component := StarWarsController(),
             ^.options := StarWarsScreen.options
           )(),
-          <(Stack.Screen)(^.name := "People", ^.component := PeopleScreen())(),
+          <(Stack.Screen)(^.name := "People", ^.component := peopleComp)(),
           <(Stack.Screen)(^.name := "Films", ^.component := emptyComp)(),
           <(Stack.Screen)(^.name := "StarShips", ^.component := emptyComp)(),
           <(Stack.Screen)(^.name := "Vehicles", ^.component := emptyComp)(),
