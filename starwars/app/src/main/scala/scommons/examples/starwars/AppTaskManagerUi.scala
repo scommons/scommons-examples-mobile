@@ -6,7 +6,7 @@ import scommons.react.redux.task.TaskManagerUiProps
 
 import scala.util.{Success, Try}
 
-object AppTaskManagerUi extends FunctionComponent[TaskManagerUiProps] {
+object AppTaskManagerUi {
 
   var errorHandler: PartialFunction[Try[_], (Option[String], Option[String])] = {
     case Success(result) => result match {
@@ -16,8 +16,18 @@ object AppTaskManagerUi extends FunctionComponent[TaskManagerUiProps] {
         (None, None)
     }
   }
+}
+
+class AppTaskManagerUi(loadingProps: LoadingPopupProps = LoadingPopupProps())
+  extends FunctionComponent[TaskManagerUiProps] {
 
   protected def render(compProps: Props): ReactElement = {
-    <.>()()
+    val props = compProps.wrapped
+
+    <.>()(
+      if (props.showLoading) Some(
+        <(LoadingPopup())(^.wrapped := loadingProps)()
+      ) else None
+    )
   }
 }

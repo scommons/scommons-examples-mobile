@@ -5,12 +5,15 @@ import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import scommons.react.UiComponent
 import scommons.react.redux.BaseStateController
 import scommons.react.redux.task.{TaskManager, TaskManagerProps}
+import scommons.reactnative.Style
 
 object StarWarsTaskController
   extends BaseStateController[StarWarsStateDef, TaskManagerProps] {
 
   lazy val uiComponent: UiComponent[TaskManagerProps] = {
-    TaskManager.uiComponent = AppTaskManagerUi
+    TaskManager.uiComponent = new AppTaskManagerUi(
+      loadingProps = LoadingPopupProps(color = Style.Color.yellow)
+    )
     TaskManager.errorHandler = AppTaskManagerUi.errorHandler
     TaskManager
   }
