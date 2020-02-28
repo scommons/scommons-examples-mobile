@@ -17,8 +17,7 @@ object StarWarsApp extends ExamplesModule with CommonMobileModule {
       description := "Example StarWarsApp from the React Native in Action book, written in Scala.js",
 
       coverageExcludedPackages :=
-        "scommons.examples.starwars.BaseStateAndRouteController" +
-          ";scommons.examples.starwars.StarWarsApp" +
+        "scommons.examples.starwars.StarWarsApp" +
           ";scommons.examples.starwars.StarWarsActions"
     )
 
@@ -28,9 +27,7 @@ object StarWarsApp extends ExamplesModule with CommonMobileModule {
 
   override def superRepoProjectsDependencies: Seq[(String, String, Option[String])] = {
     super.superRepoProjectsDependencies ++ Seq(
-      ("scommons-api", "scommons-api-dom", None),
-      ("scommons-react-native", "scommons-react-navigation", None),
-      ("scommons-react", "scommons-react-redux", None),
+      ("scommons-react-native", "scommons-react-native-ui", None),
 
       ("scommons-react", "scommons-react-test-dom", Some("test"))
     )
@@ -38,9 +35,7 @@ object StarWarsApp extends ExamplesModule with CommonMobileModule {
   
   override def runtimeDependencies: Def.Initialize[Seq[ModuleID]] = Def.setting {
     super.runtimeDependencies.value ++ Seq(
-      Libs.scommonsApiDom.value,
-      Libs.scommonsReactNavigation.value,
-      Libs.scommonsReactRedux.value
+      Libs.scommonsReactNativeUi.value
     )
   }
   
