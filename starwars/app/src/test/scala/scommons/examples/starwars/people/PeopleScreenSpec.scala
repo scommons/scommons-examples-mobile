@@ -1,7 +1,6 @@
 package scommons.examples.starwars.people
 
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
-import org.scalatest.Succeeded
 import scommons.examples.starwars.Container
 import scommons.examples.starwars.api.people._
 import scommons.examples.starwars.people.PeopleActions._
@@ -14,7 +13,7 @@ import scommons.react.test.raw.ShallowInstance
 import scommons.react.test.util.{ShallowRendererUtils, TestRendererUtils}
 import scommons.reactnative.FlatList._
 import scommons.reactnative._
-import scommons.reactnative.raw.FlatList
+import scommons.reactnative.raw.{FlatList, Picker, TouchableHighlight}
 
 import scala.concurrent.Future
 import scala.scalajs.js
@@ -24,13 +23,59 @@ class PeopleScreenSpec extends TestSpec
   with ShallowRendererUtils
   with TestRendererUtils {
 
+  it should "toggle Picker when onPress in filter" in {
+    //given
+    val props = getPeopleScreenProps()
+    val renderer = createRenderer()
+    renderer.render(<(PeopleScreen())(^.wrapped := props)())
+    assertPeopleScreen(renderer.getRenderOutput(), props)
+    val List(filter) = findComponents(renderer.getRenderOutput(), TouchableHighlight)
+
+    //when & then
+    filter.props.onPress()
+    assertPeopleScreen(renderer.getRenderOutput(), props, pickerVisible = true)
+
+    //when & then
+    filter.props.onPress()
+    assertPeopleScreen(renderer.getRenderOutput(), props)
+  }
+
+  it should "filter data when onValueChange in Picker" in {
+    //given
+    val props = getPeopleScreenProps()
+    val renderer = createRenderer()
+    renderer.render(<(PeopleScreen())(^.wrapped := props)())
+    val List(filter) = findComponents(renderer.getRenderOutput(), TouchableHighlight)
+    filter.props.onPress()
+    assertPeopleScreen(renderer.getRenderOutput(), props, pickerVisible = true)
+    val List(picker) = findComponents(renderer.getRenderOutput(), Picker)
+
+    //when & then
+    picker.props.onValueChange("male", 2)
+    assertPeopleScreen(renderer.getRenderOutput(), props.copy(
+      data = props.data.copy(dataList = props.data.dataList.filter(_.gender == "male"))
+    ), gender = "male", pickerVisible = true)
+    
+    //when & then
+    picker.props.onValueChange("female", 3)
+    assertPeopleScreen(renderer.getRenderOutput(), props.copy(
+      data = props.data.copy(dataList = props.data.dataList.filter(_.gender == "female"))
+    ), gender = "female", pickerVisible = true)
+    
+    //when & then
+    picker.props.onValueChange("n/a", 4)
+    assertPeopleScreen(renderer.getRenderOutput(), props.copy(
+      data = props.data.copy(dataList = Nil)
+    ), gender = "n/a", pickerVisible = true)
+  }
+
   it should "dispatch actions if dataList is empty when mount" in {
     //given
     val dispatch = mockFunction[Any, Any]
     val actions = mock[PeopleActions]
     val props = {
       val props = getPeopleScreenProps(dispatch, actions = actions)
-      props.copy(state = props.state.copy(dataList = Nil))
+      props.copy(data = props.data.copy(dataList = Nil))
     }
     val listFetchAction = PeopleListFetchAction(
       FutureTask("Fetching People", Future.successful(PeopleResp(Nil)))
@@ -45,7 +90,6 @@ class PeopleScreenSpec extends TestSpec
 
     //cleanup
     renderer.unmount()
-    Succeeded
   }
 
   it should "not dispatch actions if dataList is non-empty when mount" in {
@@ -61,7 +105,6 @@ class PeopleScreenSpec extends TestSpec
 
     //cleanup
     renderer.unmount()
-    Succeeded
   }
 
   it should "return data.name from keyExtractor" in {
@@ -69,7 +112,7 @@ class PeopleScreenSpec extends TestSpec
     val props = getPeopleScreenProps()
     val comp = shallowRender(<(PeopleScreen())(^.wrapped := props)())
     val List(flatList) = findComponents(comp, FlatList)
-    val data = props.state.dataList.head
+    val data = props.data.dataList.head
     
     //when
     val result = flatList.props.keyExtractor(data.asInstanceOf[js.Any])
@@ -84,7 +127,7 @@ class PeopleScreenSpec extends TestSpec
     val comp = shallowRender(<(PeopleScreen())(^.wrapped := props)())
     val List(flatList) = findComponents(comp, FlatList)
     val itemMock = mock[FlatListDataMock]
-    val data = props.state.dataList.head
+    val data = props.data.dataList.head
     (itemMock.item _).expects().returning(data)
 
     //when
@@ -104,7 +147,7 @@ class PeopleScreenSpec extends TestSpec
     )
   }
 
-  it should "render main component" in {
+  it should "render component with closed filter" in {
     //given
     val props = getPeopleScreenProps()
     val component = <(PeopleScreen())(^.wrapped := props)()
@@ -113,29 +156,29 @@ class PeopleScreenSpec extends TestSpec
     val result = shallowRender(component)
 
     //then
-    assertNativeComponent(result,
-      <(Container())()(
-        <.FlatList(
-          ^.flatListData := js.Array(props.state.dataList: _*)
-        )()
-      )
-    )
+    assertPeopleScreen(result, props)
   }
   
   private def getPeopleScreenProps(dispatch: Dispatch = mock[Dispatch],
                                    actions: PeopleActions = mock[PeopleActions],
-                                   state: PeopleState = PeopleState(List(
+                                   data: PeopleState = PeopleState(List(
                                      PeopleData(
-                                       name = "Test",
+                                       name = "Test Male",
                                        height = "180",
                                        birth_year = "1981",
                                        gender = "male"
+                                     ),
+                                     PeopleData(
+                                       name = "Test Female",
+                                       height = "190",
+                                       birth_year = "1991",
+                                       gender = "female"
                                      )
                                    ))): PeopleScreenProps = {
     PeopleScreenProps(
       dispatch = dispatch,
       actions = actions,
-      state = state
+      data = data
     )
   }
   
@@ -148,6 +191,40 @@ class PeopleScreenSpec extends TestSpec
     }
 
     shallowRender(<(wrapper())()())
+  }
+  
+  private def assertPeopleScreen(result: ShallowInstance,
+                                 props: PeopleScreenProps,
+                                 gender: String = "all",
+                                 pickerVisible: Boolean = false): Unit = {
+    assertNativeComponent(result,
+      <(Container())()(
+        <.TouchableHighlight(^.rnStyle := styles.pickerToggleContainer)(
+          <.Text(^.rnStyle := styles.pickerToggle)(
+            if (pickerVisible) "Close Filter"
+            else "Open Filter"
+          )
+        ),
+
+        <.FlatList(
+          ^.flatListData := js.Array(props.data.dataList: _*)
+        )(),
+
+        if (pickerVisible) Some(
+          <.View(^.rnStyle := styles.pickerContainer)(
+            <.Picker(
+              ^.rnStyle := styles.picker,
+              ^.selectedValue := gender
+            )(
+              <.PickerItem(^.rnStyle := styles.pickerAll, ^.label := "All", ^.value := "all")(),
+              <.PickerItem(^.label := "Males", ^.value := "male")(),
+              <.PickerItem(^.label := "Females", ^.value := "female")(),
+              <.PickerItem(^.label := "Other", ^.value := "n/a")()
+            )
+          )
+        ) else None
+      )
+    )
   }
 }
 

@@ -17,7 +17,7 @@ class PeopleController(actions: PeopleActions)
     PeopleScreenProps(
       dispatch = dispatch,
       actions = actions,
-      state = state.peopleState
+      data = state.peopleState
     )
   }
 }
