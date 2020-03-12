@@ -1,6 +1,7 @@
 package scommons.examples.starwars.people
 
 import scommons.examples.starwars.api.people._
+import scommons.examples.starwars.api.planet.PlanetData
 import scommons.examples.starwars.people.PeopleActions._
 import scommons.examples.starwars.people.PeopleActionsSpec._
 import scommons.react.redux.task.FutureTask
@@ -28,6 +29,27 @@ class PeopleActionsSpec extends AsyncTestSpec {
 
     //then
     message shouldBe "Fetching People"
+    future.map { resp =>
+      resp shouldBe expectedResp
+    }
+  }
+  
+  it should "return HomeWorldFetchAction when homeWorldFetch" in {
+    //given
+    val api = mock[PeopleApi]
+    val actions = new PeopleActionsTest(api)
+    val expectedResp = mock[PlanetData]
+    val url = "/some/homeworld/url"
+
+    (api.getHomeWorld _).expects(url)
+      .returning(Future.successful(expectedResp))
+
+    //when
+    val HomeWorldFetchAction(FutureTask(message, future)) =
+      actions.homeWorldFetch(url)
+
+    //then
+    message shouldBe "Fetching HomeWorld"
     future.map { resp =>
       resp shouldBe expectedResp
     }

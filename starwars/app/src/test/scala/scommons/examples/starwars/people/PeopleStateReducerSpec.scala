@@ -20,7 +20,8 @@ class PeopleStateReducerSpec extends TestSpec {
         name = "Test",
         height = "180",
         birth_year = "1981",
-        gender = "male"
+        gender = "male",
+        homeworld = "/some/homeworld/url"
       )
     )
 

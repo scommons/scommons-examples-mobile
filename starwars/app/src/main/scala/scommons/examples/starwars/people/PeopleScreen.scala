@@ -3,12 +3,16 @@ package scommons.examples.starwars.people
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import scommons.examples.starwars.Container
 import scommons.examples.starwars.api.people.PeopleData
+import scommons.examples.starwars.api.planet.PlanetData
 import scommons.react._
 import scommons.react.hooks._
 import scommons.reactnative.FlatList._
+import scommons.reactnative.Modal._
 import scommons.reactnative._
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.scalajs.js
+import scala.util.Success
 
 case class PeopleScreenProps(dispatch: Dispatch,
                              actions: PeopleActions,
@@ -17,6 +21,7 @@ case class PeopleScreenProps(dispatch: Dispatch,
 object PeopleScreen extends FunctionComponent[PeopleScreenProps] {
 
   private case class PeopleScreenState(gender: String = "all",
+                                       modalData: Option[PlanetData] = None,
                                        pickerVisible: Boolean = false)
   
   protected def render(compProps: Props): ReactElement = {
@@ -30,6 +35,19 @@ object PeopleScreen extends FunctionComponent[PeopleScreenProps] {
       }
       ()
     }, Nil)
+    
+    def openHomeWorld(url: String): Unit = {
+      val action = props.actions.homeWorldFetch(url)
+      props.dispatch(action)
+
+      action.task.future.andThen {
+        case Success(data) => setState(s => s.copy(modalData = Some(data)))
+      }
+    }
+    
+    val closeModal: js.Function0[Unit] = { () =>
+      setState(s => s.copy(modalData = None))
+    }
     
     val togglePicker: js.Function0[Unit] = { () =>
       setState(s => s.copy(pickerVisible = !s.pickerVisible))
@@ -45,7 +63,9 @@ object PeopleScreen extends FunctionComponent[PeopleScreenProps] {
         <.Text(^.rnStyle := styles.info)(s"Height: ${item.height}"),
         <.Text(^.rnStyle := styles.info)(s"Birth Year: ${item.birth_year}"),
         <.Text(^.rnStyle := styles.info)(s"Gender: ${item.gender}"),
-        <.TouchableHighlight(^.onPress := { () => })(
+        <.TouchableHighlight(^.onPress := { () =>
+          openHomeWorld(item.homeworld)
+        })(
           <.Text(^.rnStyle := styles.info)("View Homeworld")
         )
       )
@@ -73,6 +93,12 @@ object PeopleScreen extends FunctionComponent[PeopleScreenProps] {
         }
       )(),
 
+      state.modalData.map { data =>
+        <.Modal(^.animationType := AnimationType.slide)(
+          <(HomeWorld())(^.wrapped := HomeWorldProps(data, closeModal))()
+        )
+      },
+      
       if (state.pickerVisible) Some(
         <.View(^.rnStyle := styles.pickerContainer)(
           <.Picker(

@@ -1,25 +1,28 @@
 package scommons.examples.starwars.people
 
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
+import org.scalatest.{Assertion, Succeeded}
 import scommons.examples.starwars.Container
 import scommons.examples.starwars.api.people._
+import scommons.examples.starwars.api.planet.PlanetData
 import scommons.examples.starwars.people.PeopleActions._
 import scommons.examples.starwars.people.PeopleScreen._
 import scommons.examples.starwars.people.PeopleScreenSpec.FlatListDataMock
 import scommons.react._
 import scommons.react.redux.task.FutureTask
-import scommons.react.test.TestSpec
+import scommons.react.test.dom.AsyncTestSpec
 import scommons.react.test.raw.ShallowInstance
 import scommons.react.test.util.{ShallowRendererUtils, TestRendererUtils}
 import scommons.reactnative.FlatList._
+import scommons.reactnative.Modal._
 import scommons.reactnative._
-import scommons.reactnative.raw.{FlatList, Picker, TouchableHighlight}
+import scommons.reactnative.raw.{FlatList, Modal, Picker, TouchableHighlight}
 
 import scala.concurrent.Future
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSExportAll
 
-class PeopleScreenSpec extends TestSpec
+class PeopleScreenSpec extends AsyncTestSpec
   with ShallowRendererUtils
   with TestRendererUtils {
 
@@ -90,6 +93,7 @@ class PeopleScreenSpec extends TestSpec
 
     //cleanup
     renderer.unmount()
+    Succeeded
   }
 
   it should "not dispatch actions if dataList is non-empty when mount" in {
@@ -105,6 +109,7 @@ class PeopleScreenSpec extends TestSpec
 
     //cleanup
     renderer.unmount()
+    Succeeded
   }
 
   it should "return data.name from keyExtractor" in {
@@ -119,6 +124,55 @@ class PeopleScreenSpec extends TestSpec
     
     //then
     result shouldBe data.name
+  }
+
+  it should "dispatch action and show modal when press View Homeworld" in {
+    //given
+    val dispatch = mockFunction[Any, Any]
+    val actions = mock[PeopleActions]
+    val props = getPeopleScreenProps(dispatch, actions)
+    val data = props.data.dataList.head
+    val renderer = createRenderer()
+    renderer.render(<(PeopleScreen())(^.wrapped := props)())
+    findComponents(renderer.getRenderOutput(), Modal) shouldBe Nil
+    
+    val itemMock = mock[FlatListDataMock]
+    (itemMock.item _).expects().returning(data)
+    
+    val List(flatList) = findComponents(renderer.getRenderOutput(), FlatList)
+    val itemComp = renderItem(flatList, itemMock)
+    val List(btn) = findComponents(itemComp, TouchableHighlight)
+
+    val planetData = mock[PlanetData]
+    val homeWorldFetchAction = HomeWorldFetchAction(
+      FutureTask("Fetching HomeWorld", Future.successful(planetData))
+    )
+    (actions.homeWorldFetch _).expects(data.homeworld).returning(homeWorldFetchAction)
+
+    //then
+    dispatch.expects(homeWorldFetchAction)
+    
+    //when
+    btn.props.onPress()
+    
+    homeWorldFetchAction.task.future.map { _ =>
+      //then
+      val List(modal) = findComponents(renderer.getRenderOutput(), Modal)
+      
+      assertNativeComponent(modal, <.Modal(^.animationType := AnimationType.slide)(), {
+        children: List[ShallowInstance] =>
+          val List(homeworld) = children
+          assertComponent(homeworld, HomeWorld) { case HomeWorldProps(planet, closeModal) =>
+            planet shouldBe planetData
+
+            //when
+            closeModal()
+              
+            //then
+            findComponents(renderer.getRenderOutput(), Modal) shouldBe Nil
+          }
+      })
+    }
   }
 
   it should "render item" in {
@@ -166,13 +220,15 @@ class PeopleScreenSpec extends TestSpec
                                        name = "Test Male",
                                        height = "180",
                                        birth_year = "1981",
-                                       gender = "male"
+                                       gender = "male",
+                                       homeworld = "/some/homeworld/url"
                                      ),
                                      PeopleData(
                                        name = "Test Female",
                                        height = "190",
                                        birth_year = "1991",
-                                       gender = "female"
+                                       gender = "female",
+                                       homeworld = "/some/homeworld/url2"
                                      )
                                    ))): PeopleScreenProps = {
     PeopleScreenProps(
@@ -196,7 +252,7 @@ class PeopleScreenSpec extends TestSpec
   private def assertPeopleScreen(result: ShallowInstance,
                                  props: PeopleScreenProps,
                                  gender: String = "all",
-                                 pickerVisible: Boolean = false): Unit = {
+                                 pickerVisible: Boolean = false): Assertion = {
     assertNativeComponent(result,
       <(Container())()(
         <.TouchableHighlight(^.rnStyle := styles.pickerToggleContainer)(

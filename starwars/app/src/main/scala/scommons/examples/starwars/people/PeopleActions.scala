@@ -3,6 +3,7 @@ package scommons.examples.starwars.people
 import io.github.shogowada.scalajs.reactjs.redux.Action
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import scommons.examples.starwars.api.people._
+import scommons.examples.starwars.api.planet.PlanetData
 import scommons.examples.starwars.people.PeopleActions._
 import scommons.react.redux.task.{FutureTask, TaskAction}
 
@@ -21,10 +22,18 @@ trait PeopleActions {
 
     PeopleListFetchAction(FutureTask("Fetching People", future))
   }
+  
+  def homeWorldFetch(url: String): HomeWorldFetchAction = {
+    val future = client.getHomeWorld(url)
+
+    HomeWorldFetchAction(FutureTask("Fetching HomeWorld", future))
+  }
 }
 
 object PeopleActions {
 
   case class PeopleListFetchAction(task: FutureTask[PeopleResp]) extends TaskAction
   case class PeopleListFetchedAction(dataList: List[PeopleData]) extends Action
+  
+  case class HomeWorldFetchAction(task: FutureTask[PlanetData]) extends TaskAction
 }
