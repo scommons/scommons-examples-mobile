@@ -15,7 +15,7 @@ sbt test
 
 ## Examples
 
-* [TodoApp](todos/README.md)
+* [TodoApp](todos/bare/README.md)
 
 * [StarWarsApp](starwars/app/README.md)
   

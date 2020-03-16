@@ -13,7 +13,12 @@ lazy val `scommons-examples-mobile` = (project in file("."))
     `scommons-examples-mobile-starwars`
 )
 
-lazy val `scommons-examples-mobile-todos` = ExamplesTodos.definition
+lazy val `scommons-examples-mobile-todos-app` = TodoApp.definition
+lazy val `scommons-examples-mobile-todos-bare` = TodoBare.definition
+lazy val `scommons-examples-mobile-todos` = (project in file("todos")).aggregate(
+  `scommons-examples-mobile-todos-app`,
+  `scommons-examples-mobile-todos-bare`
+)
 
 lazy val `scommons-examples-mobile-starwars-api-jvm` = StarWarsApi.jvm
 lazy val `scommons-examples-mobile-starwars-api-js` = StarWarsApi.js

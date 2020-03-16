@@ -4,11 +4,11 @@ import sbt.Keys._
 import sbt._
 import scommons.sbtplugin.project.CommonMobileModule
 
-object ExamplesTodos extends ExamplesModule with CommonMobileModule {
+object TodoApp extends ExamplesModule with CommonMobileModule {
 
-  override val id = "scommons-examples-mobile-todos"
+  override val id = "scommons-examples-mobile-todos-app"
 
-  override val base: File = file("todos")
+  override val base: File = file("todos/app")
 
   override def definition: Project = super.definition
     .settings(
