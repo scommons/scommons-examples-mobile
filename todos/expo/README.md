@@ -1,7 +1,7 @@
 
-## scommons-examples-mobile-todos-bare
+## scommons-examples-mobile-todos-expo
 
-Example bare `react-native` `Todos` application written in `Scala.js`
+Example expo `react-native` `Todos` application written in `Scala.js`
 from a great book: [React Native in Action](https://github.com/dabit3/react-native-in-action)
 
 ![TodoApp](../../docs/images/TodoApp.png)
@@ -12,39 +12,25 @@ from a great book: [React Native in Action](https://github.com/dabit3/react-nati
 * [mobile browser](https://scommons.org/scommons-examples-mobile/todos.html)
 * [web emulator](https://scommons.org/scommons-examples-mobile/todos.browser.html)
 
-### Initial setup
-
-Install cocoapods:
-
-```bash
-cd todos/bare
-gem install cocoapods
-```
-
-Install dependencies:
-
-```bash
-cd todos/bare/ios
-pod install
-```
-
-To resolve errors/issues with the setup:
-```bash
-cd todos/bare
-npx react-native doctor
-```
-
 ### How to Build App locally
 
 First, build the app with the following command:
 ```bash
-sbt "project scommons-examples-mobile-todos-bare" fastOptJS
+sbt "project scommons-examples-mobile-todos-expo" fastOptJS
 ```
 
-### How to Run App in iOS Emulator
+### How to Run App in Emulator
 
 Use the following command:
 ```bash
-cd todos/bare
-npx react-native run-ios
+cd todos/expo
+expo start --ios
+expo start --web
+expo start --android
+```
+
+To build web-assets, use the following command:
+```bash
+cd todos/expo
+expo build:web --no-pwa
 ```
