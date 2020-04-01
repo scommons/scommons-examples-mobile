@@ -10,13 +10,7 @@ Almost all examples are from an excellent book [React Native in Action](https://
 
 Example apps:
 
-- [TodoApp](https://github.com/scommons/scommons-examples-mobile/tree/master/todos/expo)
-  ([mobile](/scommons-examples-mobile/todos.html), [web emulator](/scommons-examples-mobile/todos.browser.html))
+[TodoApp](https://github.com/scommons/scommons-examples-mobile/tree/master/todos/expo) ([mobile](/scommons-examples-mobile/todos.html), [web emulator](/scommons-examples-mobile/todos.browser.html)) | [StarWarsApp](https://github.com/scommons/scommons-examples-mobile/tree/master/starwars/app) ([mobile](/scommons-examples-mobile/starwars.html), [web emulator](/scommons-examples-mobile/starwars.browser.html)) 
+--- | ---
+![TodoApp](images/TodoApp.png) | ![StarWarsApp](images/StarWarsApp.png)
 
-    ![TodoApp](images/TodoApp.png)
-
-
-- [StarWarsApp](https://github.com/scommons/scommons-examples-mobile/tree/master/starwars/app)
-  ([mobile](/scommons-examples-mobile/starwars.html), [web emulator](/scommons-examples-mobile/starwars.browser.html))
-
-    ![StarWarsApp](images/StarWarsApp.png)
