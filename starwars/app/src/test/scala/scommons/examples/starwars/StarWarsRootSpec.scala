@@ -2,7 +2,6 @@ package scommons.examples.starwars
 
 import scommons.examples.starwars.StarWarsRoot._
 import scommons.react.navigation._
-import scommons.react.navigation.stack._
 import scommons.react.test.TestSpec
 import scommons.react.test.util.ShallowRendererUtils
 

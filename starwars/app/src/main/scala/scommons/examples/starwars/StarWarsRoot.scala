@@ -42,7 +42,7 @@ object StarWarsRoot {
     }
   }.apply()
 
-  private[starwars] lazy val screenOptions = new ScreenOptions {
+  private[starwars] lazy val screenOptions = new StackScreenOptions {
 
     override val headerStyle = styles.header
     override val headerTintColor = "#ffe81f"

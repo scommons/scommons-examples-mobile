@@ -50,7 +50,7 @@ object StarWarsScreen extends FunctionComponent[StarWarsScreenProps] {
     )
   }
 
-  lazy val options: ScreenOptions = new ScreenOptions {
+  lazy val options: StackScreenOptions = new StackScreenOptions {
 
     override val headerTitle = { _: js.Dynamic =>
       headerTitleComp
