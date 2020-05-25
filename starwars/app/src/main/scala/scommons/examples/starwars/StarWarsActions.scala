@@ -1,6 +1,6 @@
 package scommons.examples.starwars
 
-import scommons.api.http.dom.DomApiHttpClient
+import scommons.api.http.xhr.XhrApiHttpClient
 import scommons.examples.starwars.api.StarWarsApiClient
 import scommons.examples.starwars.people.PeopleActions
 
@@ -10,6 +10,6 @@ trait StarWarsActions
 object StarWarsActions extends StarWarsActions {
 
   protected val client: StarWarsApiClient = {
-    new StarWarsApiClient(new DomApiHttpClient(""))
+    new StarWarsApiClient(new XhrApiHttpClient(""))
   }
 }
