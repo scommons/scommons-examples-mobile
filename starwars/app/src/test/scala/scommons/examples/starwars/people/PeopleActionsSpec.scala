@@ -4,8 +4,8 @@ import scommons.examples.starwars.api.people._
 import scommons.examples.starwars.api.planet.PlanetData
 import scommons.examples.starwars.people.PeopleActions._
 import scommons.examples.starwars.people.PeopleActionsSpec._
+import scommons.nodejs.test.AsyncTestSpec
 import scommons.react.redux.task.FutureTask
-import scommons.react.test.dom.AsyncTestSpec
 
 import scala.concurrent.Future
 

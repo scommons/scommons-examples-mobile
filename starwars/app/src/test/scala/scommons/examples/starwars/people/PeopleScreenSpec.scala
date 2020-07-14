@@ -8,11 +8,10 @@ import scommons.examples.starwars.api.planet.PlanetData
 import scommons.examples.starwars.people.PeopleActions._
 import scommons.examples.starwars.people.PeopleScreen._
 import scommons.examples.starwars.people.PeopleScreenSpec.FlatListDataMock
+import scommons.nodejs.test.AsyncTestSpec
 import scommons.react._
 import scommons.react.redux.task.FutureTask
-import scommons.react.test.dom.AsyncTestSpec
-import scommons.react.test.raw.ShallowInstance
-import scommons.react.test.util.{ShallowRendererUtils, TestRendererUtils}
+import scommons.react.test._
 import scommons.reactnative.FlatList._
 import scommons.reactnative.Modal._
 import scommons.reactnative._
@@ -23,6 +22,7 @@ import scala.scalajs.js
 import scala.scalajs.js.annotation.JSExportAll
 
 class PeopleScreenSpec extends AsyncTestSpec
+  with BaseTestSpec
   with ShallowRendererUtils
   with TestRendererUtils {
 
