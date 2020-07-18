@@ -13,7 +13,7 @@ class StarWarsApiClient(client: ApiHttpClient)
   // people api
 
   def getPeople: Future[PeopleResp] = {
-    client.execGet[PeopleResp]("https://swapi.co/api/people/")
+    client.execGet[PeopleResp]("https://swapi.dev/api/people/")
   }
 
   def getHomeWorld(url: String): Future[PlanetData] = {
