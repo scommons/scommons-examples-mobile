@@ -1,5 +1,5 @@
 
-[![Build Status](https://travis-ci.org/scommons/scommons-examples-mobile.svg?branch=master)](https://travis-ci.org/scommons/scommons-examples-mobile)
+[![Build Status](https://travis-ci.com/scommons/scommons-examples-mobile.svg?branch=master)](https://travis-ci.com/scommons/scommons-examples-mobile)
 [![Coverage Status](https://coveralls.io/repos/github/scommons/scommons-examples-mobile/badge.svg?branch=master)](https://coveralls.io/github/scommons/scommons-examples-mobile?branch=master)
 [![Scala.js](https://www.scala-js.org/assets/badges/scalajs-0.6.17.svg)](https://www.scala-js.org)
 
