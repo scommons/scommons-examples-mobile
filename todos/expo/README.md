@@ -21,7 +21,13 @@ sbt "project scommons-examples-mobile-todos-expo" fastOptJS
 
 ### How to Run App in Emulator
 
-Use the following command:
+Please make sure you have `expo-cli` **version 3** installed
+globally:
+```bash
+npm i expo-cli@3 -g
+```
+
+To run the application locally, use the following command(s):
 ```bash
 cd todos/expo
 expo start --ios

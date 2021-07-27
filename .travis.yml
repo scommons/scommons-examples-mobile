@@ -12,9 +12,8 @@ before_install:
 - node --version &&
   npm --version
 script:
-- sbt clean coverage test coverageReport &&
-  sbt coverageAggregate &&
-  sbt coveralls
+- sbt clean coverage test &&
+  sbt coverageAggregate coveralls
 cache:
   directories:
   - ~/.npm

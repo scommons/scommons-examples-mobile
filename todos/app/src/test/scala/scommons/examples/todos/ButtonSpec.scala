@@ -1,5 +1,6 @@
 package scommons.examples.todos
 
+import scommons.examples.todos.Button
 import scommons.react.test.TestSpec
 import scommons.react.test.util.ShallowRendererUtils
 import scommons.reactnative._
