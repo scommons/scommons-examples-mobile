@@ -1,20 +1,18 @@
 package scommons.examples.todos
 
-import scommons.react.test.TestSpec
-import scommons.react.test.raw.ShallowInstance
-import scommons.react.test.util.ShallowRendererUtils
+import scommons.react.test._
 import scommons.reactnative._
 
 import scala.scalajs.js
 
-class TabBarItemSpec extends TestSpec with ShallowRendererUtils {
+class TabBarItemSpec extends TestSpec with TestRendererUtils {
 
   it should "call onPress when onPress" in {
     //given
     val onPress = mockFunction[Unit]
     val props = TabBarItemProps(border = false, title = "Item", selected = false, onPress)
-    val comp = shallowRender(<(TabBarItem())(^.wrapped := props)())
-    val button = findComponents(comp, raw.TouchableHighlight).head
+    val comp = testRender(<(TabBarItem())(^.wrapped := props)())
+    val button = findComponents(comp, <.TouchableHighlight.reactClass).head
     
     //then
     onPress.expects()
@@ -30,7 +28,7 @@ class TabBarItemSpec extends TestSpec with ShallowRendererUtils {
     val component = <(TabBarItem())(^.wrapped := props)()
     
     //when
-    val result = shallowRender(component)
+    val result = testRender(component)
     
     //then
     assertTabBarItem(result, props,
@@ -46,7 +44,7 @@ class TabBarItemSpec extends TestSpec with ShallowRendererUtils {
     val component = <(TabBarItem())(^.wrapped := props)()
 
     //when
-    val result = shallowRender(component)
+    val result = testRender(component)
 
     //then
     assertTabBarItem(result, props,
@@ -62,7 +60,7 @@ class TabBarItemSpec extends TestSpec with ShallowRendererUtils {
     val component = <(TabBarItem())(^.wrapped := props)()
     
     //when
-    val result = shallowRender(component)
+    val result = testRender(component)
     
     //then
     assertTabBarItem(result, props,
@@ -78,7 +76,7 @@ class TabBarItemSpec extends TestSpec with ShallowRendererUtils {
     val component = <(TabBarItem())(^.wrapped := props)()
 
     //when
-    val result = shallowRender(component)
+    val result = testRender(component)
 
     //then
     assertTabBarItem(result, props,
@@ -87,7 +85,7 @@ class TabBarItemSpec extends TestSpec with ShallowRendererUtils {
     )
   }
 
-  private def assertTabBarItem(result: ShallowInstance,
+  private def assertTabBarItem(result: TestInstance,
                                props: TabBarItemProps,
                                itemStyle: List[Style],
                                textStyle: List[Style]): Unit = {

@@ -2,18 +2,16 @@ package scommons.examples.todos
 
 import org.scalatest.Succeeded
 import scommons.examples.todos.Button
-import scommons.react.test.TestSpec
-import scommons.react.test.util.ShallowRendererUtils
+import scommons.react.test._
 import scommons.reactnative._
 import scommons.reactnative.ScrollView._
 
-class TodoAppSpec extends TestSpec with ShallowRendererUtils {
+class TodoAppSpec extends TestSpec with TestRendererUtils {
 
   it should "update input text in state when inputChange" in {
     //given
-    val renderer = createRenderer()
-    renderer.render(<(TodoApp()).empty)
-    val inputProps = findComponentProps(renderer.getRenderOutput(), Input)
+    val renderer = createTestRenderer(<(TodoApp()).empty)
+    val inputProps = findComponentProps(renderer.root, Input)
     inputProps.inputValue shouldBe ""
     val text = "updated text"
 
@@ -21,33 +19,32 @@ class TodoAppSpec extends TestSpec with ShallowRendererUtils {
     inputProps.inputChange(text)
     
     //then
-    renderer.render(<(TodoApp()).empty)
-    findComponentProps(renderer.getRenderOutput(), Input).inputValue shouldBe text
+    renderer.update(<(TodoApp()).empty)
+    findComponentProps(renderer.root, Input).inputValue shouldBe text
   }
   
   it should "add todo, clear input and increment todoId when submitTodo" in {
     //given
-    val renderer = createRenderer()
-    renderer.render(<(TodoApp()).empty)
-    findComponentProps(renderer.getRenderOutput(), TodoList).todos shouldBe Nil
+    val renderer = createTestRenderer(<(TodoApp()).empty)
+    findComponentProps(renderer.root, TodoList).todos shouldBe Nil
 
     //when & then
     val todo1 = "todo1"
-    findComponentProps(renderer.getRenderOutput(), Input).inputChange(todo1)
-    findComponentProps(renderer.getRenderOutput(), Button).submitTodo()
-    renderer.render(<(TodoApp()).empty)
-    findComponentProps(renderer.getRenderOutput(), Input).inputValue shouldBe ""
-    findComponentProps(renderer.getRenderOutput(), TodoList).todos shouldBe List(
+    findComponentProps(renderer.root, Input).inputChange(todo1)
+    findComponentProps(renderer.root, Button).submitTodo()
+    renderer.update(<(TodoApp()).empty)
+    findComponentProps(renderer.root, Input).inputValue shouldBe ""
+    findComponentProps(renderer.root, TodoList).todos shouldBe List(
       TodoData(1, todo1, complete = false)
     )
     
     //when & then
     val todo2 = "todo2"
-    findComponentProps(renderer.getRenderOutput(), Input).inputChange(todo2)
-    findComponentProps(renderer.getRenderOutput(), Button).submitTodo()
-    renderer.render(<(TodoApp()).empty)
-    findComponentProps(renderer.getRenderOutput(), Input).inputValue shouldBe ""
-    findComponentProps(renderer.getRenderOutput(), TodoList).todos shouldBe List(
+    findComponentProps(renderer.root, Input).inputChange(todo2)
+    findComponentProps(renderer.root, Button).submitTodo()
+    renderer.update(<(TodoApp()).empty)
+    findComponentProps(renderer.root, Input).inputValue shouldBe ""
+    findComponentProps(renderer.root, TodoList).todos shouldBe List(
       TodoData(1, todo1, complete = false),
       TodoData(2, todo2, complete = false)
     )
@@ -55,85 +52,83 @@ class TodoAppSpec extends TestSpec with ShallowRendererUtils {
   
   it should "delete todo from state when deleteTodo" in {
     //given
-    val renderer = createRenderer()
-    renderer.render(<(TodoApp()).empty)
+    val renderer = createTestRenderer(<(TodoApp()).empty)
 
     val todo1 = "todo1"
-    findComponentProps(renderer.getRenderOutput(), Input).inputChange(todo1)
-    findComponentProps(renderer.getRenderOutput(), Button).submitTodo()
-    renderer.render(<(TodoApp()).empty)
-    findComponentProps(renderer.getRenderOutput(), Input).inputValue shouldBe ""
-    findComponentProps(renderer.getRenderOutput(), TodoList).todos shouldBe List(
+    findComponentProps(renderer.root, Input).inputChange(todo1)
+    findComponentProps(renderer.root, Button).submitTodo()
+    renderer.update(<(TodoApp()).empty)
+    findComponentProps(renderer.root, Input).inputValue shouldBe ""
+    findComponentProps(renderer.root, TodoList).todos shouldBe List(
       TodoData(1, todo1, complete = false)
     )
     
     val todo2 = "todo2"
-    findComponentProps(renderer.getRenderOutput(), Input).inputChange(todo2)
-    findComponentProps(renderer.getRenderOutput(), Button).submitTodo()
-    renderer.render(<(TodoApp()).empty)
-    findComponentProps(renderer.getRenderOutput(), Input).inputValue shouldBe ""
-    findComponentProps(renderer.getRenderOutput(), TodoList).todos shouldBe List(
+    findComponentProps(renderer.root, Input).inputChange(todo2)
+    findComponentProps(renderer.root, Button).submitTodo()
+    renderer.update(<(TodoApp()).empty)
+    findComponentProps(renderer.root, Input).inputValue shouldBe ""
+    findComponentProps(renderer.root, TodoList).todos shouldBe List(
       TodoData(1, todo1, complete = false),
       TodoData(2, todo2, complete = false)
     )
 
     //when & then
-    findComponentProps(renderer.getRenderOutput(), TodoList).deleteTodo(1)
-    renderer.render(<(TodoApp()).empty)
-    findComponentProps(renderer.getRenderOutput(), TodoList).todos shouldBe List(
+    findComponentProps(renderer.root, TodoList).deleteTodo(1)
+    renderer.update(<(TodoApp()).empty)
+    findComponentProps(renderer.root, TodoList).todos shouldBe List(
       TodoData(2, todo2, complete = false)
     )
     
     //when & then
-    findComponentProps(renderer.getRenderOutput(), TodoList).deleteTodo(2)
-    renderer.render(<(TodoApp()).empty)
-    findComponentProps(renderer.getRenderOutput(), TodoList).todos shouldBe Nil
+    findComponentProps(renderer.root, TodoList).deleteTodo(2)
+    renderer.update(<(TodoApp()).empty)
+    findComponentProps(renderer.root, TodoList).todos shouldBe Nil
   }
   
   it should "toggle todo complete state when toggleComplete" in {
     //given
-    val renderer = createRenderer()
-    renderer.render(<(TodoApp()).empty)
+    val renderer = createTestRenderer(<(TodoApp()).empty)
 
     val todo1 = "todo1"
-    findComponentProps(renderer.getRenderOutput(), Input).inputChange(todo1)
-    findComponentProps(renderer.getRenderOutput(), Button).submitTodo()
-    renderer.render(<(TodoApp()).empty)
-    findComponentProps(renderer.getRenderOutput(), Input).inputValue shouldBe ""
-    findComponentProps(renderer.getRenderOutput(), TodoList).todos shouldBe List(
+    findComponentProps(renderer.root, Input).inputChange(todo1)
+    findComponentProps(renderer.root, Button).submitTodo()
+    renderer.update(<(TodoApp()).empty)
+    findComponentProps(renderer.root, Input).inputValue shouldBe ""
+    findComponentProps(renderer.root, TodoList).todos shouldBe List(
       TodoData(1, todo1, complete = false)
     )
     
     val todo2 = "todo2"
-    findComponentProps(renderer.getRenderOutput(), Input).inputChange(todo2)
-    findComponentProps(renderer.getRenderOutput(), Button).submitTodo()
-    renderer.render(<(TodoApp()).empty)
-    findComponentProps(renderer.getRenderOutput(), Input).inputValue shouldBe ""
-    findComponentProps(renderer.getRenderOutput(), TodoList).todos shouldBe List(
+    findComponentProps(renderer.root, Input).inputChange(todo2)
+    findComponentProps(renderer.root, Button).submitTodo()
+    renderer.update(<(TodoApp()).empty)
+    findComponentProps(renderer.root, Input).inputValue shouldBe ""
+    findComponentProps(renderer.root, TodoList).todos shouldBe List(
       TodoData(1, todo1, complete = false),
       TodoData(2, todo2, complete = false)
     )
 
     //when & then
-    findComponentProps(renderer.getRenderOutput(), TodoList).toggleComplete(1)
-    renderer.render(<(TodoApp()).empty)
-    findComponentProps(renderer.getRenderOutput(), TodoList).todos shouldBe List(
+    findComponentProps(renderer.root, TodoList).toggleComplete(1)
+    renderer.update(<(TodoApp()).empty)
+    findComponentProps(renderer.root, TodoList).todos shouldBe List(
       TodoData(1, todo1, complete = true),
       TodoData(2, todo2, complete = false)
     )
     
     //when & then
-    findComponentProps(renderer.getRenderOutput(), TodoList).toggleComplete(1)
-    renderer.render(<(TodoApp()).empty)
-    findComponentProps(renderer.getRenderOutput(), TodoList).todos shouldBe List(
+    findComponentProps(renderer.root, TodoList).toggleComplete(1)
+    renderer.update(<(TodoApp()).empty)
+    findComponentProps(renderer.root, TodoList).todos shouldBe List(
       TodoData(1, todo1, complete = false),
       TodoData(2, todo2, complete = false)
     )
     
     //when & then
-    findComponentProps(renderer.getRenderOutput(), TodoList).toggleComplete(2)
-    renderer.render(<(TodoApp()).empty)
-    findComponentProps(renderer.getRenderOutput(), TodoList).todos shouldBe List(
+    findComponentProps(renderer.root, TodoList).toggleComplete(2)
+    renderer.update(<(TodoApp()).empty)
+    findComponentProps(renderer.root, TodoList).todos shouldBe List(
       TodoData(1, todo1, complete = false),
       TodoData(2, todo2, complete = true)
     )
@@ -141,47 +136,46 @@ class TodoAppSpec extends TestSpec with ShallowRendererUtils {
   
   it should "change visible todos when setType" in {
     //given
-    val renderer = createRenderer()
-    renderer.render(<(TodoApp()).empty)
+    val renderer = createTestRenderer(<(TodoApp()).empty)
 
     val todo1 = "todo1"
-    findComponentProps(renderer.getRenderOutput(), Input).inputChange(todo1)
-    findComponentProps(renderer.getRenderOutput(), Button).submitTodo()
-    findComponentProps(renderer.getRenderOutput(), TodoList).toggleComplete(1)
-    renderer.render(<(TodoApp()).empty)
-    findComponentProps(renderer.getRenderOutput(), Input).inputValue shouldBe ""
-    findComponentProps(renderer.getRenderOutput(), TodoList).todos shouldBe List(
+    findComponentProps(renderer.root, Input).inputChange(todo1)
+    findComponentProps(renderer.root, Button).submitTodo()
+    findComponentProps(renderer.root, TodoList).toggleComplete(1)
+    renderer.update(<(TodoApp()).empty)
+    findComponentProps(renderer.root, Input).inputValue shouldBe ""
+    findComponentProps(renderer.root, TodoList).todos shouldBe List(
       TodoData(1, todo1, complete = true)
     )
     
     val todo2 = "todo2"
-    findComponentProps(renderer.getRenderOutput(), Input).inputChange(todo2)
-    findComponentProps(renderer.getRenderOutput(), Button).submitTodo()
-    renderer.render(<(TodoApp()).empty)
-    findComponentProps(renderer.getRenderOutput(), Input).inputValue shouldBe ""
-    findComponentProps(renderer.getRenderOutput(), TodoList).todos shouldBe List(
+    findComponentProps(renderer.root, Input).inputChange(todo2)
+    findComponentProps(renderer.root, Button).submitTodo()
+    renderer.update(<(TodoApp()).empty)
+    findComponentProps(renderer.root, Input).inputValue shouldBe ""
+    findComponentProps(renderer.root, TodoList).todos shouldBe List(
       TodoData(1, todo1, complete = true),
       TodoData(2, todo2, complete = false)
     )
 
     //when & then
-    findComponentProps(renderer.getRenderOutput(), TabBar).setType(TodoType.Active)
-    renderer.render(<(TodoApp()).empty)
-    findComponentProps(renderer.getRenderOutput(), TodoList).todos shouldBe List(
+    findComponentProps(renderer.root, TabBar).setType(TodoType.Active)
+    renderer.update(<(TodoApp()).empty)
+    findComponentProps(renderer.root, TodoList).todos shouldBe List(
       TodoData(2, todo2, complete = false)
     )
     
     //when & then
-    findComponentProps(renderer.getRenderOutput(), TabBar).setType(TodoType.Complete)
-    renderer.render(<(TodoApp()).empty)
-    findComponentProps(renderer.getRenderOutput(), TodoList).todos shouldBe List(
+    findComponentProps(renderer.root, TabBar).setType(TodoType.Complete)
+    renderer.update(<(TodoApp()).empty)
+    findComponentProps(renderer.root, TodoList).todos shouldBe List(
       TodoData(1, todo1, complete = true)
     )
     
     //when & then
-    findComponentProps(renderer.getRenderOutput(), TabBar).setType(TodoType.All)
-    renderer.render(<(TodoApp()).empty)
-    findComponentProps(renderer.getRenderOutput(), TodoList).todos shouldBe List(
+    findComponentProps(renderer.root, TabBar).setType(TodoType.All)
+    renderer.update(<(TodoApp()).empty)
+    findComponentProps(renderer.root, TodoList).todos shouldBe List(
       TodoData(1, todo1, complete = true),
       TodoData(2, todo2, complete = false)
     )
@@ -192,7 +186,7 @@ class TodoAppSpec extends TestSpec with ShallowRendererUtils {
     val component = <(TodoApp())()()
     
     //when
-    val result = shallowRender(component)
+    val result = testRender(component)
     
     //then
     assertNativeComponent(result, <.View(^.rnStyle := TodoApp.styles.container)(), {
@@ -203,21 +197,21 @@ class TodoAppSpec extends TestSpec with ShallowRendererUtils {
             ^.keyboardShouldPersistTaps := KeyboardShouldPersistTaps.always
           )(), {
             case List(headingElem, inputElem, todoListElem, buttonElem) =>
-              assertComponent(headingElem, Heading) { _: Unit =>
+              assertTestComponent(headingElem, Heading) { _: Unit =>
                 Succeeded
               }
-              assertComponent(inputElem, Input) { case InputProps(inputValue, _) =>
+              assertTestComponent(inputElem, Input) { case InputProps(inputValue, _) =>
                 inputValue shouldBe ""
               }
-              assertComponent(todoListElem, TodoList) { case TodoListProps(_, _, todos) =>
+              assertTestComponent(todoListElem, TodoList) { case TodoListProps(_, _, todos) =>
                 todos shouldBe Nil
               }
-              assertComponent(buttonElem, Button) { case ButtonProps(_) =>
+              assertTestComponent(buttonElem, Button) { case ButtonProps(_) =>
                 Succeeded
               }
           }
         )
-        assertComponent(tabBarElem, TabBar) { case TabBarProps(_, todoType) =>
+        assertTestComponent(tabBarElem, TabBar) { case TabBarProps(_, todoType) =>
           todoType shouldBe TodoType.All
         }
     })

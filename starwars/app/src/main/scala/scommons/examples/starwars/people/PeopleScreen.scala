@@ -20,6 +20,9 @@ case class PeopleScreenProps(dispatch: Dispatch,
 
 object PeopleScreen extends FunctionComponent[PeopleScreenProps] {
 
+  private[people] var containerComp: UiComponent[Unit] = Container
+  private[people] var homeWorldComp: UiComponent[HomeWorldProps] = HomeWorld
+
   private case class PeopleScreenState(gender: String = "all",
                                        modalData: Option[PlanetData] = None,
                                        pickerVisible: Boolean = false)
@@ -75,7 +78,7 @@ object PeopleScreen extends FunctionComponent[PeopleScreenProps] {
       if (state.gender != "all") props.data.dataList.filter(_.gender == state.gender)
       else props.data.dataList
     
-    <(Container())()(
+    <(containerComp())()(
       <.TouchableHighlight(^.rnStyle := styles.pickerToggleContainer, ^.onPress := togglePicker)(
         <.Text(^.rnStyle := styles.pickerToggle)(
           if (state.pickerVisible) "Close Filter"
@@ -95,7 +98,7 @@ object PeopleScreen extends FunctionComponent[PeopleScreenProps] {
 
       state.modalData.map { data =>
         <.Modal(^.animationType := AnimationType.slide)(
-          <(HomeWorld())(^.wrapped := HomeWorldProps(data, closeModal))()
+          <(homeWorldComp())(^.wrapped := HomeWorldProps(data, closeModal))()
         )
       },
       

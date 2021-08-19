@@ -2,7 +2,6 @@ package scommons.examples.starwars.people
 
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.scalatest.{Assertion, Succeeded}
-import scommons.examples.starwars.Container
 import scommons.examples.starwars.api.people._
 import scommons.examples.starwars.api.planet.PlanetData
 import scommons.examples.starwars.people.PeopleActions._
@@ -15,7 +14,6 @@ import scommons.react.test._
 import scommons.reactnative.FlatList._
 import scommons.reactnative.Modal._
 import scommons.reactnative._
-import scommons.reactnative.raw.{FlatList, Modal, Picker, TouchableHighlight}
 
 import scala.concurrent.Future
 import scala.scalajs.js
@@ -23,51 +21,57 @@ import scala.scalajs.js.annotation.JSExportAll
 
 class PeopleScreenSpec extends AsyncTestSpec
   with BaseTestSpec
-  with ShallowRendererUtils
   with TestRendererUtils {
+
+  PeopleScreen.containerComp = () => "Container".asInstanceOf[ReactClass]
+  PeopleScreen.homeWorldComp = () => "HomeWorld".asInstanceOf[ReactClass]
 
   it should "toggle Picker when onPress in filter" in {
     //given
     val props = getPeopleScreenProps()
-    val renderer = createRenderer()
-    renderer.render(<(PeopleScreen())(^.wrapped := props)())
-    assertPeopleScreen(renderer.getRenderOutput(), props)
-    val List(filter) = findComponents(renderer.getRenderOutput(), TouchableHighlight)
+    val renderer = createTestRenderer(<(PeopleScreen())(^.wrapped := props)())
+    assertPeopleScreen(renderer.root.children(0), props)
+    val filter = inside(findComponents(renderer.root, <.TouchableHighlight.reactClass)) {
+      case List(filter) => filter
+    }
 
     //when & then
     filter.props.onPress()
-    assertPeopleScreen(renderer.getRenderOutput(), props, pickerVisible = true)
+    assertPeopleScreen(renderer.root.children(0), props, pickerVisible = true)
 
     //when & then
     filter.props.onPress()
-    assertPeopleScreen(renderer.getRenderOutput(), props)
+    assertPeopleScreen(renderer.root.children(0), props)
   }
 
   it should "filter data when onValueChange in Picker" in {
     //given
     val props = getPeopleScreenProps()
-    val renderer = createRenderer()
-    renderer.render(<(PeopleScreen())(^.wrapped := props)())
-    val List(filter) = findComponents(renderer.getRenderOutput(), TouchableHighlight)
+    val renderer = createTestRenderer(<(PeopleScreen())(^.wrapped := props)())
+    val filter = inside(findComponents(renderer.root, <.TouchableHighlight.reactClass)) {
+      case List(filter) => filter
+    }
     filter.props.onPress()
-    assertPeopleScreen(renderer.getRenderOutput(), props, pickerVisible = true)
-    val List(picker) = findComponents(renderer.getRenderOutput(), Picker)
+    assertPeopleScreen(renderer.root.children(0), props, pickerVisible = true)
+    val picker = inside(findComponents(renderer.root, <.Picker.reactClass)) {
+      case List(picker) => picker
+    }
 
     //when & then
     picker.props.onValueChange("male", 2)
-    assertPeopleScreen(renderer.getRenderOutput(), props.copy(
+    assertPeopleScreen(renderer.root.children(0), props.copy(
       data = props.data.copy(dataList = props.data.dataList.filter(_.gender == "male"))
     ), gender = "male", pickerVisible = true)
     
     //when & then
     picker.props.onValueChange("female", 3)
-    assertPeopleScreen(renderer.getRenderOutput(), props.copy(
+    assertPeopleScreen(renderer.root.children(0), props.copy(
       data = props.data.copy(dataList = props.data.dataList.filter(_.gender == "female"))
     ), gender = "female", pickerVisible = true)
     
     //when & then
     picker.props.onValueChange("n/a", 4)
-    assertPeopleScreen(renderer.getRenderOutput(), props.copy(
+    assertPeopleScreen(renderer.root.children(0), props.copy(
       data = props.data.copy(dataList = Nil)
     ), gender = "n/a", pickerVisible = true)
   }
@@ -115,8 +119,10 @@ class PeopleScreenSpec extends AsyncTestSpec
   it should "return data.name from keyExtractor" in {
     //given
     val props = getPeopleScreenProps()
-    val comp = shallowRender(<(PeopleScreen())(^.wrapped := props)())
-    val List(flatList) = findComponents(comp, FlatList)
+    val comp = testRender(<(PeopleScreen())(^.wrapped := props)())
+    val flatList = inside(findComponents(comp, <.FlatList.reactClass)) {
+      case List(flatList) => flatList
+    }
     val data = props.data.dataList.head
     
     //when
@@ -132,16 +138,19 @@ class PeopleScreenSpec extends AsyncTestSpec
     val actions = mock[PeopleActions]
     val props = getPeopleScreenProps(dispatch, actions)
     val data = props.data.dataList.head
-    val renderer = createRenderer()
-    renderer.render(<(PeopleScreen())(^.wrapped := props)())
-    findComponents(renderer.getRenderOutput(), Modal) shouldBe Nil
+    val renderer = createTestRenderer(<(PeopleScreen())(^.wrapped := props)())
+    findComponents(renderer.root, <.Modal.reactClass) shouldBe Nil
     
     val itemMock = mock[FlatListDataMock]
     (itemMock.item _).expects().returning(data)
     
-    val List(flatList) = findComponents(renderer.getRenderOutput(), FlatList)
+    val flatList = inside(findComponents(renderer.root, <.FlatList.reactClass)) {
+      case List(flatList) => flatList
+    }
     val itemComp = renderItem(flatList, itemMock)
-    val List(btn) = findComponents(itemComp, TouchableHighlight)
+    val btn = inside(findComponents(itemComp, <.TouchableHighlight.reactClass)) {
+      case List(btn) => btn
+    }
 
     val planetData = mock[PlanetData]
     val homeWorldFetchAction = HomeWorldFetchAction(
@@ -157,29 +166,34 @@ class PeopleScreenSpec extends AsyncTestSpec
     
     homeWorldFetchAction.task.future.map { _ =>
       //then
-      val List(modal) = findComponents(renderer.getRenderOutput(), Modal)
+      val modal = inside(findComponents(renderer.root, <.Modal.reactClass)) {
+        case List(modal) => modal
+      }
       
-      assertNativeComponent(modal, <.Modal(^.animationType := AnimationType.slide)(), {
-        children: List[ShallowInstance] =>
-          val List(homeworld) = children
-          assertComponent(homeworld, HomeWorld) { case HomeWorldProps(planet, closeModal) =>
+      var closeModal: () => Unit = null
+      assertNativeComponent(modal, <.Modal(^.animationType := AnimationType.slide)(), inside(_) {
+        case List(homeworld) =>
+          assertTestComponent(homeworld, homeWorldComp) { case HomeWorldProps(planet, resCloseModal) =>
+            closeModal = resCloseModal
             planet shouldBe planetData
-
-            //when
-            closeModal()
-              
-            //then
-            findComponents(renderer.getRenderOutput(), Modal) shouldBe Nil
           }
       })
+
+      //when
+      closeModal()
+
+      //then
+      findComponents(renderer.root, <.Modal.reactClass) shouldBe Nil
     }
   }
 
   it should "render item" in {
     //given
     val props = getPeopleScreenProps()
-    val comp = shallowRender(<(PeopleScreen())(^.wrapped := props)())
-    val List(flatList) = findComponents(comp, FlatList)
+    val comp = testRender(<(PeopleScreen())(^.wrapped := props)())
+    val flatList = inside(findComponents(comp, <.FlatList.reactClass)) {
+      case List(flatList) => flatList
+    }
     val itemMock = mock[FlatListDataMock]
     val data = props.data.dataList.head
     (itemMock.item _).expects().returning(data)
@@ -207,7 +221,7 @@ class PeopleScreenSpec extends AsyncTestSpec
     val component = <(PeopleScreen())(^.wrapped := props)()
 
     //when
-    val result = shallowRender(component)
+    val result = testRender(component)
 
     //then
     assertPeopleScreen(result, props)
@@ -238,23 +252,17 @@ class PeopleScreenSpec extends AsyncTestSpec
     )
   }
   
-  private def renderItem(flatList: ShallowInstance, itemMock: FlatListDataMock): ShallowInstance = {
-    val wrapper = new FunctionComponent[Unit] {
-      protected def render(compProps: Props): ReactElement = {
-        val result = flatList.props.renderItem(itemMock.asInstanceOf[FlatListData[PeopleData]])
-        result.asInstanceOf[ReactElement]
-      }
-    }
-
-    shallowRender(<(wrapper())()())
+  private def renderItem(flatList: TestInstance, itemMock: FlatListDataMock): TestInstance = {
+    val result = flatList.props.renderItem(itemMock.asInstanceOf[FlatListData[PeopleData]])
+    createTestRenderer(result.asInstanceOf[ReactElement]).root
   }
   
-  private def assertPeopleScreen(result: ShallowInstance,
+  private def assertPeopleScreen(result: TestInstance,
                                  props: PeopleScreenProps,
                                  gender: String = "all",
                                  pickerVisible: Boolean = false): Assertion = {
     assertNativeComponent(result,
-      <(Container())()(
+      <(containerComp())()(
         <.TouchableHighlight(^.rnStyle := styles.pickerToggleContainer)(
           <.Text(^.rnStyle := styles.pickerToggle)(
             if (pickerVisible) "Close Filter"

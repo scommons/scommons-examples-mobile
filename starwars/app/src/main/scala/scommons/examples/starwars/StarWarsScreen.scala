@@ -22,6 +22,8 @@ object StarWarsScreen extends FunctionComponent[StarWarsScreenProps] {
     DataItem("Planets")
   )
 
+  private[starwars] var containerComp: UiComponent[Unit] = Container
+
   protected def render(compProps: Props): ReactElement = {
     val props = compProps.wrapped
 
@@ -37,7 +39,7 @@ object StarWarsScreen extends FunctionComponent[StarWarsScreenProps] {
       )
     }
     
-    <(Container())()(
+    <(containerComp())()(
       <.FlatList(
         ^.flatListData := js.Array(dataList: _*),
         ^.keyExtractor := { item: DataItem =>

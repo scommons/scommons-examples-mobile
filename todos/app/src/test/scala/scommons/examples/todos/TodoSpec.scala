@@ -1,10 +1,9 @@
 package scommons.examples.todos
 
-import scommons.react.test.TestSpec
-import scommons.react.test.util.ShallowRendererUtils
+import scommons.react.test._
 import scommons.reactnative._
 
-class TodoSpec extends TestSpec with ShallowRendererUtils {
+class TodoSpec extends TestSpec with TestRendererUtils {
 
   it should "call toggleComplete when onPress Done button" in {
     //given
@@ -15,7 +14,7 @@ class TodoSpec extends TestSpec with ShallowRendererUtils {
       toggleComplete = toggleComplete,
       todo = TodoData(1, "test todo", complete = true)
     )
-    val comp = shallowRender(<(Todo())(^.wrapped := props)())
+    val comp = testRender(<(Todo())(^.wrapped := props)())
     val btnProps = findProps(comp, TodoButton).head
 
     //then
@@ -34,7 +33,7 @@ class TodoSpec extends TestSpec with ShallowRendererUtils {
       toggleComplete = toggleComplete,
       todo = TodoData(1, "test todo", complete = true)
     )
-    val comp = shallowRender(<(Todo())(^.wrapped := props)())
+    val comp = testRender(<(Todo())(^.wrapped := props)())
     val btnProps = findProps(comp, TodoButton)(1)
 
     //then
@@ -56,7 +55,7 @@ class TodoSpec extends TestSpec with ShallowRendererUtils {
     val component = <(Todo())(^.wrapped := props)()
     
     //when
-    val result = shallowRender(component)
+    val result = testRender(component)
     
     //then
     assertNativeComponent(result, <.View(^.rnStyle := Todo.styles.todoContainer)(), {
@@ -68,14 +67,12 @@ class TodoSpec extends TestSpec with ShallowRendererUtils {
         )
         assertNativeComponent(buttons, <.View(^.rnStyle := Todo.styles.buttons)(), {
           case List(doneBtn, deleteBtn) =>
-            doneBtn.key shouldBe "done"
-            assertComponent(doneBtn, TodoButton) { case TodoButtonProps(_, complete, name) =>
+            assertTestComponent(doneBtn, TodoButton) { case TodoButtonProps(_, complete, name) =>
               complete shouldBe props.todo.complete
               name shouldBe "Done"
             }
 
-            deleteBtn.key shouldBe "delete"
-            assertComponent(deleteBtn, TodoButton) { case TodoButtonProps(_, complete, name) =>
+            assertTestComponent(deleteBtn, TodoButton) { case TodoButtonProps(_, complete, name) =>
               complete shouldBe false
               name shouldBe "Delete"
             }

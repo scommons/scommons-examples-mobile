@@ -3,24 +3,25 @@ package scommons.examples.starwars
 import scommons.examples.starwars.StarWarsScreen._
 import scommons.examples.starwars.StarWarsScreenSpec.FlatListDataMock
 import scommons.react._
-import scommons.react.test.TestSpec
-import scommons.react.test.raw.ShallowInstance
-import scommons.react.test.util.ShallowRendererUtils
+import scommons.react.test._
 import scommons.reactnative.FlatList._
 import scommons.reactnative._
-import scommons.reactnative.raw.FlatList
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSExportAll
 
-class StarWarsScreenSpec extends TestSpec with ShallowRendererUtils {
+class StarWarsScreenSpec extends TestSpec with TestRendererUtils {
+
+  StarWarsScreen.containerComp = () => "Container".asInstanceOf[ReactClass]
 
   it should "call navigate when item onPress" in {
     //given
     val navigate = mockFunction[String, Unit]
     val props = StarWarsScreenProps(navigate)
-    val comp = shallowRender(<(StarWarsScreen())(^.wrapped := props)())
-    val List(flatList) = findComponents(comp, FlatList)
+    val comp = testRender(<(StarWarsScreen())(^.wrapped := props)())
+    val flatList = inside(findComponents(comp, <.FlatList.reactClass)) {
+      case List(flatList) => flatList
+    }
     val itemMock = mock[FlatListDataMock]
     val data = dataList.head
     (itemMock.item _).expects().returning(data)
@@ -37,8 +38,10 @@ class StarWarsScreenSpec extends TestSpec with ShallowRendererUtils {
   it should "return data.title from keyExtractor" in {
     //given
     val props = StarWarsScreenProps(_ => ())
-    val comp = shallowRender(<(StarWarsScreen())(^.wrapped := props)())
-    val List(flatList) = findComponents(comp, FlatList)
+    val comp = testRender(<(StarWarsScreen())(^.wrapped := props)())
+    val flatList = inside(findComponents(comp, <.FlatList.reactClass)) {
+      case List(flatList) => flatList
+    }
     val data = dataList.head
     
     //when
@@ -51,8 +54,10 @@ class StarWarsScreenSpec extends TestSpec with ShallowRendererUtils {
   it should "render top item" in {
     //given
     val props = StarWarsScreenProps(_ => ())
-    val comp = shallowRender(<(StarWarsScreen())(^.wrapped := props)())
-    val List(flatList) = findComponents(comp, FlatList)
+    val comp = testRender(<(StarWarsScreen())(^.wrapped := props)())
+    val flatList = inside(findComponents(comp, <.FlatList.reactClass)) {
+      case List(flatList) => flatList
+    }
     val itemMock = mock[FlatListDataMock]
     val data = dataList.head
     (itemMock.item _).expects().returning(data)
@@ -72,8 +77,10 @@ class StarWarsScreenSpec extends TestSpec with ShallowRendererUtils {
   it should "render non-top item" in {
     //given
     val props = StarWarsScreenProps(_ => ())
-    val comp = shallowRender(<(StarWarsScreen())(^.wrapped := props)())
-    val List(flatList) = findComponents(comp, FlatList)
+    val comp = testRender(<(StarWarsScreen())(^.wrapped := props)())
+    val flatList = inside(findComponents(comp, <.FlatList.reactClass)) {
+      case List(flatList) => flatList
+    }
     val itemMock = mock[FlatListDataMock]
     val data = dataList.head
     (itemMock.item _).expects().returning(data)
@@ -100,7 +107,7 @@ class StarWarsScreenSpec extends TestSpec with ShallowRendererUtils {
     }
 
     //when
-    val result = shallowRender(<(wrapper()).empty)
+    val result = testRender(<(wrapper()).empty)
 
     //then
     assertNativeComponent(result,
@@ -116,11 +123,11 @@ class StarWarsScreenSpec extends TestSpec with ShallowRendererUtils {
     val component = <(StarWarsScreen())(^.wrapped := props)()
 
     //when
-    val result = shallowRender(component)
+    val result = testRender(component)
 
     //then
     assertNativeComponent(result,
-      <(Container())()(
+      <(containerComp())()(
         <.FlatList(
           ^.flatListData := js.Array(dataList: _*)
         )()
@@ -128,7 +135,7 @@ class StarWarsScreenSpec extends TestSpec with ShallowRendererUtils {
     )
   }
   
-  private def renderItem(flatList: ShallowInstance, itemMock: FlatListDataMock): ShallowInstance = {
+  private def renderItem(flatList: TestInstance, itemMock: FlatListDataMock): TestInstance = {
     val wrapper = new FunctionComponent[Unit] {
       protected def render(compProps: Props): ReactElement = {
         val result = flatList.props.renderItem(itemMock.asInstanceOf[FlatListData[DataItem]])
@@ -136,7 +143,7 @@ class StarWarsScreenSpec extends TestSpec with ShallowRendererUtils {
       }
     }
 
-    shallowRender(<(wrapper())()())
+    testRender(<(wrapper())()())
   }
 }
 

@@ -2,10 +2,9 @@ package scommons.examples.starwars
 
 import scommons.examples.starwars.StarWarsRoot._
 import scommons.react.navigation._
-import scommons.react.test.TestSpec
-import scommons.react.test.util.ShallowRendererUtils
+import scommons.react.test._
 
-class StarWarsRootSpec extends TestSpec with ShallowRendererUtils {
+class StarWarsRootSpec extends TestSpec with TestRendererUtils {
 
   it should "render app component" in {
     //given
@@ -14,7 +13,7 @@ class StarWarsRootSpec extends TestSpec with ShallowRendererUtils {
     val component = <(rootComp())()()
     
     //when
-    val result = shallowRender(component)
+    val result = testRender(component)
     
     //then
     import rootComp._

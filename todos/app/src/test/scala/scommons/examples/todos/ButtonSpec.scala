@@ -1,17 +1,16 @@
 package scommons.examples.todos
 
 import scommons.examples.todos.Button
-import scommons.react.test.TestSpec
-import scommons.react.test.util.ShallowRendererUtils
+import scommons.react.test._
 import scommons.reactnative._
 
-class ButtonSpec extends TestSpec with ShallowRendererUtils {
+class ButtonSpec extends TestSpec with TestRendererUtils {
 
   it should "call submitTodo when onPress" in {
     //given
     val submitTodo = mockFunction[Unit]
-    val comp = shallowRender(<(Button())(^.wrapped := ButtonProps(submitTodo))())
-    val button = findComponents(comp, raw.TouchableHighlight).head
+    val comp = testRender(<(Button())(^.wrapped := ButtonProps(submitTodo))())
+    val button = findComponents(comp, <.TouchableHighlight.reactClass).head
     
     //then
     submitTodo.expects()
@@ -26,7 +25,7 @@ class ButtonSpec extends TestSpec with ShallowRendererUtils {
     val component = <(Button())(^.wrapped := ButtonProps(submitTodo))()
     
     //when
-    val result = shallowRender(component)
+    val result = testRender(component)
     
     //then
     assertNativeComponent(result,

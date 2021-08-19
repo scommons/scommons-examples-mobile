@@ -1,18 +1,17 @@
 package scommons.examples.starwars
 
 import scommons.examples.starwars.Container._
-import scommons.react.test.TestSpec
-import scommons.react.test.util.ShallowRendererUtils
+import scommons.react.test._
 import scommons.reactnative._
 
-class ContainerSpec extends TestSpec with ShallowRendererUtils {
+class ContainerSpec extends TestSpec with TestRendererUtils {
 
   it should "render component" in {
     //given
     val child = <.Text()("Some test child")
     
     //when
-    val result = shallowRender(<(Container())()(
+    val result = testRender(<(Container())()(
       child
     ))
     
