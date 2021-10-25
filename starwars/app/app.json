@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "StarWarsApp",
+    "entryPoint": "./App.dev.js",
     "slug": "starwars",
     "privacy": "public",
     "platforms": [

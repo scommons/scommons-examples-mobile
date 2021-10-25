@@ -19,15 +19,16 @@ First, build the application with the following command:
 sbt "project scommons-examples-mobile-starwars-app" fastOptJS
 ```
 
-Then, please make sure you have `expo-cli` **version 3** installed
+Then, please make sure you have `expo-cli` **version 4** installed
 globally:
 ```bash
-npm i expo-cli@3 -g
+npm i expo-cli@4 -g
 ```
 
 To run the application locally, use the following command(s):
 ```bash
 cd starwars/app
+npm i #only on the first time and when upgrading
 expo start --ios
 expo start --web
 expo start --android

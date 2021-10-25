@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "TodoApp",
+    "entryPoint": "./App.dev.js",
     "slug": "todo-app",
     "privacy": "public",
     "platforms": [

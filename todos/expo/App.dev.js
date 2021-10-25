@@ -2,8 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { registerRootComponent } from 'expo';
 
-import {StarWarsApp} from './target/scala-2.13/scalajs-bundler/main/scommons-examples-mobile-starwars-app-opt';
+import {TodoApp} from './target/scala-2.13/scalajs-bundler/main/scommons-examples-mobile-todos-expo-fastopt';
 
-const App = StarWarsApp.apply()
+const App = TodoApp.apply()
 
 registerRootComponent(App);
