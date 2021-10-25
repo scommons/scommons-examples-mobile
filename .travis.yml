@@ -13,16 +13,18 @@ before_install:
   nvm use 12
 - node --version &&
   npm --version
+- npm install -g expo-cli
 script:
 - sbt clean coverage test &&
   sbt coverageAggregate coveralls &&
   if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" -o "$TRAVIS_BRANCH" == "$TRAVIS_TAG" ]; then
     if [ -z "$TRAVIS_TAG" ]; then
+      expo login -u $EXPO_USERNAME -p $EXPO_PASSWORD;
+
       echo "Publish todos to expo";
       sbt "project scommons-examples-mobile-todos-expo" clean fullOptJS;
       cd todos/expo;
       npm install;
-      expo login -u $EXPO_USERNAME -p $EXPO_PASSWORD;
       EXPO_ENV=production expo publish --non-interactive;
 
       cd ../..;
@@ -30,7 +32,6 @@ script:
       sbt "project scommons-examples-mobile-starwars-app" clean fullOptJS;
       cd starwars/app;
       npm install;
-      expo login -u $EXPO_USERNAME -p $EXPO_PASSWORD;
       EXPO_ENV=production expo publish --non-interactive;
     else
       echo "Publish a release version=$TRAVIS_TAG";
