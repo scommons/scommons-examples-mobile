@@ -19,7 +19,7 @@ script:
   if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" -o "$TRAVIS_BRANCH" == "$TRAVIS_TAG" ]; then
     if [ -z "$TRAVIS_TAG" ]; then
       echo "Publish todos to expo";
-      sbt "project project scommons-examples-mobile-todos-expo" clean fullOptJS;
+      sbt "project scommons-examples-mobile-todos-expo" clean fullOptJS;
       cd todos/expo;
       npm install;
       expo login -u $EXPO_USERNAME -p $EXPO_PASSWORD;
@@ -27,7 +27,7 @@ script:
 
       cd ../..;
       echo "Publish starwars to expo";
-      sbt "project project scommons-examples-mobile-starwars-app" clean fullOptJS;
+      sbt "project scommons-examples-mobile-starwars-app" clean fullOptJS;
       cd starwars/app;
       npm install;
       expo login -u $EXPO_USERNAME -p $EXPO_PASSWORD;
