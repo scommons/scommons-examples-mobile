@@ -72,7 +72,8 @@ jobs:
 
       - name: Publish todos to expo
         run:
-          sbt --mem 2048 "project scommons-examples-mobile-todos-expo" clean fullOptJS &&
+          sbt clean &&
+          sbt --mem 2048 "project scommons-examples-mobile-todos-expo" fullOptJS &&
           cd todos/expo &&
           npm install &&
           npm install expo-cli --save-dev &&
@@ -85,8 +86,8 @@ jobs:
 
       - name: Publish starwars to expo
         run:
-          cd ../.. &&
-          sbt --mem 2048 "project scommons-examples-mobile-starwars-app" clean fullOptJS &&
+          sbt clean &&
+          sbt --mem 2048 "project scommons-examples-mobile-starwars-app" fullOptJS &&
           cd starwars/app &&
           npm install &&
           npm install expo-cli --save-dev &&
