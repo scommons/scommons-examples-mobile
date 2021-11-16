@@ -1,11 +1,11 @@
 package scommons.examples.starwars.people
 
-import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import scommons.examples.starwars.Container
 import scommons.examples.starwars.api.people.PeopleData
 import scommons.examples.starwars.api.planet.PlanetData
 import scommons.react._
 import scommons.react.hooks._
+import scommons.react.redux.Dispatch
 import scommons.reactnative.FlatList._
 import scommons.reactnative.Modal._
 import scommons.reactnative._

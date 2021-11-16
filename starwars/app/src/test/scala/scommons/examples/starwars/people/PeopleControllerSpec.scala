@@ -1,8 +1,8 @@
 package scommons.examples.starwars.people
 
-import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import scommons.examples.starwars.StarWarsStateDef
 import scommons.react.navigation.Navigation
+import scommons.react.redux.Dispatch
 import scommons.react.test.TestSpec
 
 class PeopleControllerSpec extends TestSpec {

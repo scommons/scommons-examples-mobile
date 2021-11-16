@@ -1,6 +1,5 @@
 package scommons.examples.starwars.people
 
-import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.scalatest.{Assertion, Succeeded}
 import scommons.examples.starwars.api.people._
 import scommons.examples.starwars.api.planet.PlanetData
@@ -9,6 +8,7 @@ import scommons.examples.starwars.people.PeopleScreen._
 import scommons.examples.starwars.people.PeopleScreenSpec.FlatListDataMock
 import scommons.nodejs.test.AsyncTestSpec
 import scommons.react._
+import scommons.react.redux.Dispatch
 import scommons.react.redux.task.FutureTask
 import scommons.react.test._
 import scommons.reactnative.FlatList._
@@ -23,8 +23,8 @@ class PeopleScreenSpec extends AsyncTestSpec
   with BaseTestSpec
   with TestRendererUtils {
 
-  PeopleScreen.containerComp = () => "Container".asInstanceOf[ReactClass]
-  PeopleScreen.homeWorldComp = () => "HomeWorld".asInstanceOf[ReactClass]
+  PeopleScreen.containerComp = mockUiComponent("Container")
+  PeopleScreen.homeWorldComp = mockUiComponent("HomeWorld")
 
   it should "toggle Picker when onPress in filter" in {
     //given

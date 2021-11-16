@@ -12,7 +12,7 @@ import scala.scalajs.js.annotation.JSExportAll
 
 class StarWarsScreenSpec extends TestSpec with TestRendererUtils {
 
-  StarWarsScreen.containerComp = () => "Container".asInstanceOf[ReactClass]
+  StarWarsScreen.containerComp = mockUiComponent("Container")
 
   it should "call navigate when item onPress" in {
     //given
