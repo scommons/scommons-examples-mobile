@@ -1,6 +1,7 @@
 package scommons.examples.starwars
 
 import io.github.shogowada.scalajs.reactjs.React.Props
+import scommons.examples.starwars.people.PeopleState
 import scommons.react.redux.Dispatch
 import scommons.react.redux.task._
 import scommons.react.test.TestSpec
@@ -19,8 +20,7 @@ class StarWarsTaskControllerSpec extends TestSpec {
     val props = mock[Props[Unit]]
     val dispatch = mock[Dispatch]
     val currentTask = Some(FutureTask("test task", Future.successful(())))
-    val state = mock[StarWarsStateDef]
-    (state.currentTask _).expects().returning(currentTask)
+    val state = StarWarsState(currentTask, PeopleState())
 
     //when
     val result = StarWarsTaskController.mapStateToProps(dispatch, state, props)

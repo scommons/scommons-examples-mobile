@@ -3,10 +3,9 @@ package definitions
 import common.Libs
 import sbt.Keys._
 import sbt._
-import scommons.sbtplugin.project.CommonMobileModule
 import scoverage.ScoverageKeys.coverageExcludedPackages
 
-object StarWarsApp extends ExamplesModule with CommonMobileModule {
+object StarWarsApp extends ScalaJsModule {
 
   override val id = "scommons-examples-mobile-starwars-app"
 

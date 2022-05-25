@@ -5,7 +5,6 @@ import scommons.examples.starwars.api.people._
 import scommons.examples.starwars.api.planet.PlanetData
 import scommons.examples.starwars.people.PeopleActions._
 import scommons.examples.starwars.people.PeopleScreen._
-import scommons.examples.starwars.people.PeopleScreenSpec.FlatListDataMock
 import scommons.nodejs.test.AsyncTestSpec
 import scommons.react._
 import scommons.react.redux.Dispatch
@@ -17,7 +16,7 @@ import scommons.reactnative._
 
 import scala.concurrent.Future
 import scala.scalajs.js
-import scala.scalajs.js.annotation.JSExportAll
+import scala.scalajs.js.Dynamic.literal
 
 class PeopleScreenSpec extends AsyncTestSpec
   with BaseTestSpec
@@ -25,6 +24,17 @@ class PeopleScreenSpec extends AsyncTestSpec
 
   PeopleScreen.containerComp = mockUiComponent("Container")
   PeopleScreen.homeWorldComp = mockUiComponent("HomeWorld")
+
+  //noinspection TypeAnnotation
+  class Actions {
+    val peopleListFetch = mockFunction[Dispatch, PeopleListFetchAction]
+    val homeWorldFetch = mockFunction[String, HomeWorldFetchAction]
+
+    val actions = new PeopleActionsMock(
+      peopleListFetchMock = peopleListFetch,
+      homeWorldFetchMock = homeWorldFetch
+    )
+  }
 
   it should "toggle Picker when onPress in filter" in {
     //given
@@ -79,15 +89,15 @@ class PeopleScreenSpec extends AsyncTestSpec
   it should "dispatch actions if dataList is empty when mount" in {
     //given
     val dispatch = mockFunction[Any, Any]
-    val actions = mock[PeopleActions]
+    val actions = new Actions
     val props = {
-      val props = getPeopleScreenProps(dispatch, actions = actions)
+      val props = getPeopleScreenProps(dispatch, actions = actions.actions)
       props.copy(data = props.data.copy(dataList = Nil))
     }
     val listFetchAction = PeopleListFetchAction(
       FutureTask("Fetching People", Future.successful(PeopleResp(Nil)))
     )
-    (actions.peopleListFetch _).expects(dispatch).returning(listFetchAction)
+    actions.peopleListFetch.expects(dispatch).returning(listFetchAction)
 
     //then
     dispatch.expects(listFetchAction)
@@ -135,14 +145,13 @@ class PeopleScreenSpec extends AsyncTestSpec
   it should "dispatch action and show modal when press View Homeworld" in {
     //given
     val dispatch = mockFunction[Any, Any]
-    val actions = mock[PeopleActions]
-    val props = getPeopleScreenProps(dispatch, actions)
+    val actions = new Actions
+    val props = getPeopleScreenProps(dispatch, actions.actions)
     val data = props.data.dataList.head
     val renderer = createTestRenderer(<(PeopleScreen())(^.wrapped := props)())
     findComponents(renderer.root, <.Modal.reactClass) shouldBe Nil
     
-    val itemMock = mock[FlatListDataMock]
-    (itemMock.item _).expects().returning(data)
+    val itemMock = literal(item = data.asInstanceOf[js.Any])
     
     val flatList = inside(findComponents(renderer.root, <.FlatList.reactClass)) {
       case List(flatList) => flatList
@@ -152,14 +161,26 @@ class PeopleScreenSpec extends AsyncTestSpec
       case List(btn) => btn
     }
 
-    val planetData = mock[PlanetData]
+    val planetData = PlanetData(
+      name = "Tatooine",
+      population = "200000",
+      climate = "arid",
+      gravity = "1 standard",
+      terrain = "desert",
+      diameter = "10465"
+    )
     val homeWorldFetchAction = HomeWorldFetchAction(
       FutureTask("Fetching HomeWorld", Future.successful(planetData))
     )
-    (actions.homeWorldFetch _).expects(data.homeworld).returning(homeWorldFetchAction)
+    actions.homeWorldFetch.expects(*).onCall { value: String =>
+      value shouldBe data.homeworld
+      homeWorldFetchAction
+    }
 
     //then
-    dispatch.expects(homeWorldFetchAction)
+    dispatch.expects(homeWorldFetchAction).onCall { action: Any =>
+      action shouldBe homeWorldFetchAction
+    }
     
     //when
     btn.props.onPress()
@@ -194,9 +215,8 @@ class PeopleScreenSpec extends AsyncTestSpec
     val flatList = inside(findComponents(comp, <.FlatList.reactClass)) {
       case List(flatList) => flatList
     }
-    val itemMock = mock[FlatListDataMock]
     val data = props.data.dataList.head
-    (itemMock.item _).expects().returning(data)
+    val itemMock = literal(item = data.asInstanceOf[js.Any])
 
     //when
     val result = renderItem(flatList, itemMock)
@@ -252,7 +272,7 @@ class PeopleScreenSpec extends AsyncTestSpec
     )
   }
   
-  private def renderItem(flatList: TestInstance, itemMock: FlatListDataMock): TestInstance = {
+  private def renderItem(flatList: TestInstance, itemMock: js.Dynamic): TestInstance = {
     val result = flatList.props.renderItem(itemMock.asInstanceOf[FlatListData[PeopleData]])
     createTestRenderer(result.asInstanceOf[ReactElement]).root
   }
@@ -289,13 +309,5 @@ class PeopleScreenSpec extends AsyncTestSpec
         ) else None
       )
     )
-  }
-}
-
-object PeopleScreenSpec {
-
-  @JSExportAll
-  trait FlatListDataMock {
-    def item: PeopleData
   }
 }

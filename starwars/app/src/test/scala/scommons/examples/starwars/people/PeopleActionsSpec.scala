@@ -11,15 +11,26 @@ import scala.concurrent.Future
 
 class PeopleActionsSpec extends AsyncTestSpec {
 
+  //noinspection TypeAnnotation
+  class PeopleApi {
+    val getPeople = mockFunction[Future[PeopleResp]]
+    val getHomeWorld = mockFunction[String, Future[PlanetData]]
+
+    val api = new PeopleApiMock(
+      getPeopleMock = getPeople,
+      getHomeWorldMock = getHomeWorld
+    )
+  }
+
   it should "dispatch PeopleListFetchedAction when peopleListFetch" in {
     //given
-    val api = mock[PeopleApi]
-    val actions = new PeopleActionsTest(api)
+    val api = new PeopleApi
+    val actions = new PeopleActionsTest(api.api)
     val dispatch = mockFunction[Any, Any]
     val dataList = List(mock[PeopleData])
     val expectedResp = PeopleResp(dataList)
 
-    (api.getPeople _).expects()
+    api.getPeople.expects()
       .returning(Future.successful(expectedResp))
     dispatch.expects(PeopleListFetchedAction(dataList))
 
@@ -36,13 +47,15 @@ class PeopleActionsSpec extends AsyncTestSpec {
   
   it should "return HomeWorldFetchAction when homeWorldFetch" in {
     //given
-    val api = mock[PeopleApi]
-    val actions = new PeopleActionsTest(api)
+    val api = new PeopleApi
+    val actions = new PeopleActionsTest(api.api)
     val expectedResp = mock[PlanetData]
     val url = "/some/homeworld/url"
 
-    (api.getHomeWorld _).expects(url)
-      .returning(Future.successful(expectedResp))
+    api.getHomeWorld.expects(*).onCall { value: String =>
+      value shouldBe url
+      Future.successful(expectedResp)
+    }
 
     //when
     val HomeWorldFetchAction(FutureTask(message, future)) =

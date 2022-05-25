@@ -1,14 +1,13 @@
 package scommons.examples.starwars
 
 import scommons.examples.starwars.StarWarsScreen._
-import scommons.examples.starwars.StarWarsScreenSpec.FlatListDataMock
 import scommons.react._
 import scommons.react.test._
 import scommons.reactnative.FlatList._
 import scommons.reactnative._
 
 import scala.scalajs.js
-import scala.scalajs.js.annotation.JSExportAll
+import scala.scalajs.js.Dynamic.literal
 
 class StarWarsScreenSpec extends TestSpec with TestRendererUtils {
 
@@ -22,14 +21,18 @@ class StarWarsScreenSpec extends TestSpec with TestRendererUtils {
     val flatList = inside(findComponents(comp, <.FlatList.reactClass)) {
       case List(flatList) => flatList
     }
-    val itemMock = mock[FlatListDataMock]
     val data = dataList.head
-    (itemMock.item _).expects().returning(data)
-    (itemMock.index _).expects().returning(0)
+    val itemMock = literal(
+      item = data.asInstanceOf[js.Any],
+      index = 0
+    )
     val item = renderItem(flatList, itemMock)
     
     //then
-    navigate.expects(data.title)
+    navigate.expects(*).onCall { value: String =>
+      value shouldBe data.title
+      ()
+    }
     
     //when
     item.props.onPress()
@@ -58,10 +61,11 @@ class StarWarsScreenSpec extends TestSpec with TestRendererUtils {
     val flatList = inside(findComponents(comp, <.FlatList.reactClass)) {
       case List(flatList) => flatList
     }
-    val itemMock = mock[FlatListDataMock]
     val data = dataList.head
-    (itemMock.item _).expects().returning(data)
-    (itemMock.index _).expects().returning(0)
+    val itemMock = literal(
+      item = data.asInstanceOf[js.Any],
+      index = 0
+    )
 
     //when
     val result = renderItem(flatList, itemMock)
@@ -81,10 +85,11 @@ class StarWarsScreenSpec extends TestSpec with TestRendererUtils {
     val flatList = inside(findComponents(comp, <.FlatList.reactClass)) {
       case List(flatList) => flatList
     }
-    val itemMock = mock[FlatListDataMock]
     val data = dataList.head
-    (itemMock.item _).expects().returning(data)
-    (itemMock.index _).expects().returning(1)
+    val itemMock = literal(
+      item = data.asInstanceOf[js.Any],
+      index = 1
+    )
 
     //when
     val result = renderItem(flatList, itemMock)
@@ -135,7 +140,7 @@ class StarWarsScreenSpec extends TestSpec with TestRendererUtils {
     )
   }
   
-  private def renderItem(flatList: TestInstance, itemMock: FlatListDataMock): TestInstance = {
+  private def renderItem(flatList: TestInstance, itemMock: js.Dynamic): TestInstance = {
     val wrapper = new FunctionComponent[Unit] {
       protected def render(compProps: Props): ReactElement = {
         val result = flatList.props.renderItem(itemMock.asInstanceOf[FlatListData[DataItem]])
@@ -144,14 +149,5 @@ class StarWarsScreenSpec extends TestSpec with TestRendererUtils {
     }
 
     testRender(<(wrapper())()())
-  }
-}
-
-object StarWarsScreenSpec {
-
-  @JSExportAll
-  trait FlatListDataMock {
-    def item: DataItem
-    def index: Int
   }
 }

@@ -11,10 +11,13 @@ class InputSpec extends TestSpec with TestRendererUtils {
     val props = InputProps(inputValue = "test value", inputChange = inputChange)
     val comp = testRender(<(Input())(^.wrapped := props)())
     val input = findComponents(comp, <.TextInput.reactClass).head
-    val text = "undated text"
+    val text = "updated text"
     
     //then
-    inputChange.expects(text)
+    inputChange.expects(*).onCall { value: String =>
+      value shouldBe text
+      ()
+    }
     
     //when
     input.props.onChangeText(text)

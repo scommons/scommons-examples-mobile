@@ -2,9 +2,8 @@ package definitions
 
 import sbt.Keys._
 import sbt._
-import scommons.sbtplugin.project.CommonMobileModule
 
-object TodoBare extends ExamplesModule with CommonMobileModule {
+object TodoBare extends ScalaJsModule {
 
   override val id = "scommons-examples-mobile-todos-bare"
 

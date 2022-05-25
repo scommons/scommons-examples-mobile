@@ -1,8 +1,10 @@
 package scommons.examples.starwars
 
-import scommons.react.navigation.Navigation
+import scommons.react.navigation.{Navigation, raw}
 import scommons.react.redux.Dispatch
 import scommons.react.test.TestSpec
+
+import scala.scalajs.js
 
 class StarWarsControllerSpec extends TestSpec {
 
@@ -19,10 +21,15 @@ class StarWarsControllerSpec extends TestSpec {
     val dispatch = mock[Dispatch]
     val controller = StarWarsController
     val state = mock[StarWarsStateDef]
-    val nav = mock[Navigation]
+    val navigateMock = mockFunction[String, Unit]
+    val navigation = js.Dynamic.literal(navigate = navigateMock)
+    val nav = new Navigation(navigation.asInstanceOf[raw.Navigation], null)
     val routeName = "Styles"
     
-    (nav.navigate(_: String)).expects(routeName)
+    navigateMock.expects(*).onCall { value: String =>
+      value shouldBe routeName
+      ()
+    }
 
     //when
     val result = controller.mapStateAndRouteToProps(dispatch, state, nav)

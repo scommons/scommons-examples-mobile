@@ -30,7 +30,7 @@ object StarWarsApi {
     ).jvmSettings(
       // Add JVM-specific settings here
     ).jsSettings(
-      // Add JS-specific settings here
+      ScalaJsModule.settings: _*
     )
 
   lazy val jvm: Project = `scommons-examples-mobile-starwars-api`.jvm

@@ -6,9 +6,9 @@ import scommons.sbtplugin.project.CommonLibs
 
 object Libs extends CommonLibs {
   
-  val scommonsReactVersion = "0.7.0"
-  val scommonsReactNativeVersion = "0.7.0"
-  val scommonsApiVersion = "0.7.0"
+  val scommonsReactVersion = "0.8.0"
+  val scommonsReactNativeVersion = "0.8.0"
+  val scommonsApiVersion = "0.8.1"
 
   //////////////////////////////////////////////////////////////////////////////
   // shared dependencies
