@@ -87,7 +87,7 @@ class TabBarSpec extends TestSpec with TestRendererUtils {
   }
   
   private def assertTabBar(result: TestInstance, props: TabBarProps): Unit = {
-    assertNativeComponent(result, <.View(^.rnStyle := TabBar.styles.container)(), {
+    assertNativeComponent(result, <.View(^.rnStyle := TabBar.styles.container)(), inside(_) {
       case List(allElem, activeElem, completeElem) =>
         assertTestComponent(allElem, TabBarItem) { case TabBarItemProps(border, title, selected, _) =>
           border shouldBe false

@@ -189,13 +189,13 @@ class TodoAppSpec extends TestSpec with TestRendererUtils {
     val result = testRender(component)
     
     //then
-    assertNativeComponent(result, <.View(^.rnStyle := TodoApp.styles.container)(), {
+    assertNativeComponent(result, <.View(^.rnStyle := TodoApp.styles.container)(), inside(_) {
       case List(scrollViewElem, tabBarElem) =>
         assertNativeComponent(scrollViewElem,
           <.ScrollView(
             ^.rnStyle := TodoApp.styles.content,
             ^.keyboardShouldPersistTaps := KeyboardShouldPersistTaps.always
-          )(), {
+          )(), inside(_) {
             case List(headingElem, inputElem, todoListElem, buttonElem) =>
               assertTestComponent(headingElem, Heading) { _: Unit =>
                 Succeeded
