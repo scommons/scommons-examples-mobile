@@ -58,14 +58,14 @@ class TodoSpec extends TestSpec with TestRendererUtils {
     val result = testRender(component)
     
     //then
-    assertNativeComponent(result, <.View(^.rnStyle := Todo.styles.todoContainer)(), {
+    assertNativeComponent(result, <.View(^.rnStyle := Todo.styles.todoContainer)(), inside(_) {
       case List(text, buttons) =>
         assertNativeComponent(text,
           <.Text(^.rnStyle := Todo.styles.todoText)(
             props.todo.title
           )
         )
-        assertNativeComponent(buttons, <.View(^.rnStyle := Todo.styles.buttons)(), {
+        assertNativeComponent(buttons, <.View(^.rnStyle := Todo.styles.buttons)(), inside(_) {
           case List(doneBtn, deleteBtn) =>
             assertTestComponent(doneBtn, TodoButton) { case TodoButtonProps(_, complete, name) =>
               complete shouldBe props.todo.complete
