@@ -13,6 +13,7 @@ import scommons.react.test._
 import scommons.reactnative.FlatList._
 import scommons.reactnative.Modal._
 import scommons.reactnative._
+import scommons.reactnative.picker._
 
 import scala.concurrent.Future
 import scala.scalajs.js

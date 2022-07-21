@@ -9,6 +9,7 @@ import scommons.react.redux.Dispatch
 import scommons.reactnative.FlatList._
 import scommons.reactnative.Modal._
 import scommons.reactnative._
+import scommons.reactnative.picker._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.scalajs.js
