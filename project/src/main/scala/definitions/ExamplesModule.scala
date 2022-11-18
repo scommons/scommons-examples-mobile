@@ -1,6 +1,7 @@
 package definitions
 
 import common.Libs
+import org.scoverage.coveralls.Imports.CoverallsKeys._
 import sbt.Keys._
 import sbt._
 import scommons.sbtplugin.project.CommonModule
@@ -20,6 +21,8 @@ trait ExamplesModule extends CommonModule {
 object ExamplesModule {
 
   val settings: Seq[Setting[_]] = Seq(
-    organization := "org.scommons.examples.mobile"
+    organization := "org.scommons.examples.mobile",
+
+    coverallsService := GitHubActionsCI.jobId.map(_ => GitHubActionsCI)
   )
 }
