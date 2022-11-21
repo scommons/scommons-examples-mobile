@@ -80,7 +80,7 @@ jobs:
           sbt "project scommons-examples-mobile-todos-expo" fullOptJS
           cd todos/expo
           npm install
-          npm install expo-cli@5 --save-dev
+          npm install expo-cli@6 --save-dev
           ./node_modules/expo-cli/bin/expo.js login -u $EXPO_USERNAME -p $EXPO_PASSWORD
           NODE_OPTIONS=--max_old_space_size=4096 EXPO_ENV=production ./node_modules/expo-cli/bin/expo.js publish --non-interactive
         if: ${{ !github.event.pull_request }}
@@ -94,7 +94,7 @@ jobs:
           sbt "project scommons-examples-mobile-starwars-app" fullOptJS
           cd starwars/app
           npm install
-          npm install expo-cli@5 --save-dev
+          npm install expo-cli@6 --save-dev
           ./node_modules/expo-cli/bin/expo.js login -u $EXPO_USERNAME -p $EXPO_PASSWORD
           NODE_OPTIONS=--max_old_space_size=4096 EXPO_ENV=production ./node_modules/expo-cli/bin/expo.js publish --non-interactive
         if: ${{ !github.event.pull_request }}
