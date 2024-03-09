@@ -4,7 +4,7 @@
 [![Scala.js](https://www.scala-js.org/assets/badges/scalajs-1.8.0.svg)](https://www.scala-js.org)
 
 ## scommons-examples-mobile
-Example applications that uses [Scala Commons](https://scommons.org/) `react-native` components/modules.
+Example applications that uses [Scala Commons](https://scommons.github.io/) `react-native` components/modules.
 
 #### How to Build
 

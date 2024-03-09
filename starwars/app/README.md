@@ -9,8 +9,8 @@ Almost all examples are from an excellent book [React Native in Action](https://
 ### How to run it in your device
 
 * [live expo link](https://expo.io/@viktorpodzigun/starwars)
-* [mobile browser](https://scommons.org/scommons-examples-mobile/starwars.html)
-* [web emulator](https://scommons.org/scommons-examples-mobile/starwars.browser.html)
+* [mobile browser](https://scommons.github.io/scommons-examples-mobile/starwars.html)
+* [web emulator](https://scommons.github.io/scommons-examples-mobile/starwars.browser.html)
 
 #### How to Build/Run App locally using Expo
 

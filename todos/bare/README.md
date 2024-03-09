@@ -9,8 +9,8 @@ from a great book: [React Native in Action](https://github.com/dabit3/react-nati
 ### How to Run App in your Device
 
 * [live expo link](https://expo.io/@viktorpodzigun/todo-app)
-* [mobile browser](https://scommons.org/scommons-examples-mobile/todos.html)
-* [web emulator](https://scommons.org/scommons-examples-mobile/todos.browser.html)
+* [mobile browser](https://scommons.github.io/scommons-examples-mobile/todos.html)
+* [web emulator](https://scommons.github.io/scommons-examples-mobile/todos.browser.html)
 
 ### Initial setup
 
